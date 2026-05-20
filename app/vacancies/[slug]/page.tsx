@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { Vacancy } from '@/lib/types';
+import ApplyButton from './ApplyButton';
 
 export const revalidate = 60;
 
@@ -75,11 +76,6 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
 
   const config = industryConfig[vacancy.industry] || industryConfig.Aviation;
   const IndustryIcon = config.icon;
-  const applyHref =
-    vacancy.apply_url ||
-    `mailto:info@confair.com?subject=${encodeURIComponent(
-      `Application: ${vacancy.title}${vacancy.reference_number ? ` (Ref ${vacancy.reference_number})` : ''}`,
-    )}`;
 
   return (
     <>
@@ -133,7 +129,13 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
               <MetaItem icon={<CalendarCheck className="w-4 h-4" />} label="INDUSTRY" value={vacancy.industry} />
             </div>
 
-            <ApplyCTA href={applyHref} subline="Ready to advance your career? Apply now for this opportunity." />
+            <ApplyButton
+              variant="top"
+              vacancyId={vacancy.id}
+              vacancySlug={vacancy.slug}
+              vacancyTitle={vacancy.title}
+              vacancyCarerixId={vacancy.carerix_id}
+            />
           </div>
 
           {/* Two-column body */}
@@ -182,7 +184,13 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
 
           {/* Bottom Apply CTA */}
           <div className="mt-12">
-            <ApplyCTA href={applyHref} subline="Don't miss this opportunity. Apply today." />
+            <ApplyButton
+              variant="bottom"
+              vacancyId={vacancy.id}
+              vacancySlug={vacancy.slug}
+              vacancyTitle={vacancy.title}
+              vacancyCarerixId={vacancy.carerix_id}
+            />
           </div>
         </div>
       </section>
@@ -191,25 +199,6 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
 }
 
 // ── pieces ────────────────────────────────────────────────────────────────────
-function ApplyCTA({ href, subline }: { href: string; subline: string }) {
-  return (
-    <div className="bg-[#222c4a] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <div>
-        <p className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider mb-1">
-          Take the next step
-        </p>
-        <p className="text-white/70 text-sm">{subline}</p>
-      </div>
-      <a
-        href={href}
-        className="flex-shrink-0 bg-[#fbc134] text-[#222c4a] px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
-      >
-        Apply for this job
-      </a>
-    </div>
-  );
-}
-
 function IntroBlock({ html }: { html: string }) {
   return (
     <div
