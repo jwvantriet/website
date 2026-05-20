@@ -19,7 +19,6 @@ export const metadata: Metadata = {
       'Contracting solutions for aviation, maritime, and offshore operations.',
     type: 'website',
   },
-  icons: { icon: '/favicon.svg' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
