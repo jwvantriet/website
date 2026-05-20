@@ -43,3 +43,11 @@ htmlcov/
 # Misc
 *.egg-info/
 .eggs/
+
+# Next.js
+.next/
+out/
+*.tsbuildinfo
+
+# Vercel
+.vercel
