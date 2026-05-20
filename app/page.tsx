@@ -111,7 +111,11 @@ function HeroSlider() {
   }, [next]);
 
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+    // Sized so the stats strip below always sits in the viewport:
+    //   - mobile: 70vh keeps the hero visually impactful
+    //   - md+: viewport minus ~100px header minus ~150px stats
+    //   - capped at 720px on very tall desktops so the headline doesn't drift
+    <section className="relative min-h-[70vh] md:min-h-[calc(100svh-250px)] md:max-h-[720px] flex items-center overflow-hidden">
       {heroSlides.map((slide, index) => (
         <div
           key={slide.alt}
