@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { MapPin, Phone, Mail } from 'lucide-react';
 
 const PLATFORM_LOGIN_URL =
-  process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://platform.confair.com/login';
+  process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com/login';
 
 export default function Footer() {
   return (

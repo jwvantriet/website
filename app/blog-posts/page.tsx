@@ -7,6 +7,7 @@ import type { BlogPost } from '@/lib/types';
 export const metadata: Metadata = {
   title: 'Blog & Industry News',
   description: 'Insights, trends, and news from aviation, maritime, and offshore energy industries.',
+  robots: { index: false, follow: false },
 };
 
 export const revalidate = 300;

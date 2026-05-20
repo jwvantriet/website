@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Phone, Mail, MapPin } from 'lucide-react';
 
+// /team and /blog-posts are intentionally hidden from the nav until the
+// content + sync work is done. The routes still build; they just aren't
+// linked from the header or footer and are disallowed in robots.txt.
 const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
@@ -17,14 +20,12 @@ const navLinks = [
       { label: 'Offshore', path: '/services#offshore' },
     ],
   },
-  { label: 'Team', path: '/team' },
   { label: 'Vacancies', path: '/vacancies' },
-  { label: 'Blog', path: '/blog-posts' },
   { label: 'Contact', path: '/contact' },
 ];
 
 const PLATFORM_LOGIN_URL =
-  process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://platform.confair.com/login';
+  process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com/login';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);

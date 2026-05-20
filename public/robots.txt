@@ -1,2 +1,6 @@
 User-agent: *
 Allow: /
+
+# Hidden until the team + content work is finished.
+Disallow: /team
+Disallow: /blog-posts
