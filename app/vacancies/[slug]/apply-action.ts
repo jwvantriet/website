@@ -99,7 +99,11 @@ export async function submitVacancyApplication(
         upsert: false,
       });
     if (upErr) {
-      return { status: 'error', message: 'Could not upload your CV. Please try again or contact us directly.' };
+      console.error('[apply] cv upload failed', { message: upErr.message, key });
+      return {
+        status: 'error',
+        message: `Could not upload your CV (${upErr.message}). Please try again or contact us directly.`,
+      };
     }
     cvObjectKey = key;
     cvFilename  = cv.name || null;
@@ -128,11 +132,25 @@ export async function submitVacancyApplication(
     .single();
 
   if (error || !inserted) {
-    // Best-effort cleanup of the orphaned upload.
+    // Log the underlying issue so it shows up in Vercel function logs. Keep
+    // the customer-facing message generic, but include a short hint in the
+    // returned message so the agency can self-diagnose without trawling logs.
+    console.error('[apply] insert failed', {
+      message: error?.message,
+      code: error?.code,
+      details: error?.details,
+      hint: error?.hint,
+      supabaseUrlPresent: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
+      anonKeyPresent: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+    });
     if (cvObjectKey) {
       await supabase.storage.from('vacancy-cvs').remove([cvObjectKey]).catch(() => {});
     }
-    return { status: 'error', message: 'Could not submit your application. Please try again in a moment.' };
+    const hint = error?.message ? ` (${error.message})` : '';
+    return {
+      status: 'error',
+      message: `Could not submit your application. Please try again in a moment${hint}.`,
+    };
   }
 
   await pushToCarerix(inserted.id);
