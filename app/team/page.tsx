@@ -6,6 +6,7 @@ import type { TeamMember } from '@/lib/types';
 export const metadata: Metadata = {
   title: 'Team',
   description: 'Meet the experienced leadership team behind Confair Group.',
+  robots: { index: false, follow: false },
 };
 
 export const revalidate = 300;
