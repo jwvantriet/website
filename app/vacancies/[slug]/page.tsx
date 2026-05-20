@@ -9,11 +9,15 @@ import {
   Plane,
   Ship,
   Fuel,
+  Clock,
+  Building2,
   ChevronRight,
-  Mail,
-  CalendarDays,
   Timer,
+  CalendarDays,
   CalendarCheck,
+  User,
+  Mail,
+  Phone,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { Vacancy } from '@/lib/types';
@@ -43,7 +47,13 @@ async function fetchVacancy(slug: string): Promise<Vacancy | null> {
   const supabase = createClient();
   const { data } = await supabase
     .from('vacancies')
-    .select('id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, modification_date')
+    .select(
+      'id, slug, carerix_id, title, industry, location, employment_type, summary, description, ' +
+        'apply_url, is_active, posted_date, modification_date, ' +
+        'intro_html, vacancy_html, requirements_html, offer_html, company_html, contact_html, ' +
+        'reference_number, publication_start, publication_end, company_name, ' +
+        'consultant_name, consultant_title, consultant_phone, consultant_email, consultant_photo',
+    )
     .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle();
@@ -65,10 +75,15 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
 
   const config = industryConfig[vacancy.industry] || industryConfig.Aviation;
   const IndustryIcon = config.icon;
-  const applyHref = vacancy.apply_url || `mailto:info@confair.com?subject=Application: ${encodeURIComponent(vacancy.title)}`;
+  const applyHref =
+    vacancy.apply_url ||
+    `mailto:info@confair.com?subject=${encodeURIComponent(
+      `Application: ${vacancy.title}${vacancy.reference_number ? ` (Ref ${vacancy.reference_number})` : ''}`,
+    )}`;
 
   return (
     <>
+      {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 py-4">
           <nav className="flex items-center gap-2 text-sm text-gray-500">
@@ -91,6 +106,7 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
             Back to Vacancies
           </Link>
 
+          {/* Header */}
           <div className="mb-10">
             <div className="flex flex-wrap items-center gap-2 mb-5">
               <span
@@ -105,6 +121,10 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
               {vacancy.title}
             </h1>
 
+            {vacancy.reference_number && (
+              <p className="text-sm text-gray-400 mb-6">Ref#: {vacancy.reference_number}</p>
+            )}
+
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-8">
               <MetaItem icon={<Briefcase className="w-4 h-4" />} label="TYPE OF WORK" value={vacancy.employment_type || '—'} />
               <MetaItem icon={<MapPin className="w-4 h-4" />} label="LOCATION" value={vacancy.location || '—'} />
@@ -113,43 +133,36 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
               <MetaItem icon={<CalendarCheck className="w-4 h-4" />} label="INDUSTRY" value={vacancy.industry} />
             </div>
 
-            <div className="bg-[#222c4a] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <p className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider mb-1">
-                  Take the next step
-                </p>
-                <p className="text-white/70 text-sm">
-                  Ready to advance your career? Apply now for this opportunity.
-                </p>
-              </div>
-              <a
-                href={applyHref}
-                className="flex-shrink-0 bg-[#fbc134] text-[#222c4a] px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
-              >
-                Apply for this job
-              </a>
-            </div>
+            <ApplyCTA href={applyHref} subline="Ready to advance your career? Apply now for this opportunity." />
           </div>
 
+          {/* Two-column body */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2 space-y-8">
-              {vacancy.summary && (
-                <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed">
-                  <p>{vacancy.summary}</p>
-                </div>
+              {vacancy.intro_html ? (
+                <IntroBlock html={vacancy.intro_html} />
+              ) : (
+                vacancy.summary && (
+                  <p className="prose prose-sm max-w-none text-gray-600 leading-relaxed">{vacancy.summary}</p>
+                )
               )}
 
-              {vacancy.description && (
-                <div>
-                  <h2 className="text-xl font-bold text-[#222c4a] mb-4">Job description</h2>
-                  <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed whitespace-pre-line">
-                    {vacancy.description}
-                  </div>
-                </div>
-              )}
+              <ContentSection title="Job description" html={vacancy.vacancy_html} />
+              <ContentSection title="Requirements"   html={vacancy.requirements_html} />
+              <ContentSection title="What we offer"  html={vacancy.offer_html} />
+              <ContentSection title="About the company" html={vacancy.company_html} fallbackText={vacancy.company_name} />
             </div>
 
             <div className="space-y-6">
+              <ContactCard
+                name={vacancy.consultant_name}
+                title={vacancy.consultant_title}
+                phone={vacancy.consultant_phone}
+                email={vacancy.consultant_email}
+                photo={vacancy.consultant_photo}
+                contactHtml={vacancy.contact_html}
+              />
+
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
                   Quick Info
@@ -159,26 +172,184 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
                   <InfoRow icon={<IndustryIcon className="w-4 h-4" />} label="Industry" value={vacancy.industry} />
                   <InfoRow icon={<MapPin className="w-4 h-4" />} label="Location" value={vacancy.location || '—'} />
                   <InfoRow icon={<Calendar className="w-4 h-4" />} label="Posted" value={formatDate(vacancy.posted_date)} />
+                  {vacancy.modification_date && vacancy.modification_date !== vacancy.posted_date && (
+                    <InfoRow icon={<Clock className="w-4 h-4" />} label="Updated" value={formatDate(vacancy.modification_date)} />
+                  )}
                 </div>
               </div>
-
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                  Recruitment Team
-                </h4>
-                <a
-                  href="mailto:info@confair.com"
-                  className="flex items-center gap-3 text-sm text-gray-600 hover:text-[#407df1] transition-colors"
-                >
-                  <Mail className="w-4 h-4 text-gray-400" />
-                  info@confair.com
-                </a>
-              </div>
             </div>
+          </div>
+
+          {/* Bottom Apply CTA */}
+          <div className="mt-12">
+            <ApplyCTA href={applyHref} subline="Don't miss this opportunity. Apply today." />
           </div>
         </div>
       </section>
     </>
+  );
+}
+
+// ── pieces ────────────────────────────────────────────────────────────────────
+function ApplyCTA({ href, subline }: { href: string; subline: string }) {
+  return (
+    <div className="bg-[#222c4a] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <p className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider mb-1">
+          Take the next step
+        </p>
+        <p className="text-white/70 text-sm">{subline}</p>
+      </div>
+      <a
+        href={href}
+        className="flex-shrink-0 bg-[#fbc134] text-[#222c4a] px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
+      >
+        Apply for this job
+      </a>
+    </div>
+  );
+}
+
+function IntroBlock({ html }: { html: string }) {
+  return (
+    <div
+      className="prose prose-sm max-w-none text-gray-600 leading-relaxed prose-p:mb-3 prose-strong:text-gray-700"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
+
+function ContentSection({
+  title,
+  html,
+  fallbackText,
+}: {
+  title: string;
+  html: string | null;
+  fallbackText?: string | null;
+}) {
+  if (!html || html.trim() === '') {
+    if (!fallbackText) return null;
+    return (
+      <div>
+        <h2 className="text-xl font-bold text-[#222c4a] mb-4">{title}</h2>
+        <p className="text-gray-600 leading-relaxed">{fallbackText}</p>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <h2 className="text-xl font-bold text-[#222c4a] mb-4">{title}</h2>
+      <div
+        className="prose prose-sm max-w-none text-gray-600 leading-relaxed
+          prose-headings:text-[#222c4a] prose-headings:font-semibold
+          prose-a:text-[#407df1] prose-a:no-underline hover:prose-a:underline
+          prose-li:marker:text-[#407df1]
+          prose-strong:text-gray-700
+          [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5
+          [&_p]:mb-3 [&_li]:mb-1
+          [&_h3]:text-base [&_h3]:font-bold [&_h3]:text-[#222c4a] [&_h3]:mt-5 [&_h3]:mb-2"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    </div>
+  );
+}
+
+function ContactCard({
+  name,
+  title,
+  phone,
+  email,
+  photo,
+  contactHtml,
+}: {
+  name: string | null;
+  title: string | null;
+  phone: string | null;
+  email: string | null;
+  photo: string | null;
+  contactHtml: string | null;
+}) {
+  if (name) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="p-6">
+          <div className="flex items-center gap-4 mb-4">
+            {photo ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={photo} alt={name} className="w-16 h-16 rounded-full object-cover" />
+            ) : (
+              <div className="w-16 h-16 rounded-full bg-[#222c4a] flex items-center justify-center">
+                <User className="w-7 h-7 text-white" />
+              </div>
+            )}
+            <div>
+              <p className="font-bold text-[#222c4a]">{name}</p>
+              <p className="text-sm text-gray-500">{title || 'Recruitment Consultant'}</p>
+            </div>
+          </div>
+          {phone && (
+            <a
+              href={`tel:${phone}`}
+              className="flex items-center gap-3 text-sm text-gray-600 hover:text-[#407df1] transition-colors py-2"
+            >
+              <Phone className="w-4 h-4 text-gray-400" />
+              {phone}
+            </a>
+          )}
+          {email && (
+            <a
+              href={`mailto:${email}`}
+              className="flex items-center gap-3 text-sm text-gray-600 hover:text-[#407df1] transition-colors py-2"
+            >
+              <Mail className="w-4 h-4 text-gray-400" />
+              {email}
+            </a>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (contactHtml) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-16 h-16 rounded-full bg-[#222c4a] flex items-center justify-center">
+            <User className="w-7 h-7 text-white" />
+          </div>
+          <div>
+            <p className="font-bold text-[#222c4a]">Contact Person</p>
+            <p className="text-sm text-gray-500">Recruitment Team</p>
+          </div>
+        </div>
+        <div
+          className="prose prose-sm max-w-none text-gray-600 prose-a:text-[#407df1]"
+          dangerouslySetInnerHTML={{ __html: contactHtml }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="w-16 h-16 rounded-full bg-[#222c4a] flex items-center justify-center">
+          <Building2 className="w-7 h-7 text-white" />
+        </div>
+        <div>
+          <p className="font-bold text-[#222c4a]">Confair Group</p>
+          <p className="text-sm text-gray-500">Recruitment Team</p>
+        </div>
+      </div>
+      <a
+        href="mailto:info@confair.com"
+        className="flex items-center gap-3 text-sm text-gray-600 hover:text-[#407df1] transition-colors py-2"
+      >
+        <Mail className="w-4 h-4 text-gray-400" />
+        info@confair.com
+      </a>
+    </div>
   );
 }
 
