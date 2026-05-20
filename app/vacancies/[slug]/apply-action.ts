@@ -3,6 +3,35 @@
 import { randomUUID } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
 
+const CONFAIR_API_URL    = process.env.CONFAIR_API_URL    || '';
+const WEBSITE_WEBHOOK_SECRET = process.env.WEBSITE_WEBHOOK_SECRET || '';
+
+// Fire-and-forget the Carerix push webhook. We don't block the form's
+// success state on it — the application is already safely captured in
+// Supabase, and confair-api processes the push idempotently. If it fails
+// (network, secret mismatch, Carerix unavailable), the row stays at
+// carerix_push_status='new' and the agency can retry from the admin page.
+async function pushToCarerix(applicationId: number): Promise<void> {
+  if (!CONFAIR_API_URL || !WEBSITE_WEBHOOK_SECRET) return;
+  try {
+    await fetch(`${CONFAIR_API_URL.replace(/\/+$/, '')}/webhooks/website/vacancy-application`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${WEBSITE_WEBHOOK_SECRET}`,
+      },
+      body: JSON.stringify({ application_id: applicationId }),
+      cache: 'no-store',
+      // Vercel server actions can't truly fire-and-forget without keeping
+      // the response stream open, but a short timeout keeps the UX snappy
+      // if confair-api is slow.
+      signal: AbortSignal.timeout(15_000),
+    });
+  } catch {
+    /* swallow — the row's status='new' is the retry signal */
+  }
+}
+
 export type ApplyFormState =
   | { status: 'idle' }
   | { status: 'success' }
@@ -78,29 +107,35 @@ export async function submitVacancyApplication(
     cvSizeBytes = cv.size;
   }
 
-  const { error } = await supabase.from('vacancy_applications').insert({
-    vacancy_id: vacancyId,
-    vacancy_slug: vacancySlug,
-    vacancy_title: vacancyTitle,
-    vacancy_carerix_id: vacancyCarerixId,
-    first_name: firstName,
-    last_name: lastName,
-    email,
-    phone,
-    message,
-    cv_object_key: cvObjectKey,
-    cv_filename: cvFilename,
-    cv_mime_type: cvMimeType,
-    cv_size_bytes: cvSizeBytes,
-  });
+  const { data: inserted, error } = await supabase
+    .from('vacancy_applications')
+    .insert({
+      vacancy_id: vacancyId,
+      vacancy_slug: vacancySlug,
+      vacancy_title: vacancyTitle,
+      vacancy_carerix_id: vacancyCarerixId,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      phone,
+      message,
+      cv_object_key: cvObjectKey,
+      cv_filename: cvFilename,
+      cv_mime_type: cvMimeType,
+      cv_size_bytes: cvSizeBytes,
+    })
+    .select('id')
+    .single();
 
-  if (error) {
+  if (error || !inserted) {
     // Best-effort cleanup of the orphaned upload.
     if (cvObjectKey) {
       await supabase.storage.from('vacancy-cvs').remove([cvObjectKey]).catch(() => {});
     }
     return { status: 'error', message: 'Could not submit your application. Please try again in a moment.' };
   }
+
+  await pushToCarerix(inserted.id);
 
   return { status: 'success' };
 }
