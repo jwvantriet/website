@@ -1,0 +1,153 @@
+{
+    "title": "crx_todos",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Unique Carerix toDoID"
+        },
+        "subject": {
+            "type": "string",
+            "description": "Subject"
+        },
+        "todo_name": {
+            "type": "string",
+            "description": "Todo name"
+        },
+        "todo_title": {
+            "type": "string",
+            "description": "Todo title"
+        },
+        "todo_type": {
+            "type": "string",
+            "description": "Type: task, note, email, meeting"
+        },
+        "todo_type_key": {
+            "type": "integer",
+            "description": "Carerix toDoTypeKey"
+        },
+        "status": {
+            "type": "integer",
+            "description": "Status code"
+        },
+        "status_display": {
+            "type": "string",
+            "description": "Status label"
+        },
+        "priority": {
+            "type": "integer",
+            "description": "Priority"
+        },
+        "start_date": {
+            "type": "string",
+            "description": "Start date"
+        },
+        "end_date": {
+            "type": "string",
+            "description": "End date"
+        },
+        "deadline": {
+            "type": "string",
+            "description": "Deadline"
+        },
+        "location": {
+            "type": "string",
+            "description": "Location for meetings"
+        },
+        "is_all_day": {
+            "type": "boolean",
+            "description": "All day flag"
+        },
+        "is_email": {
+            "type": "boolean",
+            "description": "Email flag"
+        },
+        "is_meeting": {
+            "type": "boolean",
+            "description": "Meeting flag"
+        },
+        "is_note": {
+            "type": "boolean",
+            "description": "Note flag"
+        },
+        "is_task": {
+            "type": "boolean",
+            "description": "Task flag"
+        },
+        "email_body": {
+            "type": "string",
+            "description": "HTML email body"
+        },
+        "notes_text": {
+            "type": "string",
+            "description": "Plain text notes"
+        },
+        "from_address": {
+            "type": "string",
+            "description": "Email sender"
+        },
+        "to_address": {
+            "type": "string",
+            "description": "Email recipient"
+        },
+        "cc_address": {
+            "type": "string",
+            "description": "CC addresses"
+        },
+        "employee_carerix_id": {
+            "type": "integer",
+            "description": "FK to employees"
+        },
+        "vacancy_carerix_id": {
+            "type": "integer",
+            "description": "FK to crx_vacancies"
+        },
+        "company_carerix_id": {
+            "type": "integer",
+            "description": "FK to companies"
+        },
+        "match_carerix_id": {
+            "type": "integer",
+            "description": "FK to crx_matches"
+        },
+        "job_carerix_id": {
+            "type": "integer",
+            "description": "FK to crx_jobs"
+        },
+        "contact_carerix_id": {
+            "type": "integer",
+            "description": "FK to CRUser contact"
+        },
+        "owner_display": {
+            "type": "string",
+            "description": "Owner name"
+        },
+        "owner_carerix_id": {
+            "type": "integer",
+            "description": "Owner Carerix ID"
+        },
+        "deleted": {
+            "type": "boolean",
+            "description": "Soft delete flag"
+        },
+        "carerix_created_date": {
+            "type": "string",
+            "description": "Carerix creation date"
+        },
+        "carerix_modified_date": {
+            "type": "string",
+            "description": "Carerix modification date"
+        },
+        "raw_json": {
+            "type": "string",
+            "description": "Full Carerix response JSON"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

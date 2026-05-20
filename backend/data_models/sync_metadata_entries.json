@@ -1,0 +1,49 @@
+{
+    "title": "sync_metadata_entries",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "entity_type": {
+            "type": "string",
+            "description": "Entity type name"
+        },
+        "last_sync_timestamp": {
+            "type": "string",
+            "description": "Last sync timestamp"
+        },
+        "last_full_sync": {
+            "type": "string",
+            "description": "Last full sync timestamp"
+        },
+        "records_synced": {
+            "type": "integer",
+            "description": "Number of records synced"
+        },
+        "sync_status": {
+            "type": "string",
+            "description": "Current sync status"
+        },
+        "error_message": {
+            "type": "string",
+            "description": "Error message if any"
+        },
+        "total_expected": {
+            "type": "integer",
+            "description": "Total expected records from API"
+        },
+        "current_fetched": {
+            "type": "integer",
+            "description": "Currently fetched records count"
+        },
+        "current_upserted": {
+            "type": "integer",
+            "description": "Currently upserted records count"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

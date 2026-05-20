@@ -1,0 +1,49 @@
+{
+    "title": "payroll_runs",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "payroll_period_id": {
+            "type": "integer",
+            "description": "FK to payroll_periods"
+        },
+        "status": {
+            "type": "string",
+            "description": "Status: draft, in_progress, ready_to_finalize, finalized"
+        },
+        "entry_count": {
+            "type": "integer",
+            "description": "Number of included entries"
+        },
+        "correction_count": {
+            "type": "integer",
+            "description": "Number of included corrections"
+        },
+        "total_amount": {
+            "type": "number",
+            "description": "Total run amount"
+        },
+        "finalized_by": {
+            "type": "string",
+            "description": "User who finalized"
+        },
+        "finalized_at": {
+            "type": "string",
+            "description": "Finalization timestamp"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        },
+        "updated_at": {
+            "type": "string",
+            "description": "Updated timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

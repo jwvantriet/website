@@ -1,0 +1,169 @@
+{
+    "title": "crx_matches",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Unique Carerix match ID"
+        },
+        "match_title": {
+            "type": "string",
+            "description": "Match title"
+        },
+        "employee_carerix_id": {
+            "type": "integer",
+            "description": "FK to employees.carerix_id"
+        },
+        "vacancy_carerix_id": {
+            "type": "integer",
+            "description": "FK to crx_vacancies.carerix_id"
+        },
+        "company_carerix_id": {
+            "type": "integer",
+            "description": "FK to companies.carerix_id"
+        },
+        "publication_carerix_id": {
+            "type": "integer",
+            "description": "FK to crx_publications.carerix_id"
+        },
+        "status_display": {
+            "type": "string",
+            "description": "Status label"
+        },
+        "status_indication_color": {
+            "type": "string",
+            "description": "Status color"
+        },
+        "motivation": {
+            "type": "string",
+            "description": "Motivation text"
+        },
+        "notes": {
+            "type": "string",
+            "description": "Notes"
+        },
+        "fit_score": {
+            "type": "integer",
+            "description": "Fit score"
+        },
+        "fit_gap": {
+            "type": "string",
+            "description": "Fit gap description"
+        },
+        "cv_summary": {
+            "type": "string",
+            "description": "CV summary"
+        },
+        "salary": {
+            "type": "number",
+            "description": "Salary"
+        },
+        "agreed_salary": {
+            "type": "string",
+            "description": "Agreed salary"
+        },
+        "cost_price": {
+            "type": "number",
+            "description": "Cost price"
+        },
+        "selling_price": {
+            "type": "number",
+            "description": "Selling price"
+        },
+        "purchase_rate": {
+            "type": "number",
+            "description": "Purchase rate"
+        },
+        "invoice_rate": {
+            "type": "number",
+            "description": "Invoice rate"
+        },
+        "wage_rate": {
+            "type": "number",
+            "description": "Wage rate"
+        },
+        "margin_amount": {
+            "type": "number",
+            "description": "Margin amount"
+        },
+        "margin_percentage": {
+            "type": "number",
+            "description": "Margin percentage"
+        },
+        "margin_ok": {
+            "type": "boolean",
+            "description": "Margin OK flag"
+        },
+        "sales_factor": {
+            "type": "number",
+            "description": "Sales factor"
+        },
+        "sort_order": {
+            "type": "integer",
+            "description": "Sort order"
+        },
+        "source_info": {
+            "type": "string",
+            "description": "Source info"
+        },
+        "apply_source": {
+            "type": "string",
+            "description": "Apply source"
+        },
+        "apply_medium": {
+            "type": "string",
+            "description": "Apply medium"
+        },
+        "apply_campaign": {
+            "type": "string",
+            "description": "Apply campaign"
+        },
+        "apply_content": {
+            "type": "string",
+            "description": "Apply content"
+        },
+        "apply_term": {
+            "type": "string",
+            "description": "Apply term"
+        },
+        "job_start_date": {
+            "type": "string",
+            "description": "Job start date"
+        },
+        "is_overdue": {
+            "type": "boolean",
+            "description": "Overdue flag"
+        },
+        "owner_display": {
+            "type": "string",
+            "description": "Owner name"
+        },
+        "owner_carerix_id": {
+            "type": "integer",
+            "description": "Owner Carerix ID"
+        },
+        "deleted": {
+            "type": "boolean",
+            "description": "Soft delete flag"
+        },
+        "carerix_created_date": {
+            "type": "string",
+            "description": "Carerix creation date"
+        },
+        "carerix_modified_date": {
+            "type": "string",
+            "description": "Carerix modification date"
+        },
+        "raw_json": {
+            "type": "string",
+            "description": "Full Carerix response JSON"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

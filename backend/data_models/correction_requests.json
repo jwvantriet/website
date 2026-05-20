@@ -1,0 +1,69 @@
+{
+    "title": "correction_requests",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "declaration_entry_id": {
+            "type": "integer",
+            "description": "FK to declaration_entries"
+        },
+        "payroll_period_id": {
+            "type": "integer",
+            "description": "FK to payroll_periods"
+        },
+        "placement_id": {
+            "type": "integer",
+            "description": "FK to employees (placement)"
+        },
+        "company_id": {
+            "type": "integer",
+            "description": "FK to companies"
+        },
+        "declaration_type_id": {
+            "type": "integer",
+            "description": "FK to declaration_types"
+        },
+        "requested_amount": {
+            "type": "number",
+            "description": "Correction amount"
+        },
+        "reason": {
+            "type": "string",
+            "description": "Correction reason/note"
+        },
+        "status": {
+            "type": "string",
+            "description": "Status: requested, approved, declined, added_to_run"
+        },
+        "decline_reason": {
+            "type": "string",
+            "description": "Mandatory reason when declined"
+        },
+        "included_in_run": {
+            "type": "boolean",
+            "description": "Whether included in payroll run"
+        },
+        "created_by": {
+            "type": "string",
+            "description": "User who created the correction"
+        },
+        "approved_by": {
+            "type": "string",
+            "description": "User who approved/declined"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        },
+        "approved_at": {
+            "type": "string",
+            "description": "Approval/decline timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

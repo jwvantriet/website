@@ -1,0 +1,50 @@
+{
+    "title": "contact_submissions",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "name": {
+            "type": "string",
+            "description": "Contact person name"
+        },
+        "email": {
+            "type": "string",
+            "description": "Contact email address"
+        },
+        "company": {
+            "type": "string",
+            "description": "Company name, optional"
+        },
+        "industry": {
+            "type": "string",
+            "description": "Industry sector, optional"
+        },
+        "inquiry_type": {
+            "type": "string",
+            "description": "Type: client or candidate"
+        },
+        "field_of_expertise": {
+            "type": "string",
+            "description": "For candidates - their field of expertise"
+        },
+        "message": {
+            "type": "string",
+            "description": "Message content"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Submission timestamp"
+        }
+    },
+    "required": [
+        "id",
+        "name",
+        "email",
+        "inquiry_type",
+        "message"
+    ]
+}

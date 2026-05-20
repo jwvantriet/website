@@ -1,0 +1,49 @@
+{
+    "title": "approval_actions",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "entity_type": {
+            "type": "string",
+            "description": "Type: declaration_entry or correction_request"
+        },
+        "entity_id": {
+            "type": "integer",
+            "description": "ID of the entity being approved"
+        },
+        "approval_stage": {
+            "type": "string",
+            "description": "Stage: company_initial, placement, company_final"
+        },
+        "approver_role": {
+            "type": "string",
+            "description": "Role of the approver"
+        },
+        "approver_id": {
+            "type": "string",
+            "description": "User ID of the approver"
+        },
+        "approver_name": {
+            "type": "string",
+            "description": "Display name of approver"
+        },
+        "action": {
+            "type": "string",
+            "description": "Action taken: approved, declined"
+        },
+        "note": {
+            "type": "string",
+            "description": "Optional note/reason"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Action timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

@@ -1,0 +1,157 @@
+{
+    "title": "crx_jobs",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Unique Carerix jobID"
+        },
+        "name": {
+            "type": "string",
+            "description": "Job/placement name"
+        },
+        "employee_carerix_id": {
+            "type": "integer",
+            "description": "FK to employees.carerix_id"
+        },
+        "vacancy_carerix_id": {
+            "type": "integer",
+            "description": "FK to crx_vacancies.carerix_id"
+        },
+        "company_carerix_id": {
+            "type": "integer",
+            "description": "FK to companies.carerix_id"
+        },
+        "match_carerix_id": {
+            "type": "integer",
+            "description": "FK to matches.carerix_id"
+        },
+        "start_date": {
+            "type": "string",
+            "description": "Start date"
+        },
+        "end_date": {
+            "type": "string",
+            "description": "End date"
+        },
+        "hours_per_week": {
+            "type": "number",
+            "description": "Hours per week"
+        },
+        "days_per_week": {
+            "type": "integer",
+            "description": "Days per week"
+        },
+        "cost_price": {
+            "type": "number",
+            "description": "Cost price"
+        },
+        "selling_price": {
+            "type": "number",
+            "description": "Selling price"
+        },
+        "purchase_rate": {
+            "type": "number",
+            "description": "Purchase rate"
+        },
+        "hourly_tariff_invoice": {
+            "type": "number",
+            "description": "Hourly tariff invoice"
+        },
+        "hourly_wage_gross": {
+            "type": "number",
+            "description": "Hourly wage gross"
+        },
+        "margin_amount": {
+            "type": "number",
+            "description": "Margin amount"
+        },
+        "margin_percentage": {
+            "type": "number",
+            "description": "Margin percentage"
+        },
+        "margin_ok": {
+            "type": "boolean",
+            "description": "Margin OK flag"
+        },
+        "sales_factor": {
+            "type": "number",
+            "description": "Sales factor"
+        },
+        "salary": {
+            "type": "integer",
+            "description": "Salary"
+        },
+        "customer_reference": {
+            "type": "string",
+            "description": "Customer reference"
+        },
+        "external_identifier": {
+            "type": "string",
+            "description": "External identifier"
+        },
+        "job_information": {
+            "type": "string",
+            "description": "Job information"
+        },
+        "memo_general": {
+            "type": "string",
+            "description": "General memo"
+        },
+        "memo_declaration": {
+            "type": "string",
+            "description": "Declaration memo"
+        },
+        "invoice_subject": {
+            "type": "string",
+            "description": "Invoice subject"
+        },
+        "phone_number": {
+            "type": "string",
+            "description": "Phone number"
+        },
+        "status": {
+            "type": "integer",
+            "description": "Status code"
+        },
+        "status_display": {
+            "type": "string",
+            "description": "Status label"
+        },
+        "status_indication_color": {
+            "type": "string",
+            "description": "Status color"
+        },
+        "owner_display": {
+            "type": "string",
+            "description": "Owner name"
+        },
+        "is_template": {
+            "type": "boolean",
+            "description": "Template flag"
+        },
+        "deleted": {
+            "type": "boolean",
+            "description": "Soft delete flag"
+        },
+        "carerix_created_date": {
+            "type": "string",
+            "description": "Carerix creation date"
+        },
+        "carerix_modified_date": {
+            "type": "string",
+            "description": "Carerix modification date"
+        },
+        "raw_json": {
+            "type": "string",
+            "description": "Full Carerix response JSON"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

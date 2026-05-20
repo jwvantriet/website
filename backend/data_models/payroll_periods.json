@@ -1,0 +1,49 @@
+{
+    "title": "payroll_periods",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "month": {
+            "type": "integer",
+            "description": "Month number 1-12"
+        },
+        "year": {
+            "type": "integer",
+            "description": "Year"
+        },
+        "start_date": {
+            "type": "string",
+            "description": "Period start date"
+        },
+        "end_date": {
+            "type": "string",
+            "description": "Period end date"
+        },
+        "status": {
+            "type": "string",
+            "description": "Status: draft, open, in_review, finalized, closed"
+        },
+        "created_by": {
+            "type": "string",
+            "description": "User ID who created the period"
+        },
+        "finalized_at": {
+            "type": "string",
+            "description": "Finalization timestamp"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        },
+        "updated_at": {
+            "type": "string",
+            "description": "Updated timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

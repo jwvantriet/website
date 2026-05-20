@@ -1,0 +1,45 @@
+from core.database import Base
+from sqlalchemy import Boolean, Column, Float, Integer, String
+
+
+class Crx_jobs(Base):
+    __tablename__ = "crx_jobs"
+    __table_args__ = {"extend_existing": True}
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
+    carerix_id = Column(Integer, nullable=True)
+    name = Column(String, nullable=True)
+    employee_carerix_id = Column(Integer, nullable=True)
+    vacancy_carerix_id = Column(Integer, nullable=True)
+    company_carerix_id = Column(Integer, nullable=True)
+    match_carerix_id = Column(Integer, nullable=True)
+    start_date = Column(String, nullable=True)
+    end_date = Column(String, nullable=True)
+    hours_per_week = Column(Float, nullable=True)
+    days_per_week = Column(Integer, nullable=True)
+    cost_price = Column(Float, nullable=True)
+    selling_price = Column(Float, nullable=True)
+    purchase_rate = Column(Float, nullable=True)
+    hourly_tariff_invoice = Column(Float, nullable=True)
+    hourly_wage_gross = Column(Float, nullable=True)
+    margin_amount = Column(Float, nullable=True)
+    margin_percentage = Column(Float, nullable=True)
+    margin_ok = Column(Boolean, nullable=True)
+    sales_factor = Column(Float, nullable=True)
+    salary = Column(Integer, nullable=True)
+    customer_reference = Column(String, nullable=True)
+    external_identifier = Column(String, nullable=True)
+    job_information = Column(String, nullable=True)
+    memo_general = Column(String, nullable=True)
+    memo_declaration = Column(String, nullable=True)
+    invoice_subject = Column(String, nullable=True)
+    phone_number = Column(String, nullable=True)
+    status = Column(Integer, nullable=True)
+    status_display = Column(String, nullable=True)
+    status_indication_color = Column(String, nullable=True)
+    owner_display = Column(String, nullable=True)
+    is_template = Column(Boolean, nullable=True)
+    deleted = Column(Boolean, nullable=True)
+    carerix_created_date = Column(String, nullable=True)
+    carerix_modified_date = Column(String, nullable=True)
+    raw_json = Column(String, nullable=True)

@@ -1,0 +1,209 @@
+{
+    "title": "crx_vacancies",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Unique Carerix vacancyID"
+        },
+        "vacancy_no": {
+            "type": "string",
+            "description": "Reference number"
+        },
+        "job_title": {
+            "type": "string",
+            "description": "Job title"
+        },
+        "title_information": {
+            "type": "string",
+            "description": "Title information"
+        },
+        "intro_information": {
+            "type": "string",
+            "description": "Intro information"
+        },
+        "vacancy_information": {
+            "type": "string",
+            "description": "Vacancy info (rich text)"
+        },
+        "offer_information": {
+            "type": "string",
+            "description": "Offer info (rich text)"
+        },
+        "company_information": {
+            "type": "string",
+            "description": "Company info (rich text)"
+        },
+        "requirements": {
+            "type": "string",
+            "description": "Requirements (rich text)"
+        },
+        "additional_information": {
+            "type": "string",
+            "description": "Additional info"
+        },
+        "contact_information": {
+            "type": "string",
+            "description": "Contact info"
+        },
+        "application_contact_information": {
+            "type": "string",
+            "description": "Application contact info"
+        },
+        "training_information": {
+            "type": "string",
+            "description": "Training info"
+        },
+        "company_name": {
+            "type": "string",
+            "description": "Company name"
+        },
+        "company_carerix_id": {
+            "type": "integer",
+            "description": "FK to companies.carerix_id"
+        },
+        "work_location": {
+            "type": "string",
+            "description": "Work location"
+        },
+        "work_city": {
+            "type": "string",
+            "description": "Work city"
+        },
+        "work_city_code": {
+            "type": "string",
+            "description": "Work city code"
+        },
+        "work_postal_code": {
+            "type": "string",
+            "description": "Work postal code"
+        },
+        "work_street": {
+            "type": "string",
+            "description": "Work street"
+        },
+        "work_full_address": {
+            "type": "string",
+            "description": "Full work address"
+        },
+        "start_date": {
+            "type": "string",
+            "description": "Start date"
+        },
+        "end_date": {
+            "type": "string",
+            "description": "End date"
+        },
+        "deadline": {
+            "type": "string",
+            "description": "Deadline"
+        },
+        "hours_per_week": {
+            "type": "number",
+            "description": "Hours per week"
+        },
+        "days_per_week": {
+            "type": "integer",
+            "description": "Days per week"
+        },
+        "fte": {
+            "type": "number",
+            "description": "FTE"
+        },
+        "min_salary": {
+            "type": "number",
+            "description": "Min salary"
+        },
+        "max_salary": {
+            "type": "number",
+            "description": "Max salary"
+        },
+        "salary_scale": {
+            "type": "string",
+            "description": "Salary scale"
+        },
+        "number_of_vacancies": {
+            "type": "integer",
+            "description": "Number of vacancies"
+        },
+        "is_anonymous": {
+            "type": "boolean",
+            "description": "Anonymous flag"
+        },
+        "is_hidden": {
+            "type": "boolean",
+            "description": "Hidden flag"
+        },
+        "is_template": {
+            "type": "boolean",
+            "description": "Template flag"
+        },
+        "has_bonus": {
+            "type": "boolean",
+            "description": "Has bonus flag"
+        },
+        "has_company_car": {
+            "type": "boolean",
+            "description": "Has company car flag"
+        },
+        "match_count": {
+            "type": "integer",
+            "description": "Match count"
+        },
+        "active_publications_count": {
+            "type": "integer",
+            "description": "Active publications count"
+        },
+        "status_display": {
+            "type": "string",
+            "description": "Status label"
+        },
+        "status_indication_color": {
+            "type": "string",
+            "description": "Status color"
+        },
+        "owner_display": {
+            "type": "string",
+            "description": "Owner name"
+        },
+        "owner_carerix_id": {
+            "type": "integer",
+            "description": "Owner Carerix ID"
+        },
+        "source_info": {
+            "type": "string",
+            "description": "Source info"
+        },
+        "notes": {
+            "type": "string",
+            "description": "Notes"
+        },
+        "customer_reference": {
+            "type": "string",
+            "description": "Customer reference"
+        },
+        "deleted": {
+            "type": "boolean",
+            "description": "Soft delete flag"
+        },
+        "carerix_created_date": {
+            "type": "string",
+            "description": "Carerix creation date"
+        },
+        "carerix_modified_date": {
+            "type": "string",
+            "description": "Carerix modification date"
+        },
+        "raw_json": {
+            "type": "string",
+            "description": "Full Carerix response JSON"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

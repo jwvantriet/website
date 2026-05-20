@@ -1,0 +1,61 @@
+{
+    "title": "sync_log_entries",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "entity_type": {
+            "type": "string",
+            "description": "Entity type"
+        },
+        "sync_type": {
+            "type": "string",
+            "description": "incremental, full, webhook, manual"
+        },
+        "started_at": {
+            "type": "string",
+            "description": "Sync start time"
+        },
+        "completed_at": {
+            "type": "string",
+            "description": "Sync completion time"
+        },
+        "records_fetched": {
+            "type": "integer",
+            "description": "Records fetched count"
+        },
+        "records_created": {
+            "type": "integer",
+            "description": "Records created count"
+        },
+        "records_updated": {
+            "type": "integer",
+            "description": "Records updated count"
+        },
+        "records_deleted": {
+            "type": "integer",
+            "description": "Records deleted count"
+        },
+        "sync_status": {
+            "type": "string",
+            "description": "running, success, error, partial"
+        },
+        "error_message": {
+            "type": "string",
+            "description": "Error message if any"
+        },
+        "filter_used": {
+            "type": "string",
+            "description": "Filter used e.g. modificationDate > 2025-01-01"
+        },
+        "carerix_query_time_ms": {
+            "type": "integer",
+            "description": "Performance tracking in ms"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

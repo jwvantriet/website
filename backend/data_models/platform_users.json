@@ -1,0 +1,61 @@
+{
+    "title": "platform_users",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "auth_source": {
+            "type": "string",
+            "description": "Authentication source: carerix or local"
+        },
+        "role": {
+            "type": "string",
+            "description": "User role: placement, company, agency_admin, agency_ops"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Linked Carerix user/employee ID"
+        },
+        "company_id": {
+            "type": "integer",
+            "description": "Linked company ID for company users"
+        },
+        "placement_id": {
+            "type": "integer",
+            "description": "Linked placement ID for placement users"
+        },
+        "email": {
+            "type": "string",
+            "description": "User email"
+        },
+        "name": {
+            "type": "string",
+            "description": "Display name"
+        },
+        "password_hash": {
+            "type": "string",
+            "description": "Hashed password for agency users"
+        },
+        "is_active": {
+            "type": "boolean",
+            "description": "Active status"
+        },
+        "last_login": {
+            "type": "string",
+            "description": "Last login timestamp"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        },
+        "updated_at": {
+            "type": "string",
+            "description": "Updated timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

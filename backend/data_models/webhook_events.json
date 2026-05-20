@@ -1,0 +1,57 @@
+{
+    "title": "webhook_events",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "event_id": {
+            "type": "string",
+            "description": "Unique event ID from Carerix webhook payload for idempotency"
+        },
+        "entity_id": {
+            "type": "string",
+            "description": "Carerix entity ID (e.g. employee _id or job _id)"
+        },
+        "entity_type": {
+            "type": "string",
+            "description": "Entity type: cremployee, tojob, etc."
+        },
+        "event_type": {
+            "type": "string",
+            "description": "Event type: created, updated, deleted"
+        },
+        "event_time": {
+            "type": "string",
+            "description": "ISO timestamp when the event occurred in Carerix"
+        },
+        "raw_payload": {
+            "type": "string",
+            "description": "Full JSON payload from the webhook"
+        },
+        "processing_status": {
+            "type": "string",
+            "description": "Status: pending, processing, completed, failed, duplicate, echo_suppressed"
+        },
+        "processed_at": {
+            "type": "string",
+            "description": "ISO timestamp when processing completed"
+        },
+        "error_message": {
+            "type": "string",
+            "description": "Error details if processing failed"
+        },
+        "retry_count": {
+            "type": "integer",
+            "description": "Number of processing retries attempted"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "ISO timestamp when the event was received"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

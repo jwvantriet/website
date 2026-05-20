@@ -1,0 +1,53 @@
+{
+    "title": "invoices",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "invoice_type": {
+            "type": "string",
+            "description": "Type: reversed or company"
+        },
+        "payroll_run_id": {
+            "type": "integer",
+            "description": "FK to payroll_runs"
+        },
+        "issuing_party": {
+            "type": "string",
+            "description": "Issuing party name/ID"
+        },
+        "receiving_party": {
+            "type": "string",
+            "description": "Receiving party name/ID"
+        },
+        "amount": {
+            "type": "number",
+            "description": "Invoice amount"
+        },
+        "markup_amount": {
+            "type": "number",
+            "description": "Markup amount applied"
+        },
+        "markup_logic": {
+            "type": "string",
+            "description": "Markup logic description"
+        },
+        "status": {
+            "type": "string",
+            "description": "Status: draft, issued, paid, cancelled"
+        },
+        "issue_date": {
+            "type": "string",
+            "description": "Invoice issue date"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

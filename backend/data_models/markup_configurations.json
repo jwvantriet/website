@@ -1,0 +1,53 @@
+{
+    "title": "markup_configurations",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "company_id": {
+            "type": "integer",
+            "description": "FK to companies"
+        },
+        "model_type": {
+            "type": "string",
+            "description": "Type: percentage, fixed_per_person, tiered_per_person"
+        },
+        "percentage_value": {
+            "type": "number",
+            "description": "Percentage value"
+        },
+        "fixed_amount": {
+            "type": "number",
+            "description": "Fixed amount"
+        },
+        "tier_definitions": {
+            "type": "string",
+            "description": "JSON string of tier definitions"
+        },
+        "valid_from": {
+            "type": "string",
+            "description": "Validity start date"
+        },
+        "valid_to": {
+            "type": "string",
+            "description": "Validity end date"
+        },
+        "is_active": {
+            "type": "boolean",
+            "description": "Active flag"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        },
+        "updated_at": {
+            "type": "string",
+            "description": "Updated timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

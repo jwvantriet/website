@@ -1,0 +1,65 @@
+[
+    {
+        "code": "HOURS",
+        "label": "Regular Hours",
+        "unit": "hours",
+        "finance_mapping": "CRX_HOURS",
+        "is_active": true,
+        "sort_order": 1,
+        "created_at": "2026-04-06 10:00:00"
+    },
+    {
+        "code": "OVERTIME",
+        "label": "Overtime Hours",
+        "unit": "hours",
+        "finance_mapping": "CRX_OVERTIME",
+        "is_active": true,
+        "sort_order": 2,
+        "created_at": "2026-04-06 10:00:00"
+    },
+    {
+        "code": "EXPENSES",
+        "label": "Expenses",
+        "unit": "currency",
+        "finance_mapping": "CRX_EXPENSES",
+        "is_active": true,
+        "sort_order": 3,
+        "created_at": "2026-04-06 10:00:00"
+    },
+    {
+        "code": "TRAVEL",
+        "label": "Travel Allowance",
+        "unit": "currency",
+        "finance_mapping": "CRX_TRAVEL",
+        "is_active": true,
+        "sort_order": 4,
+        "created_at": "2026-04-06 10:00:00"
+    },
+    {
+        "code": "BONUS",
+        "label": "Bonus",
+        "unit": "currency",
+        "finance_mapping": "CRX_BONUS",
+        "is_active": true,
+        "sort_order": 5,
+        "created_at": "2026-04-06 10:00:00"
+    },
+    {
+        "code": "SICK",
+        "label": "Sick Leave",
+        "unit": "hours",
+        "finance_mapping": "CRX_SICK",
+        "is_active": true,
+        "sort_order": 6,
+        "created_at": "2026-04-06 10:00:00"
+    },
+    {
+        "code": "HOLIDAY",
+        "label": "Holiday Hours",
+        "unit": "hours",
+        "finance_mapping": "CRX_HOLIDAY",
+        "is_active": true,
+        "sort_order": 7,
+        "created_at": "2026-04-06 10:00:00"
+    }
+]

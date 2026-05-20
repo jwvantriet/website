@@ -1,0 +1,161 @@
+{
+    "title": "crx_publications",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Unique Carerix publicationID"
+        },
+        "vacancy_carerix_id": {
+            "type": "integer",
+            "description": "FK to crx_vacancies.carerix_id"
+        },
+        "company_carerix_id": {
+            "type": "integer",
+            "description": "FK to companies.carerix_id"
+        },
+        "title_information": {
+            "type": "string",
+            "description": "Plain text title"
+        },
+        "title_information_html": {
+            "type": "string",
+            "description": "HTML title"
+        },
+        "intro_information": {
+            "type": "string",
+            "description": "Plain text intro"
+        },
+        "intro_information_html": {
+            "type": "string",
+            "description": "HTML intro"
+        },
+        "vacancy_information": {
+            "type": "string",
+            "description": "Plain text vacancy info"
+        },
+        "vacancy_information_html": {
+            "type": "string",
+            "description": "HTML vacancy info"
+        },
+        "requirements_information": {
+            "type": "string",
+            "description": "Plain text requirements"
+        },
+        "requirements_information_html": {
+            "type": "string",
+            "description": "HTML requirements"
+        },
+        "offer_information": {
+            "type": "string",
+            "description": "Plain text offer"
+        },
+        "offer_information_html": {
+            "type": "string",
+            "description": "HTML offer"
+        },
+        "company_information": {
+            "type": "string",
+            "description": "Plain text company info"
+        },
+        "company_information_html": {
+            "type": "string",
+            "description": "HTML company info"
+        },
+        "application_contact_information": {
+            "type": "string",
+            "description": "Application contact info"
+        },
+        "application_contact_information_html": {
+            "type": "string",
+            "description": "HTML application contact"
+        },
+        "function_contact_information": {
+            "type": "string",
+            "description": "Function contact info"
+        },
+        "function_contact_information_html": {
+            "type": "string",
+            "description": "HTML function contact"
+        },
+        "work_location": {
+            "type": "string",
+            "description": "Work location"
+        },
+        "work_location_html": {
+            "type": "string",
+            "description": "HTML work location"
+        },
+        "vacancy_no": {
+            "type": "string",
+            "description": "Vacancy number"
+        },
+        "vacancy_url": {
+            "type": "string",
+            "description": "Vacancy URL"
+        },
+        "apply_url": {
+            "type": "string",
+            "description": "Apply URL"
+        },
+        "campaign": {
+            "type": "string",
+            "description": "Campaign"
+        },
+        "meta_tags": {
+            "type": "string",
+            "description": "SEO meta tags"
+        },
+        "publication_start": {
+            "type": "string",
+            "description": "Publication start date"
+        },
+        "publication_end": {
+            "type": "string",
+            "description": "Publication end date"
+        },
+        "status": {
+            "type": "integer",
+            "description": "Status code"
+        },
+        "status_display": {
+            "type": "string",
+            "description": "Status label"
+        },
+        "closed": {
+            "type": "boolean",
+            "description": "Closed flag"
+        },
+        "deleted": {
+            "type": "boolean",
+            "description": "Soft delete flag"
+        },
+        "owner_display": {
+            "type": "string",
+            "description": "Owner name"
+        },
+        "notes": {
+            "type": "string",
+            "description": "Notes"
+        },
+        "carerix_created_date": {
+            "type": "string",
+            "description": "Carerix creation date"
+        },
+        "carerix_modified_date": {
+            "type": "string",
+            "description": "Carerix modification date"
+        },
+        "raw_json": {
+            "type": "string",
+            "description": "Full Carerix response JSON"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

@@ -1,0 +1,48 @@
+from core.database import Base
+from sqlalchemy import BigInteger, Boolean, Column, Float, Integer, String
+
+
+class Crx_matches(Base):
+    __tablename__ = "crx_matches"
+    __table_args__ = {"extend_existing": True}
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
+    carerix_id = Column(BigInteger, nullable=True)
+    match_title = Column(String, nullable=True)
+    employee_carerix_id = Column(Integer, nullable=True)
+    vacancy_carerix_id = Column(Integer, nullable=True)
+    company_carerix_id = Column(Integer, nullable=True)
+    publication_carerix_id = Column(Integer, nullable=True)
+    status_display = Column(String, nullable=True)
+    status_indication_color = Column(String, nullable=True)
+    motivation = Column(String, nullable=True)
+    notes = Column(String, nullable=True)
+    fit_score = Column(Integer, nullable=True)
+    fit_gap = Column(String, nullable=True)
+    cv_summary = Column(String, nullable=True)
+    salary = Column(Float, nullable=True)
+    agreed_salary = Column(String, nullable=True)
+    cost_price = Column(Float, nullable=True)
+    selling_price = Column(Float, nullable=True)
+    purchase_rate = Column(Float, nullable=True)
+    invoice_rate = Column(Float, nullable=True)
+    wage_rate = Column(Float, nullable=True)
+    margin_amount = Column(Float, nullable=True)
+    margin_percentage = Column(Float, nullable=True)
+    margin_ok = Column(Boolean, nullable=True)
+    sales_factor = Column(Float, nullable=True)
+    sort_order = Column(Integer, nullable=True)
+    source_info = Column(String, nullable=True)
+    apply_source = Column(String, nullable=True)
+    apply_medium = Column(String, nullable=True)
+    apply_campaign = Column(String, nullable=True)
+    apply_content = Column(String, nullable=True)
+    apply_term = Column(String, nullable=True)
+    job_start_date = Column(String, nullable=True)
+    is_overdue = Column(Boolean, nullable=True)
+    owner_display = Column(String, nullable=True)
+    owner_carerix_id = Column(Integer, nullable=True)
+    deleted = Column(Boolean, nullable=True)
+    carerix_created_date = Column(String, nullable=True)
+    carerix_modified_date = Column(String, nullable=True)
+    raw_json = Column(String, nullable=True)

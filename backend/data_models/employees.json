@@ -1,0 +1,277 @@
+{
+    "title": "employees",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Unique Carerix employeeID"
+        },
+        "first_name": {
+            "type": "string",
+            "description": "First name"
+        },
+        "last_name": {
+            "type": "string",
+            "description": "Last name"
+        },
+        "last_name_prefix": {
+            "type": "string",
+            "description": "Name prefix e.g. van, de"
+        },
+        "initials": {
+            "type": "string",
+            "description": "Initials"
+        },
+        "full_first_names": {
+            "type": "string",
+            "description": "Full first names"
+        },
+        "name": {
+            "type": "string",
+            "description": "Full display name"
+        },
+        "title": {
+            "type": "string",
+            "description": "Title"
+        },
+        "email_address": {
+            "type": "string",
+            "description": "Primary email"
+        },
+        "email_address_business": {
+            "type": "string",
+            "description": "Business email"
+        },
+        "email_address_private": {
+            "type": "string",
+            "description": "Private email"
+        },
+        "phone_number": {
+            "type": "string",
+            "description": "Primary phone"
+        },
+        "phone_number_business": {
+            "type": "string",
+            "description": "Business phone"
+        },
+        "mobile_number": {
+            "type": "string",
+            "description": "Mobile number"
+        },
+        "mobile_number_business": {
+            "type": "string",
+            "description": "Business mobile"
+        },
+        "address": {
+            "type": "string",
+            "description": "Full address"
+        },
+        "street": {
+            "type": "string",
+            "description": "Street"
+        },
+        "house_number": {
+            "type": "string",
+            "description": "House number"
+        },
+        "house_number_suffix": {
+            "type": "string",
+            "description": "House number suffix"
+        },
+        "postal_code": {
+            "type": "string",
+            "description": "Postal code"
+        },
+        "city": {
+            "type": "string",
+            "description": "City"
+        },
+        "city_code": {
+            "type": "string",
+            "description": "City code"
+        },
+        "birth_date": {
+            "type": "string",
+            "description": "Birth date"
+        },
+        "birth_city": {
+            "type": "string",
+            "description": "Birth city"
+        },
+        "gender_node": {
+            "type": "integer",
+            "description": "Gender reference"
+        },
+        "age": {
+            "type": "integer",
+            "description": "Age"
+        },
+        "cv_summary": {
+            "type": "string",
+            "description": "CV/resume summary"
+        },
+        "employee_information": {
+            "type": "string",
+            "description": "Rich text info"
+        },
+        "experience_information": {
+            "type": "string",
+            "description": "Experience info"
+        },
+        "education_information": {
+            "type": "string",
+            "description": "Education info"
+        },
+        "ambition": {
+            "type": "string",
+            "description": "Ambition"
+        },
+        "hobbies": {
+            "type": "string",
+            "description": "Hobbies"
+        },
+        "notes": {
+            "type": "string",
+            "description": "Notes"
+        },
+        "skill_notes": {
+            "type": "string",
+            "description": "Skill notes"
+        },
+        "language_notes": {
+            "type": "string",
+            "description": "Language notes"
+        },
+        "current_conditions": {
+            "type": "string",
+            "description": "Current conditions"
+        },
+        "current_employer_name": {
+            "type": "string",
+            "description": "Current employer"
+        },
+        "current_salary": {
+            "type": "number",
+            "description": "Current salary"
+        },
+        "min_salary": {
+            "type": "number",
+            "description": "Minimum salary"
+        },
+        "salary": {
+            "type": "integer",
+            "description": "Salary"
+        },
+        "available_date": {
+            "type": "string",
+            "description": "Available date"
+        },
+        "available_from_date": {
+            "type": "string",
+            "description": "Available from date"
+        },
+        "hours_per_week": {
+            "type": "number",
+            "description": "Hours per week"
+        },
+        "days_per_week": {
+            "type": "integer",
+            "description": "Days per week"
+        },
+        "fte": {
+            "type": "number",
+            "description": "FTE"
+        },
+        "min_fte": {
+            "type": "number",
+            "description": "Min FTE"
+        },
+        "max_fte": {
+            "type": "number",
+            "description": "Max FTE"
+        },
+        "max_distance": {
+            "type": "integer",
+            "description": "Max commute distance"
+        },
+        "years_of_experience": {
+            "type": "integer",
+            "description": "Years of experience"
+        },
+        "has_car": {
+            "type": "boolean",
+            "description": "Has car flag"
+        },
+        "ranking": {
+            "type": "number",
+            "description": "Ranking"
+        },
+        "rating": {
+            "type": "integer",
+            "description": "Rating"
+        },
+        "engagement_score": {
+            "type": "integer",
+            "description": "Engagement score"
+        },
+        "completeness_score": {
+            "type": "number",
+            "description": "Completeness score"
+        },
+        "status_display": {
+            "type": "string",
+            "description": "Status label"
+        },
+        "status_indication_color": {
+            "type": "string",
+            "description": "Status color"
+        },
+        "owner_display": {
+            "type": "string",
+            "description": "Owner name"
+        },
+        "owner_carerix_id": {
+            "type": "integer",
+            "description": "Owner Carerix ID"
+        },
+        "source_info": {
+            "type": "string",
+            "description": "Source info"
+        },
+        "active_job_count": {
+            "type": "integer",
+            "description": "Active job count"
+        },
+        "match_count": {
+            "type": "integer",
+            "description": "Match count"
+        },
+        "is_confidential": {
+            "type": "boolean",
+            "description": "Confidential flag"
+        },
+        "deleted": {
+            "type": "boolean",
+            "description": "Soft delete flag"
+        },
+        "carerix_created_date": {
+            "type": "string",
+            "description": "Carerix creation date"
+        },
+        "carerix_modified_date": {
+            "type": "string",
+            "description": "Carerix modification date"
+        },
+        "raw_json": {
+            "type": "string",
+            "description": "Full Carerix response JSON"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

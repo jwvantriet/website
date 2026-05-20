@@ -1,0 +1,46 @@
+from core.database import Base
+from sqlalchemy import Boolean, Column, Integer, String
+
+
+class Crx_publications(Base):
+    __tablename__ = "crx_publications"
+    __table_args__ = {"extend_existing": True}
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
+    carerix_id = Column(Integer, nullable=True)
+    vacancy_carerix_id = Column(Integer, nullable=True)
+    company_carerix_id = Column(Integer, nullable=True)
+    title_information = Column(String, nullable=True)
+    title_information_html = Column(String, nullable=True)
+    intro_information = Column(String, nullable=True)
+    intro_information_html = Column(String, nullable=True)
+    vacancy_information = Column(String, nullable=True)
+    vacancy_information_html = Column(String, nullable=True)
+    requirements_information = Column(String, nullable=True)
+    requirements_information_html = Column(String, nullable=True)
+    offer_information = Column(String, nullable=True)
+    offer_information_html = Column(String, nullable=True)
+    company_information = Column(String, nullable=True)
+    company_information_html = Column(String, nullable=True)
+    application_contact_information = Column(String, nullable=True)
+    application_contact_information_html = Column(String, nullable=True)
+    function_contact_information = Column(String, nullable=True)
+    function_contact_information_html = Column(String, nullable=True)
+    work_location = Column(String, nullable=True)
+    work_location_html = Column(String, nullable=True)
+    vacancy_no = Column(String, nullable=True)
+    vacancy_url = Column(String, nullable=True)
+    apply_url = Column(String, nullable=True)
+    campaign = Column(String, nullable=True)
+    meta_tags = Column(String, nullable=True)
+    publication_start = Column(String, nullable=True)
+    publication_end = Column(String, nullable=True)
+    status = Column(Integer, nullable=True)
+    status_display = Column(String, nullable=True)
+    closed = Column(Boolean, nullable=True)
+    deleted = Column(Boolean, nullable=True)
+    owner_display = Column(String, nullable=True)
+    notes = Column(String, nullable=True)
+    carerix_created_date = Column(String, nullable=True)
+    carerix_modified_date = Column(String, nullable=True)
+    raw_json = Column(String, nullable=True)

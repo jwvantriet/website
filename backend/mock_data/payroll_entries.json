@@ -1,0 +1,32 @@
+[
+    {
+        "period_id": 1,
+        "employee_id": 1,
+        "company_id": 1,
+        "hours_regular": 160.0,
+        "hours_overtime": 8.0,
+        "hourly_rate": 45.5,
+        "overtime_rate": 68.25,
+        "gross_amount": 7826.0,
+        "deductions": 2347.8,
+        "net_amount": 5478.2,
+        "status": "pending",
+        "created_at": "2026-04-06 00:00:00",
+        "updated_at": "2026-04-06 00:00:00"
+    },
+    {
+        "period_id": 1,
+        "employee_id": 2,
+        "company_id": 1,
+        "hours_regular": 120.0,
+        "hours_overtime": 0.0,
+        "hourly_rate": 38.0,
+        "overtime_rate": 57.0,
+        "gross_amount": 4560.0,
+        "deductions": 1368.0,
+        "net_amount": 3192.0,
+        "status": "approved",
+        "created_at": "2026-04-06 00:00:00",
+        "updated_at": "2026-04-06 00:00:00"
+    }
+]

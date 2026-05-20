@@ -1,0 +1,213 @@
+{
+    "title": "companies",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "carerix_id": {
+            "type": "integer",
+            "description": "Unique Carerix companyID"
+        },
+        "name": {
+            "type": "string",
+            "description": "Company name"
+        },
+        "short_name": {
+            "type": "string",
+            "description": "Short/abbreviated name"
+        },
+        "division": {
+            "type": "string",
+            "description": "Division"
+        },
+        "company_information": {
+            "type": "string",
+            "description": "Company description (rich text/HTML)"
+        },
+        "company_profile": {
+            "type": "string",
+            "description": "Extended profile (rich text/HTML)"
+        },
+        "email_address": {
+            "type": "string",
+            "description": "Primary email"
+        },
+        "phone_number": {
+            "type": "string",
+            "description": "Primary phone"
+        },
+        "fax_number": {
+            "type": "string",
+            "description": "Fax number"
+        },
+        "url": {
+            "type": "string",
+            "description": "Website URL"
+        },
+        "linkedin_url": {
+            "type": "string",
+            "description": "LinkedIn URL"
+        },
+        "visit_address": {
+            "type": "string",
+            "description": "Full visit address"
+        },
+        "visit_street": {
+            "type": "string",
+            "description": "Visit street"
+        },
+        "visit_number": {
+            "type": "string",
+            "description": "Visit house number"
+        },
+        "visit_number_suffix": {
+            "type": "string",
+            "description": "Visit number suffix"
+        },
+        "visit_postal_code": {
+            "type": "string",
+            "description": "Visit postal code"
+        },
+        "visit_city": {
+            "type": "string",
+            "description": "Visit city"
+        },
+        "visit_city_code": {
+            "type": "string",
+            "description": "Visit city code"
+        },
+        "mailing_address": {
+            "type": "string",
+            "description": "Full mailing address"
+        },
+        "mailing_street": {
+            "type": "string",
+            "description": "Mailing street"
+        },
+        "mailing_number": {
+            "type": "string",
+            "description": "Mailing house number"
+        },
+        "mailing_number_suffix": {
+            "type": "string",
+            "description": "Mailing number suffix"
+        },
+        "mailing_postal_code": {
+            "type": "string",
+            "description": "Mailing postal code"
+        },
+        "mailing_city": {
+            "type": "string",
+            "description": "Mailing city"
+        },
+        "mailing_city_code": {
+            "type": "string",
+            "description": "Mailing city code"
+        },
+        "invoice_address": {
+            "type": "string",
+            "description": "Full invoice address"
+        },
+        "invoice_city": {
+            "type": "string",
+            "description": "Invoice city"
+        },
+        "invoice_postal_code": {
+            "type": "string",
+            "description": "Invoice postal code"
+        },
+        "invoice_email_address": {
+            "type": "string",
+            "description": "Invoice email"
+        },
+        "debtor_number": {
+            "type": "string",
+            "description": "Debtor number"
+        },
+        "kvk_number": {
+            "type": "string",
+            "description": "Chamber of Commerce number"
+        },
+        "tax_number": {
+            "type": "string",
+            "description": "VAT number"
+        },
+        "company_size": {
+            "type": "integer",
+            "description": "Company size"
+        },
+        "revenue": {
+            "type": "number",
+            "description": "Revenue"
+        },
+        "fee_percentage": {
+            "type": "number",
+            "description": "Fee percentage"
+        },
+        "branche_level1": {
+            "type": "string",
+            "description": "Industry level 1"
+        },
+        "branche_level2": {
+            "type": "string",
+            "description": "Industry level 2"
+        },
+        "status_display": {
+            "type": "string",
+            "description": "Current status label"
+        },
+        "status_indication_color": {
+            "type": "string",
+            "description": "Status color"
+        },
+        "owner_display": {
+            "type": "string",
+            "description": "Account owner name"
+        },
+        "owner_carerix_id": {
+            "type": "integer",
+            "description": "Carerix owner user ID"
+        },
+        "parent_carerix_id": {
+            "type": "integer",
+            "description": "Parent company Carerix ID"
+        },
+        "source_info": {
+            "type": "string",
+            "description": "Source info"
+        },
+        "notes": {
+            "type": "string",
+            "description": "Notes"
+        },
+        "is_competitor": {
+            "type": "boolean",
+            "description": "Is competitor flag"
+        },
+        "is_supplier": {
+            "type": "boolean",
+            "description": "Is supplier flag"
+        },
+        "deleted": {
+            "type": "boolean",
+            "description": "Soft delete flag"
+        },
+        "carerix_created_date": {
+            "type": "string",
+            "description": "Carerix creation date"
+        },
+        "carerix_modified_date": {
+            "type": "string",
+            "description": "Carerix modification date"
+        },
+        "raw_json": {
+            "type": "string",
+            "description": "Full Carerix response JSON"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

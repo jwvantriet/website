@@ -1,0 +1,46 @@
+[
+    {
+        "month": 1,
+        "year": 2026,
+        "start_date": "2026-01-01",
+        "end_date": "2026-01-31",
+        "status": "finalized",
+        "created_by": "admin",
+        "finalized_at": "2026-02-05 10:00:00",
+        "created_at": "2026-01-01 10:00:00",
+        "updated_at": "2026-02-05 10:00:00"
+    },
+    {
+        "month": 2,
+        "year": 2026,
+        "start_date": "2026-02-01",
+        "end_date": "2026-02-28",
+        "status": "finalized",
+        "created_by": "admin",
+        "finalized_at": "2026-03-05 10:00:00",
+        "created_at": "2026-02-01 10:00:00",
+        "updated_at": "2026-03-05 10:00:00"
+    },
+    {
+        "month": 3,
+        "year": 2026,
+        "start_date": "2026-03-01",
+        "end_date": "2026-03-31",
+        "status": "in_review",
+        "created_by": "admin",
+        "finalized_at": "",
+        "created_at": "2026-03-01 10:00:00",
+        "updated_at": "2026-04-01 10:00:00"
+    },
+    {
+        "month": 4,
+        "year": 2026,
+        "start_date": "2026-04-01",
+        "end_date": "2026-04-30",
+        "status": "open",
+        "created_by": "admin",
+        "finalized_at": "",
+        "created_at": "2026-04-01 10:00:00",
+        "updated_at": "2026-04-01 10:00:00"
+    }
+]

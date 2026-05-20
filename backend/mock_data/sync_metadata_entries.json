@@ -1,0 +1,44 @@
+[
+    {
+        "entity_type": "companies",
+        "last_sync_timestamp": "2026-04-02 00:00:00",
+        "records_synced": 0,
+        "sync_status": "idle"
+    },
+    {
+        "entity_type": "employees",
+        "last_sync_timestamp": "2026-04-02 00:00:00",
+        "records_synced": 0,
+        "sync_status": "idle"
+    },
+    {
+        "entity_type": "crx_vacancies",
+        "last_sync_timestamp": "2026-04-02 00:00:00",
+        "records_synced": 0,
+        "sync_status": "idle"
+    },
+    {
+        "entity_type": "crx_publications",
+        "last_sync_timestamp": "2026-04-02 00:00:00",
+        "records_synced": 0,
+        "sync_status": "idle"
+    },
+    {
+        "entity_type": "crx_jobs",
+        "last_sync_timestamp": "2026-04-02 00:00:00",
+        "records_synced": 0,
+        "sync_status": "idle"
+    },
+    {
+        "entity_type": "crx_matches",
+        "last_sync_timestamp": "2026-04-02 00:00:00",
+        "records_synced": 0,
+        "sync_status": "idle"
+    },
+    {
+        "entity_type": "crx_todos",
+        "last_sync_timestamp": "2026-04-02 00:00:00",
+        "records_synced": 0,
+        "sync_status": "idle"
+    }
+]

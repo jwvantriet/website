@@ -1,0 +1,41 @@
+{
+    "title": "declaration_types",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "code": {
+            "type": "string",
+            "description": "Unique code e.g. HOURS, OVERTIME, EXPENSES"
+        },
+        "label": {
+            "type": "string",
+            "description": "Display label"
+        },
+        "unit": {
+            "type": "string",
+            "description": "Unit type: hours, currency, quantity"
+        },
+        "finance_mapping": {
+            "type": "string",
+            "description": "Linked Carerix Finance mapping code"
+        },
+        "is_active": {
+            "type": "boolean",
+            "description": "Active flag"
+        },
+        "sort_order": {
+            "type": "integer",
+            "description": "Display sort order"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

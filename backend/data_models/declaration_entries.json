@@ -1,0 +1,69 @@
+{
+    "title": "declaration_entries",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "payroll_period_id": {
+            "type": "integer",
+            "description": "FK to payroll_periods"
+        },
+        "placement_id": {
+            "type": "integer",
+            "description": "FK to employees (placement)"
+        },
+        "company_id": {
+            "type": "integer",
+            "description": "FK to companies"
+        },
+        "declaration_date": {
+            "type": "string",
+            "description": "The specific date for this entry"
+        },
+        "declaration_type_id": {
+            "type": "integer",
+            "description": "FK to declaration_types"
+        },
+        "imported_amount": {
+            "type": "number",
+            "description": "Original imported amount"
+        },
+        "applicable_fee": {
+            "type": "number",
+            "description": "Fee from Carerix Finance"
+        },
+        "calculated_value": {
+            "type": "number",
+            "description": "Calculated value (amount * fee)"
+        },
+        "status": {
+            "type": "string",
+            "description": "Entry status"
+        },
+        "approval_stage": {
+            "type": "string",
+            "description": "Current approval stage"
+        },
+        "source_file_ref": {
+            "type": "string",
+            "description": "Reference to uploaded source file"
+        },
+        "notes": {
+            "type": "string",
+            "description": "Notes"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Created timestamp"
+        },
+        "updated_at": {
+            "type": "string",
+            "description": "Updated timestamp"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}
