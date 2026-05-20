@@ -102,7 +102,7 @@ export async function submitVacancyApplication(
       console.error('[apply] cv upload failed', { message: upErr.message, key });
       return {
         status: 'error',
-        message: `Could not upload your CV (${upErr.message}). Please try again or contact us directly.`,
+        message: 'Could not upload your CV. Please try again or contact us directly.',
       };
     }
     cvObjectKey = key;
@@ -132,9 +132,7 @@ export async function submitVacancyApplication(
     .single();
 
   if (error || !inserted) {
-    // Log the underlying issue so it shows up in Vercel function logs. Keep
-    // the customer-facing message generic, but include a short hint in the
-    // returned message so the agency can self-diagnose without trawling logs.
+    // Log the underlying issue so it shows up in Vercel function logs.
     console.error('[apply] insert failed', {
       message: error?.message,
       code: error?.code,
@@ -146,10 +144,9 @@ export async function submitVacancyApplication(
     if (cvObjectKey) {
       await supabase.storage.from('vacancy-cvs').remove([cvObjectKey]).catch(() => {});
     }
-    const hint = error?.message ? ` (${error.message})` : '';
     return {
       status: 'error',
-      message: `Could not submit your application. Please try again in a moment${hint}.`,
+      message: 'Could not submit your application. Please try again in a moment.',
     };
   }
 
