@@ -133,39 +133,35 @@ export async function submitVacancyApplication(
     cvSizeBytes = cv.size;
   }
 
-  const { data: inserted, error } = await supabase
-    .from('vacancy_applications')
-    .insert({
-      vacancy_id: vacancyId,
-      vacancy_slug: vacancySlug,
-      vacancy_title: vacancyTitle,
-      vacancy_carerix_id: vacancyCarerixId,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      phone,
-      message,
-      cv_object_key: cvObjectKey,
-      cv_filename: cvFilename,
-      cv_mime_type: cvMimeType,
-      cv_size_bytes: cvSizeBytes,
-    })
-    .select('id')
-    .single();
+  // Call the SECURITY DEFINER RPC instead of a direct table INSERT. This
+  // bypasses PostgREST's RLS policy cache (which kept rejecting valid
+  // anon writes after RLS-toggling), runs the insert as the function
+  // owner, and gives a strictly-typed surface that anon can only INSERT
+  // through — never read/update/delete.
+  const { data: insertedId, error } = await supabase.rpc('submit_vacancy_application', {
+    p_vacancy_id:         vacancyId,
+    p_vacancy_slug:       vacancySlug,
+    p_vacancy_title:      vacancyTitle,
+    p_vacancy_carerix_id: vacancyCarerixId,
+    p_first_name:         firstName,
+    p_last_name:          lastName,
+    p_email:              email,
+    p_phone:              phone,
+    p_message:            message,
+    p_cv_object_key:      cvObjectKey,
+    p_cv_filename:        cvFilename,
+    p_cv_mime_type:       cvMimeType,
+    p_cv_size_bytes:      cvSizeBytes,
+  });
 
-  if (error || !inserted) {
-    // Log the underlying issue so it shows up in Vercel function logs.
+  if (error || insertedId == null) {
     const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-    console.error('[apply] insert failed', {
+    console.error('[apply] rpc submit_vacancy_application failed', {
       message: error?.message,
       code: error?.code,
       details: error?.details,
       hint: error?.hint,
-      // Echo the actual values we're using so we can verify Vercel's env
-      // vars point to the right Supabase project. The anon/publishable key
-      // is non-secret by design; logging a 16-char prefix + total length
-      // is enough to identify which key without printing the whole thing.
       supabaseUrl: supaUrl,
       anonKeyPrefix: anonKey.slice(0, 20),
       anonKeyLength: anonKey.length,
@@ -179,7 +175,7 @@ export async function submitVacancyApplication(
     };
   }
 
-  await pushToCarerix(inserted.id);
+  await pushToCarerix(Number(insertedId));
 
   return { status: 'success' };
 }
