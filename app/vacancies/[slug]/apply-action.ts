@@ -155,13 +155,20 @@ export async function submitVacancyApplication(
 
   if (error || !inserted) {
     // Log the underlying issue so it shows up in Vercel function logs.
+    const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
     console.error('[apply] insert failed', {
       message: error?.message,
       code: error?.code,
       details: error?.details,
       hint: error?.hint,
-      supabaseUrlPresent: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
-      anonKeyPresent: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+      // Echo the actual values we're using so we can verify Vercel's env
+      // vars point to the right Supabase project. The anon/publishable key
+      // is non-secret by design; logging a 16-char prefix + total length
+      // is enough to identify which key without printing the whole thing.
+      supabaseUrl: supaUrl,
+      anonKeyPrefix: anonKey.slice(0, 20),
+      anonKeyLength: anonKey.length,
     });
     if (cvObjectKey) {
       await supabase.storage.from('vacancy-cvs').remove([cvObjectKey]).catch(() => {});
