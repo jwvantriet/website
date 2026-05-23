@@ -3,32 +3,54 @@
 import { randomUUID } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
 
-const CONFAIR_API_URL    = process.env.CONFAIR_API_URL    || '';
-const WEBSITE_WEBHOOK_SECRET = process.env.WEBSITE_WEBHOOK_SECRET || '';
-
 // Fire-and-forget the Carerix push webhook. We don't block the form's
 // success state on it — the application is already safely captured in
 // Supabase, and confair-api processes the push idempotently. If it fails
 // (network, secret mismatch, Carerix unavailable), the row stays at
 // carerix_push_status='new' and the agency can retry from the admin page.
 async function pushToCarerix(applicationId: number): Promise<void> {
-  if (!CONFAIR_API_URL || !WEBSITE_WEBHOOK_SECRET) return;
+  // Read env vars at call time so a redeploy or a runtime override is
+  // picked up correctly (module-level reads happen once per cold start).
+  const apiUrl = process.env.CONFAIR_API_URL    || '';
+  const secret = process.env.WEBSITE_WEBHOOK_SECRET || '';
+
+  if (!apiUrl || !secret) {
+    console.warn('[apply] skipping Carerix push — missing env', {
+      applicationId,
+      apiUrlPresent: Boolean(apiUrl),
+      secretPresent: Boolean(secret),
+    });
+    return;
+  }
+
+  const url = `${apiUrl.replace(/\/+$/, '')}/webhooks/website/vacancy-application`;
   try {
-    await fetch(`${CONFAIR_API_URL.replace(/\/+$/, '')}/webhooks/website/vacancy-application`, {
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${WEBSITE_WEBHOOK_SECRET}`,
+        Authorization: `Bearer ${secret}`,
       },
       body: JSON.stringify({ application_id: applicationId }),
       cache: 'no-store',
-      // Vercel server actions can't truly fire-and-forget without keeping
-      // the response stream open, but a short timeout keeps the UX snappy
-      // if confair-api is slow.
       signal: AbortSignal.timeout(15_000),
     });
-  } catch {
-    /* swallow — the row's status='new' is the retry signal */
+    const text = await res.text().catch(() => '');
+    if (!res.ok) {
+      console.error('[apply] Carerix push webhook returned non-2xx', {
+        applicationId, status: res.status, body: text.slice(0, 500),
+      });
+    } else {
+      console.log('[apply] Carerix push webhook fired ok', {
+        applicationId, status: res.status, body: text.slice(0, 500),
+      });
+    }
+  } catch (err) {
+    console.error('[apply] Carerix push webhook threw', {
+      applicationId,
+      url,
+      error: err instanceof Error ? err.message : String(err),
+    });
   }
 }
 
