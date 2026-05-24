@@ -18,81 +18,57 @@ interface PageProps {
   searchParams: { token?: string };
 }
 
-interface SessionedApplication {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  vacancy_title: string;
-  vacancy_slug: string;
-  step: string;
-  session_token: string | null;
-  session_expires_at: string | null;
-  function_group_id: number | null;
+interface UploadView {
+  application: {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    vacancy_title: string;
+    vacancy_slug: string;
+    vacancy_carerix_id: string | null;
+    function_group_id: number | null;
+    function_group_name: string | null;
+    function_group_industry: string | null;
+    step: string;
+    session_expires_at: string | null;
+  };
+  slots: Array<{
+    document_type_id: number;
+    slug: string;
+    name: string;
+    description: string | null;
+    is_required: boolean;
+    display_order: number;
+  }>;
+  uploads: Array<{
+    document_type_id: number | null;
+    id: number;
+    filename: string;
+    size_bytes: number;
+    carerix_push_status: string;
+    ai_extracted_at: string | null;
+  }>;
 }
 
-async function loadApplication(id: number, token: string): Promise<SessionedApplication | null> {
+async function loadView(id: number, token: string): Promise<UploadView | null> {
+  // The page can't SELECT from vacancy_applications / vacancy_application_documents
+  // directly — RLS blocks anon reads on both. The RPC bundles all the data
+  // we need into a single SECURITY DEFINER call that validates the token
+  // before returning anything.
   const supabase = createClient();
-  const { data } = await supabase
-    .from('vacancy_applications')
-    .select(
-      'id, first_name, last_name, email, vacancy_title, vacancy_slug, step, session_token, session_expires_at, function_group_id',
-    )
-    .eq('id', id)
-    .maybeSingle();
-  if (!data) return null;
-  // Constant-time-ish token check; we do it server-side after fetching so
-  // the failure mode is identical for "no such id" and "wrong token".
-  if (!data.session_token || data.session_token !== token) return null;
-  if (data.session_expires_at && new Date(data.session_expires_at).getTime() < Date.now()) return null;
-  return data as SessionedApplication;
-}
-
-async function loadSlots(functionGroupId: number, applicationId: number) {
-  const supabase = createClient();
-
-  // 1. Required + optional doc types for this function group.
-  const { data: slots } = await supabase
-    .from('function_group_documents')
-    .select(
-      'is_required, display_order, document_type:document_types ( id, slug, name, description )',
-    )
-    .eq('function_group_id', functionGroupId)
-    .order('display_order', { ascending: true });
-
-  // 2. Already-uploaded docs for this application.
-  const { data: uploaded } = await supabase
-    .from('vacancy_application_documents')
-    .select('id, document_type_id, filename, size_bytes, created_at, carerix_push_status')
-    .eq('application_id', applicationId);
-
-  const uploadedByType = new Map<number, NonNullable<typeof uploaded>[number]>();
-  for (const u of uploaded ?? []) {
-    if (u.document_type_id != null) uploadedByType.set(u.document_type_id, u);
-  }
-
-  const result: DocSlot[] = [];
-  for (const s of slots ?? []) {
-    // Supabase typing on joined columns is unreliable; cast through unknown.
-    const dt = (s as unknown as { document_type: { id: number; slug: string; name: string; description: string | null } }).document_type;
-    if (!dt) continue;
-    result.push({
-      documentTypeId: dt.id,
-      slug: dt.slug,
-      name: dt.name,
-      description: dt.description,
-      isRequired: Boolean((s as { is_required: boolean }).is_required),
-      uploaded: uploadedByType.get(dt.id)
-        ? {
-            id: uploadedByType.get(dt.id)!.id,
-            filename: uploadedByType.get(dt.id)!.filename,
-            sizeBytes: uploadedByType.get(dt.id)!.size_bytes,
-            carerixStatus: uploadedByType.get(dt.id)!.carerix_push_status,
-          }
-        : null,
+  const { data, error } = await supabase.rpc('get_apply_upload_view', {
+    p_application_id: id,
+    p_session_token:  token,
+  });
+  if (error) {
+    console.error('[apply-upload] get_apply_upload_view rpc failed', {
+      message: error.message, code: error.code, details: error.details, hint: error.hint,
     });
+    return null;
   }
-  return result;
+  if (!data) return null;
+  return data as UploadView;
 }
 
 export default async function UploadPage({ params, searchParams }: PageProps) {
@@ -100,8 +76,30 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
   const token = (searchParams.token || '').trim();
   if (!Number.isFinite(id) || !token) notFound();
 
-  const application = await loadApplication(id, token);
-  if (!application) notFound();
+  const view = await loadView(id, token);
+  if (!view) notFound();
+
+  const { application } = view;
+  const slots: DocSlot[] = view.slots
+    .sort((a, b) => a.display_order - b.display_order)
+    .map((s) => {
+      const uploaded = view.uploads.find((u) => u.document_type_id === s.document_type_id);
+      return {
+        documentTypeId: s.document_type_id,
+        slug:           s.slug,
+        name:           s.name,
+        description:    s.description,
+        isRequired:     s.is_required,
+        uploaded:       uploaded
+          ? {
+              id:            uploaded.id,
+              filename:      uploaded.filename,
+              sizeBytes:     uploaded.size_bytes,
+              carerixStatus: uploaded.carerix_push_status,
+            }
+          : null,
+      };
+    });
 
   // No function group on the vacancy yet — guide the candidate to email
   // their docs the old-fashioned way rather than show an empty page.
@@ -132,7 +130,6 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const slots = await loadSlots(application.function_group_id, application.id);
   const required = slots.filter((s) => s.isRequired);
   const optional = slots.filter((s) => !s.isRequired);
 
