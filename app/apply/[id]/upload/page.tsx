@@ -141,17 +141,18 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
   const required = slots.filter((s) => s.isRequired);
   const optional = slots.filter((s) => !s.isRequired);
 
+  const welcomeUrl =
+    `${platformOrigin()}/welcome?application_id=${application.id}` +
+    `&token=${encodeURIComponent(token)}`;
+
   const context: ApplicationContext = {
     applicationId: application.id,
     sessionToken: token,
     firstName: application.first_name,
     vacancyTitle: application.vacancy_title,
     vacancySlug: application.vacancy_slug,
+    continueUrl: welcomeUrl,
   };
-
-  const welcomeUrl =
-    `${platformOrigin()}/welcome?application_id=${application.id}` +
-    `&token=${encodeURIComponent(token)}`;
 
   return (
     <>

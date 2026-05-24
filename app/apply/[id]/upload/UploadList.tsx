@@ -19,6 +19,12 @@ export interface ApplicationContext {
   firstName:     string;
   vacancyTitle:  string;
   vacancySlug:   string;
+  // Where to send the candidate when they pick "finish later" or
+  // "review my details". Today both point to /welcome on the platform
+  // (where they set a password and land on the candidate dashboard); the
+  // "review my details" CTA can be re-pointed at the verify step once
+  // that page exists.
+  continueUrl:   string;
 }
 
 export interface DocSlot {
@@ -109,7 +115,10 @@ export default function UploadList({
 
       {/* Continue CTA — save-as-you-go: never gated on completion.
           The agency sees the current state of the profile in Carerix;
-          the candidate can come back any time to add more. */}
+          the candidate can come back any time to add more. Both states
+          link to /welcome (set password + candidate dashboard). Once a
+          dedicated verify step exists we'll point the completed-state
+          CTA there instead. */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="text-sm text-gray-600">
           {canContinue ? (
@@ -129,12 +138,12 @@ export default function UploadList({
             </>
           )}
         </div>
-        <button
-          type="button"
-          className="bg-[#fbc134] text-[#222c4a] px-7 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 flex items-center gap-2"
+        <a
+          href={context.continueUrl}
+          className="bg-[#fbc134] text-[#222c4a] px-7 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 inline-flex items-center gap-2 whitespace-nowrap"
         >
-          Review my details →
-        </button>
+          {canContinue ? 'Review my details →' : 'Save & finish later →'}
+        </a>
       </div>
 
       <p className="text-xs text-gray-400 text-center mt-6">
