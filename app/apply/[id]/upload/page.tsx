@@ -112,6 +112,9 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
   // No function group on the vacancy yet — guide the candidate to email
   // their docs the old-fashioned way rather than show an empty page.
   if (!application.function_group_id) {
+    const fallbackWelcome =
+      `${platformOrigin()}/welcome?application_id=${application.id}` +
+      `&token=${encodeURIComponent(token)}`;
     return (
       <section className="bg-gray-50 min-h-[70vh] py-16">
         <div className="max-w-2xl mx-auto px-6 text-center">
@@ -126,8 +129,14 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
             checklist isn&apos;t available here. A recruiter will be in touch
             shortly with the next steps — usually within one business day.
           </p>
-          <p className="text-sm text-gray-500">
-            In the meantime, you can email any documents you have ready to{' '}
+          <a
+            href={fallbackWelcome}
+            className="inline-flex items-center gap-2 bg-[#fbc134] text-[#222c4a] px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
+          >
+            Set up my candidate account →
+          </a>
+          <p className="text-sm text-gray-500 mt-6">
+            Or email any documents you have ready to{' '}
             <a href="mailto:recruitment@confair.com" className="text-[#407df1] hover:underline">
               recruitment@confair.com
             </a>{' '}
@@ -185,9 +194,17 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
             <span>Verify &amp; finish</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-[#222c4a] mb-3">
-            Almost there, {application.first_name} 👋
-          </h1>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-3">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#222c4a]">
+              Almost there, {application.first_name} 👋
+            </h1>
+            <a
+              href={welcomeUrl}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#222c4a] hover:underline whitespace-nowrap shrink-0"
+            >
+              Skip for now — go to my account →
+            </a>
+          </div>
           <p className="text-gray-600 mb-2">
             Upload your documents so we can pre-fill your profile and match you faster to{' '}
             <strong className="text-[#222c4a]">{application.vacancy_title}</strong>.
