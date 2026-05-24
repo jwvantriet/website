@@ -54,9 +54,54 @@ async function pushToCarerix(applicationId: number): Promise<void> {
   }
 }
 
+// Ask confair-api whether a candidate user_profiles row already exists for
+// this email. Used by the apply-success modal to pick the right CTA:
+//   accountExists=true  → "Sign in to my account"  (login + password they set earlier)
+//   accountExists=false → "Create my password"     (the /welcome flow)
+//
+// Network/secret failures default to `false` (safer fallback: send the
+// candidate to /welcome — at worst they get a "this account already
+// exists" hint and click through to login).
+async function checkAccountExists(email: string): Promise<boolean> {
+  const apiUrl = process.env.CONFAIR_API_URL || '';
+  const secret = process.env.WEBSITE_WEBHOOK_SECRET || '';
+  if (!apiUrl || !secret || !email) return false;
+  try {
+    const url = `${apiUrl.replace(/\/+$/, '')}/webhooks/website/check-candidate`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${secret}`,
+      },
+      body: JSON.stringify({ email }),
+      cache: 'no-store',
+      signal: AbortSignal.timeout(8_000),
+    });
+    if (!res.ok) {
+      console.warn('[apply] check-candidate non-2xx', { status: res.status });
+      return false;
+    }
+    const data = (await res.json().catch(() => ({}))) as { accountExists?: boolean };
+    return Boolean(data?.accountExists);
+  } catch (err) {
+    console.warn('[apply] check-candidate threw', {
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return false;
+  }
+}
+
 export type ApplyFormState =
   | { status: 'idle' }
-  | { status: 'success'; redirectTo: string; applicationId: number; sessionToken: string | null }
+  | {
+      status:         'success';
+      redirectTo:     string;
+      applicationId:  number;
+      sessionToken:   string | null;
+      accountExists:  boolean;
+      email:          string;
+    }
   | { status: 'error'; message: string };
 
 const ALLOWED_CV_MIME = new Set([
@@ -184,7 +229,16 @@ export async function submitVacancyApplication(
     };
   }
 
-  await pushToCarerix(Number(insertedId));
+  // Carerix push + account-existence check happen in parallel — they're
+  // independent and we want the modal to render the right CTA as soon
+  // as the apply RPC returns. The Carerix push is fire-and-forget for
+  // failure handling (`pushToCarerix` swallows non-fatal errors), so
+  // we only await both so the action doesn't return before the spawn.
+  const [_pushed, accountExists] = await Promise.all([
+    pushToCarerix(Number(insertedId)),
+    email ? checkAccountExists(email) : Promise.resolve(false),
+  ]);
+  void _pushed;
 
   // Hand off to the upload step. If for some reason the session token
   // didn't come back (older DB, RPC error path), we still send the user
@@ -199,5 +253,7 @@ export async function submitVacancyApplication(
     redirectTo,
     applicationId: Number(insertedId),
     sessionToken,
+    accountExists,
+    email,
   };
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useFormState, useFormStatus } from 'react-dom';
 import {
   X,
@@ -84,19 +83,11 @@ function ApplyDialog({
   vacancyCarerixId,
   onClose,
 }: Omit<ApplyButtonProps, 'variant'> & { onClose: () => void }) {
-  const router = useRouter();
   const [state, formAction] = useFormState(submitVacancyApplication, initialState);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dialogRef    = useRef<HTMLDivElement>(null);
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [clientError, setClientError] = useState<string | null>(null);
-
-  // Prefetch the upload step so the "Continue →" click is instant.
-  useEffect(() => {
-    if (state.status === 'success' && state.redirectTo) {
-      router.prefetch(state.redirectTo);
-    }
-  }, [state, router]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -187,41 +178,71 @@ function ApplyDialog({
                 <CheckCircle2 className="w-8 h-8 text-emerald-500" />
               </div>
               <h3 className="text-xl font-bold text-[#222c4a] mb-2">Application received</h3>
-              <p className="text-sm text-gray-500 max-w-sm mb-6">
-                You can upload your documents now to speed things up — or set up your
-                candidate account and come back whenever you&apos;re ready.
-              </p>
-              {state.status === 'success' && state.redirectTo ? (
-                <div className="flex flex-col items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => router.push(state.redirectTo)}
-                    className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
-                  >
-                    Upload my documents →
-                  </button>
-                  {state.sessionToken && (
-                    <a
-                      href={
-                        `${(process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com').replace(/\/+(login|welcome)\/?$/i, '')}` +
-                        `/welcome?application_id=${state.applicationId}` +
-                        `&token=${encodeURIComponent(state.sessionToken)}`
-                      }
-                      className="text-sm font-semibold text-[#222c4a] hover:underline"
-                    >
-                      Skip — set up my account →
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="bg-[#222c4a] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a2340] transition-colors"
-                >
-                  Close
-                </button>
-              )}
+              {(() => {
+                if (state.status !== 'success') {
+                  return (
+                    <>
+                      <p className="text-sm text-gray-500 max-w-sm mb-6">
+                        We&apos;ve got your application. Please close this window.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={onClose}
+                        className="bg-[#222c4a] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a2340] transition-colors"
+                      >
+                        Close
+                      </button>
+                    </>
+                  );
+                }
+                // Build the platform origin once for either CTA branch.
+                const platformOrigin = (process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com')
+                  .replace(/\/+(login|welcome)\/?$/i, '');
+                if (state.accountExists) {
+                  // Returning candidate — straight to login with email prefilled.
+                  const loginUrl = `${platformOrigin}/login?email=${encodeURIComponent(state.email)}`;
+                  return (
+                    <>
+                      <p className="text-sm text-gray-500 max-w-sm mb-6">
+                        Welcome back! Sign in to track this application and finish your profile.
+                      </p>
+                      <a
+                        href={loginUrl}
+                        className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 inline-flex items-center gap-2"
+                      >
+                        Sign in to my account →
+                      </a>
+                    </>
+                  );
+                }
+                // First-time candidate — set a password to unlock the account.
+                const welcomeUrl = state.sessionToken
+                  ? `${platformOrigin}/welcome?application_id=${state.applicationId}&token=${encodeURIComponent(state.sessionToken)}`
+                  : null;
+                return (
+                  <>
+                    <p className="text-sm text-gray-500 max-w-sm mb-6">
+                      Set up a password to track this application and add the documents we need.
+                    </p>
+                    {welcomeUrl ? (
+                      <a
+                        href={welcomeUrl}
+                        className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 inline-flex items-center gap-2"
+                      >
+                        Create my password →
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={onClose}
+                        className="bg-[#222c4a] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a2340] transition-colors"
+                      >
+                        Close
+                      </button>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           ) : (
             <form action={formAction} className="space-y-4">
