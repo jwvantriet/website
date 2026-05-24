@@ -188,8 +188,8 @@ function ApplyDialog({
               </div>
               <h3 className="text-xl font-bold text-[#222c4a] mb-2">Application received</h3>
               <p className="text-sm text-gray-500 max-w-sm mb-6">
-                Next: upload your documents so our team can match you to the role faster.
-                You can also do this later from the link we&apos;ll email you.
+                Next: upload your documents so our team can match you to the role faster —
+                or set up your candidate account to come back to this whenever you&apos;re ready.
               </p>
               {state.status === 'success' && state.redirectTo ? (
                 <button
