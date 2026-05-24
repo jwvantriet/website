@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useFormState, useFormStatus } from 'react-dom';
 import {
   X,
@@ -83,11 +84,19 @@ function ApplyDialog({
   vacancyCarerixId,
   onClose,
 }: Omit<ApplyButtonProps, 'variant'> & { onClose: () => void }) {
+  const router = useRouter();
   const [state, formAction] = useFormState(submitVacancyApplication, initialState);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dialogRef    = useRef<HTMLDivElement>(null);
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [clientError, setClientError] = useState<string | null>(null);
+
+  // Prefetch the upload step so the "Continue →" click is instant.
+  useEffect(() => {
+    if (state.status === 'success' && state.redirectTo) {
+      router.prefetch(state.redirectTo);
+    }
+  }, [state, router]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -177,17 +186,28 @@ function ApplyDialog({
               <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-8 h-8 text-emerald-500" />
               </div>
-              <h3 className="text-xl font-bold text-[#222c4a] mb-2">Application sent!</h3>
+              <h3 className="text-xl font-bold text-[#222c4a] mb-2">Application received</h3>
               <p className="text-sm text-gray-500 max-w-sm mb-6">
-                Thanks for your interest. Our recruitment team has received your details and will be in touch shortly.
+                Next: upload your documents so our team can match you to the role faster.
+                You can also do this later from the link we&apos;ll email you.
               </p>
-              <button
-                type="button"
-                onClick={onClose}
-                className="bg-[#222c4a] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a2340] transition-colors"
-              >
-                Close
-              </button>
+              {state.status === 'success' && state.redirectTo ? (
+                <button
+                  type="button"
+                  onClick={() => router.push(state.redirectTo)}
+                  className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
+                >
+                  Upload my documents →
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="bg-[#222c4a] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a2340] transition-colors"
+                >
+                  Close
+                </button>
+              )}
             </div>
           ) : (
             <form action={formAction} className="space-y-4">

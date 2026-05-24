@@ -56,7 +56,7 @@ async function pushToCarerix(applicationId: number): Promise<void> {
 
 export type ApplyFormState =
   | { status: 'idle' }
-  | { status: 'success' }
+  | { status: 'success'; redirectTo: string }
   | { status: 'error'; message: string };
 
 const ALLOWED_CV_MIME = new Set([
@@ -138,7 +138,11 @@ export async function submitVacancyApplication(
   // anon writes after RLS-toggling), runs the insert as the function
   // owner, and gives a strictly-typed surface that anon can only INSERT
   // through — never read/update/delete.
-  const { data: insertedId, error } = await supabase.rpc('submit_vacancy_application', {
+  //
+  // The RPC now also generates a session_token and returns it so the
+  // candidate can continue into the post-apply enrichment flow without
+  // creating a Supabase Auth account.
+  const { data: rpcRows, error } = await supabase.rpc('submit_vacancy_application', {
     p_vacancy_id:         vacancyId,
     p_vacancy_slug:       vacancySlug,
     p_vacancy_title:      vacancyTitle,
@@ -153,6 +157,11 @@ export async function submitVacancyApplication(
     p_cv_mime_type:       cvMimeType,
     p_cv_size_bytes:      cvSizeBytes,
   });
+
+  // The RPC RETURNS TABLE so supabase-js returns an array; take the first row.
+  const row = Array.isArray(rpcRows) ? rpcRows[0] : (rpcRows as { id?: number; session_token?: string } | null);
+  const insertedId    = row?.id ?? null;
+  const sessionToken  = row?.session_token ?? null;
 
   if (error || insertedId == null) {
     console.error('[apply] submit_vacancy_application rpc failed', {
@@ -172,5 +181,13 @@ export async function submitVacancyApplication(
 
   await pushToCarerix(Number(insertedId));
 
-  return { status: 'success' };
+  // Hand off to the upload step. If for some reason the session token
+  // didn't come back (older DB, RPC error path), we still send the user
+  // to the upload page; that page will surface a clear "session not
+  // found" message and offer to resend the link by email.
+  const redirectTo = sessionToken
+    ? `/apply/${insertedId}/upload?token=${encodeURIComponent(sessionToken)}`
+    : `/apply/${insertedId}/upload`;
+
+  return { status: 'success', redirectTo };
 }
