@@ -10,7 +10,6 @@ import {
   AlertCircle,
   Loader2,
   RotateCcw,
-  Lock,
 } from 'lucide-react';
 import { submitApplicationDocument, type UploadFormState } from './upload-action';
 
@@ -108,26 +107,33 @@ export default function UploadList({
         </>
       )}
 
-      {/* Continue CTA */}
+      {/* Continue CTA — save-as-you-go: never gated on completion.
+          The agency sees the current state of the profile in Carerix;
+          the candidate can come back any time to add more. */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="text-sm text-gray-600">
           {canContinue ? (
-            <>All required documents uploaded. Continue to verify your details.</>
+            <>All required documents in. Review your details whenever you&apos;re ready.</>
           ) : (
             <>
-              You still need <strong className="text-[#222c4a]">{requiredAll - requiredDone}</strong>{' '}
-              more required document{requiredAll - requiredDone === 1 ? '' : 's'} before you can continue.
+              You can stop and come back any time — uploads are saved as you go.
+              {requiredAll - requiredDone > 0 && (
+                <>
+                  {' '}Still missing:{' '}
+                  <strong className="text-[#222c4a]">
+                    {requiredAll - requiredDone} required
+                  </strong>
+                  .
+                </>
+              )}
             </>
           )}
         </div>
         <button
           type="button"
-          disabled={!canContinue}
-          className="bg-[#fbc134] text-[#222c4a] px-7 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none flex items-center gap-2"
-          title={canContinue ? undefined : 'Upload all required documents first'}
+          className="bg-[#fbc134] text-[#222c4a] px-7 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 flex items-center gap-2"
         >
-          {!canContinue && <Lock className="w-3.5 h-3.5" />}
-          Continue to verify →
+          Review my details →
         </button>
       </div>
 
