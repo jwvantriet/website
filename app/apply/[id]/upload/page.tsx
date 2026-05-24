@@ -1,9 +1,17 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, CheckCircle2, Info } from 'lucide-react';
+import { ChevronRight, CheckCircle2, Info, ArrowUpRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import UploadList, { type DocSlot, type ApplicationContext } from './UploadList';
+
+// `NEXT_PUBLIC_PLATFORM_URL` historically points at the login page (e.g.
+// "https://app.confair.com/login"). Strip the trailing /login (or /welcome,
+// in case someone reconfigured it) so we can append /welcome cleanly.
+function platformOrigin(): string {
+  const raw = process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com';
+  return raw.replace(/\/+(login|welcome)\/?$/i, '');
+}
 
 export const metadata: Metadata = {
   title: 'Upload your documents',
@@ -141,6 +149,10 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
     vacancySlug: application.vacancy_slug,
   };
 
+  const welcomeUrl =
+    `${platformOrigin()}/welcome?application_id=${application.id}` +
+    `&token=${encodeURIComponent(token)}`;
+
   return (
     <>
       <div className="bg-white border-b border-gray-100">
@@ -179,10 +191,31 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
             Upload your documents so we can pre-fill your profile and match you faster to{' '}
             <strong className="text-[#222c4a]">{application.vacancy_title}</strong>.
           </p>
-          <p className="text-sm text-gray-500 mb-10">
+          <p className="text-sm text-gray-500 mb-6">
             Files are stored securely. We&apos;ll only share them with the recruitment team. Accepted:
             PDF, Word, JPG, PNG. Max 10 MB per file.
           </p>
+
+          <a
+            href={welcomeUrl}
+            className="group flex items-center gap-4 mb-10 p-4 rounded-xl border border-[#222c4a]/15 bg-white hover:border-[#222c4a]/40 hover:shadow-sm transition-all"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[#fbc134]/15 flex items-center justify-center shrink-0">
+              <ArrowUpRight className="w-5 h-5 text-[#222c4a]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-[#222c4a]">
+                Continue this on your own time
+              </p>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Set up your candidate account on app.confair.com to come back to your
+                applications and documents whenever you&apos;re ready.
+              </p>
+            </div>
+            <span className="text-xs font-semibold text-[#222c4a] hidden sm:inline group-hover:underline">
+              Set up account →
+            </span>
+          </a>
 
           <UploadList
             context={context}
