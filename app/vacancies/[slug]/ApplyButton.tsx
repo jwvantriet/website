@@ -188,17 +188,31 @@ function ApplyDialog({
               </div>
               <h3 className="text-xl font-bold text-[#222c4a] mb-2">Application received</h3>
               <p className="text-sm text-gray-500 max-w-sm mb-6">
-                Next: upload your documents so our team can match you to the role faster —
-                or set up your candidate account to come back to this whenever you&apos;re ready.
+                You can upload your documents now to speed things up — or set up your
+                candidate account and come back whenever you&apos;re ready.
               </p>
               {state.status === 'success' && state.redirectTo ? (
-                <button
-                  type="button"
-                  onClick={() => router.push(state.redirectTo)}
-                  className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
-                >
-                  Upload my documents →
-                </button>
+                <div className="flex flex-col items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => router.push(state.redirectTo)}
+                    className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
+                  >
+                    Upload my documents →
+                  </button>
+                  {state.sessionToken && (
+                    <a
+                      href={
+                        `${(process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com').replace(/\/+(login|welcome)\/?$/i, '')}` +
+                        `/welcome?application_id=${state.applicationId}` +
+                        `&token=${encodeURIComponent(state.sessionToken)}`
+                      }
+                      className="text-sm font-semibold text-[#222c4a] hover:underline"
+                    >
+                      Skip — set up my account →
+                    </a>
+                  )}
+                </div>
               ) : (
                 <button
                   type="button"

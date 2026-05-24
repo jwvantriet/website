@@ -56,7 +56,7 @@ async function pushToCarerix(applicationId: number): Promise<void> {
 
 export type ApplyFormState =
   | { status: 'idle' }
-  | { status: 'success'; redirectTo: string }
+  | { status: 'success'; redirectTo: string; applicationId: number; sessionToken: string | null }
   | { status: 'error'; message: string };
 
 const ALLOWED_CV_MIME = new Set([
@@ -194,5 +194,10 @@ export async function submitVacancyApplication(
     ? `/apply/${insertedId}/upload?token=${encodeURIComponent(sessionToken)}`
     : `/apply/${insertedId}/upload`;
 
-  return { status: 'success', redirectTo };
+  return {
+    status: 'success',
+    redirectTo,
+    applicationId: Number(insertedId),
+    sessionToken,
+  };
 }
