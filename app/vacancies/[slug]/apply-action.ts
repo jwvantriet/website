@@ -155,16 +155,11 @@ export async function submitVacancyApplication(
   });
 
   if (error || insertedId == null) {
-    const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-    console.error('[apply] rpc submit_vacancy_application failed', {
+    console.error('[apply] submit_vacancy_application rpc failed', {
       message: error?.message,
       code: error?.code,
       details: error?.details,
       hint: error?.hint,
-      supabaseUrl: supaUrl,
-      anonKeyPrefix: anonKey.slice(0, 20),
-      anonKeyLength: anonKey.length,
     });
     if (cvObjectKey) {
       await supabase.storage.from('vacancy-cvs').remove([cvObjectKey]).catch(() => {});
