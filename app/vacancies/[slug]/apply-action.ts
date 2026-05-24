@@ -139,10 +139,9 @@ export async function submitVacancyApplication(
   // owner, and gives a strictly-typed surface that anon can only INSERT
   // through — never read/update/delete.
   //
-  // The RPC now also generates a session_token and returns it so the
-  // candidate can continue into the post-apply enrichment flow without
-  // creating a Supabase Auth account.
-  const { data: rpcRows, error } = await supabase.rpc('submit_vacancy_application', {
+  // The RPC returns jsonb { id, session_token } — the candidate uses
+  // the token to continue into the post-apply enrichment flow.
+  const { data: rpcResult, error } = await supabase.rpc('submit_vacancy_application', {
     p_vacancy_id:         vacancyId,
     p_vacancy_slug:       vacancySlug,
     p_vacancy_title:      vacancyTitle,
@@ -158,10 +157,16 @@ export async function submitVacancyApplication(
     p_cv_size_bytes:      cvSizeBytes,
   });
 
-  // The RPC RETURNS TABLE so supabase-js returns an array; take the first row.
-  const row = Array.isArray(rpcRows) ? rpcRows[0] : (rpcRows as { id?: number; session_token?: string } | null);
-  const insertedId    = row?.id ?? null;
-  const sessionToken  = row?.session_token ?? null;
+  // RPC returns jsonb directly. Defensively also handle a one-element
+  // array in case PostgREST wraps it (older Supabase / RETURNS TABLE leftover).
+  const payload =
+    rpcResult && typeof rpcResult === 'object' && !Array.isArray(rpcResult)
+      ? (rpcResult as { id?: number; session_token?: string })
+      : Array.isArray(rpcResult) && rpcResult.length > 0
+      ? (rpcResult[0] as { id?: number; session_token?: string })
+      : null;
+  const insertedId   = payload?.id ?? null;
+  const sessionToken = payload?.session_token ?? null;
 
   if (error || insertedId == null) {
     console.error('[apply] submit_vacancy_application rpc failed', {
