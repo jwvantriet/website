@@ -1,6 +1,7 @@
 'use server';
 
 import { randomUUID } from 'crypto';
+import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 
 export type UploadFormState =
@@ -100,6 +101,12 @@ export async function submitApplicationDocument(
       : 'Could not record your upload. Please try again.';
     return { status: 'error', documentTypeId, message: friendly };
   }
+
+  // Invalidate the upload page's server cache so router.refresh() on the
+  // client side picks up the new slot state and the progress bar +
+  // Continue button update. Without this, the dynamic page can still
+  // serve a memoised view of the slot list from the same request batch.
+  revalidatePath(`/apply/${applicationId}/upload`);
 
   return {
     status: 'success',
