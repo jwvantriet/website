@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -21,9 +22,30 @@ export const metadata: Metadata = {
   },
 };
 
+// Termly UUID is configured per-environment on Vercel. When unset
+// (local dev / forks) the banner script is skipped — fail-quiet.
+const TERMLY_UUID = process.env.NEXT_PUBLIC_TERMLY_WEBSITE_UUID;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      {/*
+        Termly Consent Management Platform.
+        The single embedded script loads their CDN-served banner + cookie
+        scanner. Scanner crawls confair.com on a schedule, categorises
+        every detected cookie (Necessary / Preferences / Analytics /
+        Marketing) and feeds the consent state into a global Termly.*
+        object. Any third-party tracker we add later (Vercel Analytics,
+        ad pixels, etc.) gets caught automatically because autoBlock=on
+        defers their <script> tags until consent is granted.
+      */}
+      {TERMLY_UUID && (
+        <Script
+          id="termly-consent"
+          src={`https://app.termly.io/resource-blocker/${TERMLY_UUID}?autoBlock=on`}
+          strategy="beforeInteractive"
+        />
+      )}
       <body className="min-h-screen flex flex-col bg-white text-[#222c4a]">
         <Header />
         <main className="flex-1">{children}</main>

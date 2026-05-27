@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import CookiePreferencesButton from './CookiePreferencesButton';
 
 const PLATFORM_LOGIN_URL =
   process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com/login';
@@ -99,10 +100,14 @@ export default function Footer() {
           <p className="text-white/40 text-sm">
             © {new Date().getFullYear()} Confair Group. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-6 flex-wrap justify-center">
             <Link href="/privacy-policy" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
               Privacy Policy
             </Link>
+            <Link href="/cookie-policy" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
+              Cookie Policy
+            </Link>
+            <CookiePreferencesButton className="text-white/40 hover:text-[#fbc134] text-sm transition-colors cursor-pointer" />
             <Link href="/terms-of-use" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
               Terms of Use
             </Link>
