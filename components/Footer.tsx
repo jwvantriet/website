@@ -99,10 +99,27 @@ export default function Footer() {
           <p className="text-white/40 text-sm">
             © {new Date().getFullYear()} Confair Group. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-6 flex-wrap justify-center">
             <Link href="/privacy-policy" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
               Privacy Policy
             </Link>
+            <Link href="/cookie-policy" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
+              Cookie Policy
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                // Termly exposes a global helper to re-open the consent
+                // banner so visitors can change their preferences.
+                if (typeof window !== 'undefined') {
+                  type TermlyWindow = Window & { displayPreferenceModal?: () => void };
+                  (window as TermlyWindow).displayPreferenceModal?.();
+                }
+              }}
+              className="text-white/40 hover:text-[#fbc134] text-sm transition-colors cursor-pointer"
+            >
+              Cookie Preferences
+            </button>
             <Link href="/terms-of-use" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
               Terms of Use
             </Link>
