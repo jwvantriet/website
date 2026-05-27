@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -50,6 +52,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        {/* Vercel Analytics — first-party page-view + visitor counts.
+            Cookieless by default; Termly's autoBlock will gate it once
+            the Analytics consent category is mapped.
+            Speed Insights — Core Web Vitals + RUM. Same cookieless model. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
