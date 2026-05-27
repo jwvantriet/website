@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import CookiePreferencesButton from './CookiePreferencesButton';
 
 const PLATFORM_LOGIN_URL =
   process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://app.confair.com/login';
@@ -106,20 +107,7 @@ export default function Footer() {
             <Link href="/cookie-policy" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
               Cookie Policy
             </Link>
-            <button
-              type="button"
-              onClick={() => {
-                // Termly exposes a global helper to re-open the consent
-                // banner so visitors can change their preferences.
-                if (typeof window !== 'undefined') {
-                  type TermlyWindow = Window & { displayPreferenceModal?: () => void };
-                  (window as TermlyWindow).displayPreferenceModal?.();
-                }
-              }}
-              className="text-white/40 hover:text-[#fbc134] text-sm transition-colors cursor-pointer"
-            >
-              Cookie Preferences
-            </button>
+            <CookiePreferencesButton className="text-white/40 hover:text-[#fbc134] text-sm transition-colors cursor-pointer" />
             <Link href="/terms-of-use" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
               Terms of Use
             </Link>
