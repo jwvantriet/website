@@ -124,7 +124,8 @@ export async function submitVacancyApplication(
   const lastName  = String(formData.get('last_name')  || '').trim();
   const email     = String(formData.get('email')      || '').trim();
   const phone     = String(formData.get('phone')      || '').trim() || null;
-  const message   = String(formData.get('message')    || '').trim() || null;
+  // Cover letter / message removed from the apply form.
+  const message   = null;
 
   // Basic validation. Keep the messages friendly; the modal renders them.
   if (!firstName || !lastName) return { status: 'error', message: 'Please enter your full name.' };
