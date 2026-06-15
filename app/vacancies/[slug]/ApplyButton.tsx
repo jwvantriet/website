@@ -11,7 +11,6 @@ import {
   User,
   Mail,
   Phone,
-  MessageSquare,
   Briefcase,
 } from 'lucide-react';
 import { submitVacancyApplication, type ApplyFormState } from './apply-action';
@@ -305,15 +304,6 @@ function ApplyDialog({
                     </>
                   )}
                 </button>
-              </Field>
-
-              <Field icon={<MessageSquare className="w-3 h-3" />} label="Cover Letter / Message">
-                <textarea
-                  name="message"
-                  rows={4}
-                  placeholder="Tell us why you're interested in this role..."
-                  className={`${inputClass} resize-none`}
-                />
               </Field>
 
               <p className="text-xs text-gray-400 leading-relaxed">
