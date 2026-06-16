@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
             <br />3565 CK Utrecht
             <br />The Netherlands
             <br />
-            <a href="https://www.confairaviation.com" className="text-[#407df1] hover:underline">www.confairaviation.com</a>
+            <a href="https://confair.com" className="text-[#407df1] hover:underline">confair.com</a>
             <br />CoC no.: 30115681
           </p>
 
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
             <li><strong>User:</strong> every user of the Website</li>
             <li><strong>Personal Data:</strong> the data referred to in Article 1.2</li>
             <li><strong>Confair:</strong> Confair Consultancy BV</li>
-            <li><strong>Website:</strong> the website on www.confairaviation.com</li>
+            <li><strong>Website:</strong> the website on confair.com</li>
             <li><strong>Medical Certificate:</strong> the certificate required by the EASA regulations</li>
             <li><strong>Pilot Licence:</strong> proof of flying skills</li>
             <li><strong>Logbook:</strong> a logbook with the latest flying information</li>
