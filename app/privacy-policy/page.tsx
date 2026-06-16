@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import LegalPageLayout from '@/components/LegalPageLayout';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -7,17 +8,11 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <>
-      <section className="bg-[#222c4a] py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">Legal</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">Privacy Policy</h1>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-6 prose prose-slate prose-headings:text-[#222c4a] prose-headings:font-bold prose-p:text-[#5a6275] prose-li:text-[#5a6275] prose-a:text-[#407df1] max-w-none">
-          <p>This is the Privacy Policy of:</p>
+    <LegalPageLayout
+      title="Privacy Policy"
+      subtitle="How Confair Consultancy BV collects, uses, and protects your personal data."
+    >
+      <p>This is the Privacy Policy of:</p>
           <p>
             <strong className="text-[#222c4a]">Confair Consultancy BV</strong>
             <br />Tennesseedreef 7e
@@ -90,8 +85,6 @@ export default function PrivacyPolicyPage() {
 
           <h2>Data Protection Authority</h2>
           <p>Users will have the right, if they see reason to do so, to file a complaint about Confair with the Dutch Data Protection Authority [Autoriteit Persoonsgegevens], Postbus 93374, 2509 AJ The Hague, The Netherlands.</p>
-        </div>
-      </section>
-    </>
+    </LegalPageLayout>
   );
 }
