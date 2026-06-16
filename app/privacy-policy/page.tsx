@@ -82,22 +82,15 @@ export default function PrivacyPolicyPage() {
           <p>If a User has not given his/her consent for inclusion in the Confair Database for a 12-month period, his/her Personal Data will be deleted within four weeks of the application procedure having ended.</p>
 
           <h2>Security</h2>
-          <p>Confair has taken appropriate technical and organizational measures to secure the Personal Data against loss or unlawful processing, including:</p>
+          <p>Confair has taken appropriate technical and organizational measures to protect Personal Data against loss, misuse, and unauthorized access, alteration, or disclosure. These measures include:</p>
           <ul>
-            <li>Confair has its database servers replicated within the DC2 data center in order to serve as warm standby.</li>
-            <li>
-              Confair has the following backup policy implemented for archival and restorability in case of a disaster:
-              <ul>
-                <li>Every weekend, a full backup is created of the data and local attachment contents on our on-site backup server.</li>
-                <li>Every week day, a full backup is created of the data and an incremental backup of the local attachment contents on our on-site backup server.</li>
-                <li>Daily, the created backups are transported to the off-site backup server.</li>
-                <li>Daily backups are stored for seven days.</li>
-                <li>S3 is also subject to a daily backup to the offsite location, also with a retention period of 1 week.</li>
-                <li>Weekly backups are stored in full for a week.</li>
-                <li>The weekly backups of the data (excluding the attachments / S3 data) is stored for a period of two months.</li>
-              </ul>
-            </li>
+            <li>Hosting on established cloud infrastructure providers (including Supabase and Vercel), which maintain industry-standard physical and network security for their data centers.</li>
+            <li>Encryption of Personal Data in transit (via HTTPS/TLS) and at rest.</li>
+            <li>Access controls that limit access to Personal Data to authorized personnel on a need-to-know basis, including role-based access and database row-level security.</li>
+            <li>Automated, regularly scheduled backups maintained by our cloud infrastructure providers to enable recovery in the event of an incident.</li>
+            <li>Data processing agreements with the service providers (sub-processors) that process Personal Data on Confair&apos;s behalf, in accordance with applicable data protection law.</li>
           </ul>
+          <p>No method of transmission over the internet or electronic storage is completely secure. While Confair strives to protect Personal Data, it cannot guarantee absolute security.</p>
 
           <h2>Amendments to Privacy Policy</h2>
           <p>Confair reserves the right to amend this Privacy Policy. Each amendment will be published on this page. Therefore, Confair recommends that Users regularly check back on this page for implemented amendments. The current Privacy Policy was last updated on 16 June 2026.</p>
