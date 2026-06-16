@@ -24,37 +24,40 @@ export const metadata: Metadata = {
   },
 };
 
-// Termly UUID is configured per-environment on Vercel. When unset
-// (local dev / forks) the banner script is skipped — fail-quiet.
-const TERMLY_UUID = process.env.NEXT_PUBLIC_TERMLY_WEBSITE_UUID;
+// Cookiebot Consent Management Platform identifier (data-cbid). This is
+// a public, client-side group ID — identical across environments — so it
+// lives in source rather than an env var.
+const COOKIEBOT_CBID = '47f0ce2e-c2fa-4634-bf72-978741be7db6';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       {/*
-        Termly Consent Management Platform.
-        The single embedded script loads their CDN-served banner + cookie
-        scanner. Scanner crawls confair.com on a schedule, categorises
-        every detected cookie (Necessary / Preferences / Analytics /
-        Marketing) and feeds the consent state into a global Termly.*
-        object. Any third-party tracker we add later (Vercel Analytics,
-        ad pixels, etc.) gets caught automatically because autoBlock=on
-        defers their <script> tags until consent is granted.
+        Cookiebot Consent Management Platform.
+        Loaded as the first script in <head> with strategy
+        "beforeInteractive" so it parses before any other resource. With
+        data-blockingmode="auto", Cookiebot scans the page and defers every
+        third-party <script>/cookie (Vercel Analytics, ad pixels, etc.)
+        until the visitor grants the matching consent category
+        (Necessary / Preferences / Statistics / Marketing). It also renders
+        the consent banner and exposes the global `Cookiebot` object used by
+        the Cookie Preferences button to re-open the dialog.
       */}
-      {TERMLY_UUID && (
-        <Script
-          id="termly-consent"
-          src={`https://app.termly.io/resource-blocker/${TERMLY_UUID}?autoBlock=on`}
-          strategy="beforeInteractive"
-        />
-      )}
+      <Script
+        id="Cookiebot"
+        src="https://consent.cookiebot.com/uc.js"
+        data-cbid={COOKIEBOT_CBID}
+        data-blockingmode="auto"
+        type="text/javascript"
+        strategy="beforeInteractive"
+      />
       <body className="min-h-screen flex flex-col bg-white text-[#222c4a]">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
         {/* Vercel Analytics — first-party page-view + visitor counts.
-            Cookieless by default; Termly's autoBlock will gate it once
-            the Analytics consent category is mapped.
+            Cookieless by default; Cookiebot's auto-blocking will gate it
+            once the Statistics consent category is mapped.
             Speed Insights — Core Web Vitals + RUM. Same cookieless model. */}
         <Analytics />
         <SpeedInsights />
