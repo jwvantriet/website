@@ -1,15 +1,15 @@
 'use client';
 /**
- * Re-opens the Termly consent banner so visitors can change their
- * cookie preferences after the initial choice. Termly exposes a
- * `displayPreferenceModal()` global once its resource-blocker script
- * has loaded. No-ops if Termly isn't loaded (env var unset / blocked
- * by a content filter).
+ * Re-opens the Cookiebot consent banner so visitors can change their
+ * cookie preferences after the initial choice. Cookiebot exposes a
+ * global `Cookiebot.renew()` once its uc.js script has loaded. No-ops if
+ * Cookiebot isn't loaded yet (script still loading / blocked by a
+ * content filter).
  *
  * Lives in its own client component so the Footer can stay a server
  * component — keeps the footer out of the client JS bundle.
  */
-type TermlyWindow = Window & { displayPreferenceModal?: () => void };
+type CookiebotWindow = Window & { Cookiebot?: { renew?: () => void } };
 
 export default function CookiePreferencesButton({ className }: { className?: string }) {
   return (
@@ -17,7 +17,7 @@ export default function CookiePreferencesButton({ className }: { className?: str
       type="button"
       onClick={() => {
         if (typeof window !== 'undefined') {
-          (window as TermlyWindow).displayPreferenceModal?.();
+          (window as CookiebotWindow).Cookiebot?.renew?.();
         }
       }}
       className={className}
