@@ -185,7 +185,7 @@ export default function Home() {
 
       <section className="bg-[#222c4a] py-0 -mt-1">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-white/10">
+          <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center py-10 px-4">
                 <div className="text-3xl md:text-4xl font-bold text-[#fbc134] mb-1">
