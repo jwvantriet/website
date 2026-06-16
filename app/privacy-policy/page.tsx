@@ -4,7 +4,7 @@ import LegalPageLayout from '@/components/LegalPageLayout';
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    'Privacy policy of the Confair group (Confair Consultancy BV, Confair Aviation Consultancy LLC and Confair GmbH).',
+    'Privacy policy of the Confair group (Confair Consultancy BV, Confair Aviation Consultancy Co. L.L.C and Confair GmbH & Co. KG).',
 };
 
 export default function PrivacyPolicyPage() {
@@ -22,16 +22,17 @@ export default function PrivacyPolicyPage() {
             <br />CoC no.: 30115681
           </p>
           <p>
-            <strong className="text-[#222c4a]">Confair Aviation Consultancy LLC</strong>
-            <br />The Prime Tower, Office 2001-25, Business Bay
+            <strong className="text-[#222c4a]">Confair Aviation Consultancy Co. L.L.C</strong>
+            <br />Office 15-85, Ras Al Khor Industrial Area Second
             <br />Dubai, United Arab Emirates
-            <br />Licence / registration no.: [TO CONFIRM]
+            <br />Trade Licence no.: 1115722 (Dubai Department of Economy &amp; Tourism)
+            <br />Commercial Register no.: 1836220
           </p>
           <p>
-            <strong className="text-[#222c4a]">Confair GmbH</strong>
-            <br />[Registered address — TO CONFIRM]
-            <br />Germany
-            <br />Handelsregister no.: [TO CONFIRM]
+            <strong className="text-[#222c4a]">Confair GmbH &amp; Co. KG</strong>
+            <br />Freiheitsstraße 15
+            <br />59759 Arnsberg, Germany
+            <br />Handelsregister: Amtsgericht Arnsberg, HRA 7931
           </p>
           <p>
             Website:{' '}
@@ -41,7 +42,7 @@ export default function PrivacyPolicyPage() {
           <h2>Definitions</h2>
           <ul>
             <li><strong>Privacy Policy:</strong> this privacy policy</li>
-            <li><strong>Confair / Confair group:</strong> collectively Confair Consultancy BV, Confair Aviation Consultancy LLC and Confair GmbH</li>
+            <li><strong>Confair / Confair group:</strong> collectively Confair Consultancy BV, Confair Aviation Consultancy Co. L.L.C and Confair GmbH &amp; Co. KG</li>
             <li><strong>User:</strong> every user of the Website</li>
             <li><strong>Personal Data:</strong> the data referred to under &quot;General&quot; below</li>
             <li><strong>Professional / Candidate:</strong> a (prospective) candidate in any of the function groups Confair serves, including aviation flight deck (pilots), aviation cabin crew, aircraft maintenance engineers and mechanics, maritime personnel, and offshore personnel</li>
@@ -53,7 +54,7 @@ export default function PrivacyPolicyPage() {
           <h2>General</h2>
           <p>This Privacy Policy describes how Confair processes Personal Data of its Users across all of the sectors and function groups it serves — aviation (including flight deck, cabin crew, and aircraft maintenance), maritime, and offshore energy.</p>
           <p>
-            Depending on the entity with which the User applies, contracts, or is engaged, the relevant data controller is Confair Consultancy BV, Confair Aviation Consultancy LLC, or Confair GmbH. The Confair group entities may share Personal Data among themselves, as joint or separate controllers, for the purposes described in this Privacy Policy.
+            Depending on the entity with which the User applies, contracts, or is engaged, the relevant data controller is Confair Consultancy BV, Confair Aviation Consultancy Co. L.L.C, or Confair GmbH &amp; Co. KG. The Confair group entities may share Personal Data among themselves, as joint or separate controllers, for the purposes described in this Privacy Policy.
           </p>
           <p>
             Personal Data processed by Confair (provided that the User has furnished them) include name, address, city, telephone number, email address, date of birth and gender, proof of identity such as a passport or identity card, and copies of the User&apos;s Qualifications and Certifications relevant to their profession and function group. Users also providing unsolicited data that can be traced to an individual agree that Confair will (or may) also process such Personal Data. Confair will store any and all data provided to it in the Confair Database.
