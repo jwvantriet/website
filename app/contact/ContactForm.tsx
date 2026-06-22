@@ -151,6 +151,7 @@ export default function ContactForm() {
               className="w-full bg-white border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none rounded-md px-3 py-2 text-sm"
             >
               <option value="">Select your field</option>
+              <option value="flight_deck">Flight Deck</option>
               <option value="aviation_engineering">Aviation Engineering</option>
               <option value="cabin_crew">Cabin Crew</option>
               <option value="ground_operations">Ground Operations</option>
