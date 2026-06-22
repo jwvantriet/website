@@ -77,6 +77,11 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
   const config = industryConfig[vacancy.industry] || industryConfig.Aviation;
   const IndustryIcon = config.icon;
 
+  // Display dates: posted is shown as a fixed standard (1 Jan 2026); "updated"
+  // is always recent — the visit date minus 14 days.
+  const postedDisplay  = formatDate('2026-01-01');
+  const updatedDisplay = formatDate(new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString());
+
   return (
     <>
       {/* Breadcrumb */}
@@ -124,7 +129,7 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-8">
               <MetaItem icon={<Briefcase className="w-4 h-4" />} label="TYPE OF WORK" value={vacancy.employment_type || '—'} />
               <MetaItem icon={<MapPin className="w-4 h-4" />} label="LOCATION" value={vacancy.location || '—'} />
-              <MetaItem icon={<CalendarDays className="w-4 h-4" />} label="POSTED" value={formatDate(vacancy.posted_date)} />
+              <MetaItem icon={<CalendarDays className="w-4 h-4" />} label="UPDATED" value={updatedDisplay} />
               <MetaItem icon={<Timer className="w-4 h-4" />} label="DURATION" value="To be discussed" />
               <MetaItem icon={<CalendarCheck className="w-4 h-4" />} label="INDUSTRY" value={vacancy.industry} />
             </div>
@@ -173,10 +178,8 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
                   <InfoRow icon={<Briefcase className="w-4 h-4" />} label="Type" value={vacancy.employment_type || '—'} />
                   <InfoRow icon={<IndustryIcon className="w-4 h-4" />} label="Industry" value={vacancy.industry} />
                   <InfoRow icon={<MapPin className="w-4 h-4" />} label="Location" value={vacancy.location || '—'} />
-                  <InfoRow icon={<Calendar className="w-4 h-4" />} label="Posted" value={formatDate(vacancy.posted_date)} />
-                  {vacancy.modification_date && vacancy.modification_date !== vacancy.posted_date && (
-                    <InfoRow icon={<Clock className="w-4 h-4" />} label="Updated" value={formatDate(vacancy.modification_date)} />
-                  )}
+                  <InfoRow icon={<Calendar className="w-4 h-4" />} label="Posted" value={postedDisplay} />
+                  <InfoRow icon={<Clock className="w-4 h-4" />} label="Updated" value={updatedDisplay} />
                 </div>
               </div>
             </div>

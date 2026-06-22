@@ -25,7 +25,9 @@ function isNew(dateStr: string): boolean {
 export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
   const config = INDUSTRY_CONFIG[vacancy.industry] || INDUSTRY_CONFIG.Aviation;
   const IndustryIcon = config.icon;
-  const vacancyIsNew = isNew(vacancy.posted_date);
+  // Listings show the "updated" date (visit − 14 days), matching the detail page.
+  const updatedIso = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
+  const vacancyIsNew = isNew(updatedIso);
 
   return (
     <Link
@@ -49,7 +51,7 @@ export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
           </div>
           <span className="text-xs text-gray-400 flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {daysAgo(vacancy.posted_date)}
+            {daysAgo(updatedIso)}
           </span>
         </div>
 
