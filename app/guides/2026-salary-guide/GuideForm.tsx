@@ -4,6 +4,7 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { Download, CheckCircle2 } from 'lucide-react';
 import { requestGuide, type GuideFormState } from './actions';
 import GuideContent from './GuideContent';
+import SpamShieldFields from '@/components/SpamShieldFields';
 
 const initialState: GuideFormState = { status: 'idle' };
 
@@ -51,6 +52,7 @@ export default function GuideForm() {
       </p>
 
       <form action={formAction} className="space-y-5">
+        <SpamShieldFields />
         <div>
           <label htmlFor="name" className="text-navy font-semibold text-sm mb-1.5 block">
             Full Name *

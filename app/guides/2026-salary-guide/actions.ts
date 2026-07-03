@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { ATTRIBUTION_COOKIE, parseAttribution } from '@/lib/attribution';
+import { screenSubmission } from '@/lib/spam';
 
 export type GuideFormState =
   | { status: 'idle' }
@@ -32,6 +33,19 @@ export async function requestGuide(
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { status: 'error', message: 'Please enter a valid email address.' };
+  }
+
+  // Spam screen — drop silently (unlock the guide anyway) so bots get no
+  // feedback; the lead simply never reaches Supabase or HubSpot.
+  const verdict = screenSubmission({
+    name,
+    message: company,
+    honeypot: String(formData.get('website') || ''),
+    startedAtMs: Number(formData.get('form_started_at')),
+  });
+  if (verdict.spam) {
+    console.warn(`[salary-guide] dropped suspected spam (${verdict.reason}) from ${email}`);
+    return { status: 'success' };
   }
 
   const message = 'Requested the 2026 Workforce & Salary Guide.';

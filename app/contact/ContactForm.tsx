@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Send, CheckCircle2, Building2, User } from 'lucide-react';
 import { submitContactForm, type ContactFormState } from './actions';
+import SpamShieldFields from '@/components/SpamShieldFields';
 
 const initialState: ContactFormState = { status: 'idle' };
 
@@ -78,6 +79,7 @@ export default function ContactForm() {
       </div>
 
       <form action={formAction} className="space-y-5">
+        <SpamShieldFields />
         <input type="hidden" name="inquiry_type" value={inquiryType} />
 
         <div className="grid md:grid-cols-2 gap-5">
