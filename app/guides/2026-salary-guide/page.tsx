@@ -5,12 +5,14 @@ import GuideForm from './GuideForm';
 export const metadata: Metadata = {
   title: '2026 Workforce & Salary Guide — Aviation, Maritime & Offshore',
   description:
-    'Free 2026 salary and day-rate benchmarks for licensed engineers, officers, and certified technicians across aviation, maritime, and offshore energy in Europe and the Middle East.',
+    'Free 2026 salary and day-rate benchmarks across aviation, maritime, and offshore energy — flight crew, licensed engineers, deck and engine officers, ratings, and certified offshore specialists in Europe and the Middle East.',
 };
 
 const bullets = [
-  'Salary + contract day-rate ranges for the 15 most-placed technical roles',
-  'Aviation (EASA Part-66), maritime officers, and offshore wind & O&G',
+  'Salary + day-rate ranges for 25+ roles, segmented per vertical',
+  'Aviation: flight crew (type-rated captains & FOs), Part-66 engineers, cabin & ground ops',
+  'Maritime: deck officers, engine department, ratings, and shore-based roles',
+  'Offshore: DPOs, ROV crews, wind technicians, O&G, and HSE',
   'Hiring-market trends to plan your 2026 workforce budget against',
 ];
 
@@ -26,8 +28,9 @@ export default function SalaryGuidePage() {
             2026 Workforce &amp; Salary Guide
           </h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
-            Benchmark salaries and day rates for licensed and certified technical professionals in
-            aviation, maritime, and offshore energy — before you plan your next hire.
+            Benchmark salaries and day rates across aviation, maritime, and offshore energy — from
+            type-rated flight crew and licensed engineers to deck officers, ratings, and certified
+            offshore specialists — before you plan your next hire.
           </p>
         </div>
       </section>
