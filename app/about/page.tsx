@@ -35,13 +35,13 @@ const dotColors = ['#222c4a', '#407df1', '#fbc134', '#222c4a', '#407df1', '#fbc1
 export default function AboutPage() {
   return (
     <>
-      <section className="relative py-20 md:py-28 bg-[#222c4a] overflow-hidden">
+      <section className="relative py-20 md:py-28 bg-navy overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={ABOUT_IMG} alt="About Confair" className="w-full h-full object-cover" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">About Us</span>
+          <span className="text-yellow text-sm font-semibold uppercase tracking-wider">About Us</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">Who We Are</h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
             Confair is a specialized contracting and workforce solutions provider operating in
@@ -54,26 +54,26 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">Our Story</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mt-3 mb-6">
+              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Story</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-6">
                 Built on Expertise, Driven by People
               </h2>
-              <p className="text-[#5a6275] text-lg leading-relaxed mb-6">
+              <p className="text-navy-500 text-lg leading-relaxed mb-6">
                 Founded in the Netherlands, Confair has grown into a trusted partner for
                 organizations operating in some of the world&apos;s most demanding, safety-critical
                 industries.
               </p>
-              <p className="text-[#5a6275] leading-relaxed mb-6">
+              <p className="text-navy-500 leading-relaxed mb-6">
                 We understand that in complex operational environments, the quality of your people
                 directly determines the safety, reliability, and performance of your operations.
               </p>
-              <p className="text-[#5a6275] leading-relaxed mb-6">
+              <p className="text-navy-500 leading-relaxed mb-6">
                 Our expertise is structured across three core verticals: Confair Aviation, Confair
                 Maritime, and Confair Offshore. Each focuses on delivering sector-specific knowledge
                 and highly skilled, certified professionals for both short- and long-term assignments
                 worldwide.
               </p>
-              <p className="text-[#5a6275] leading-relaxed">
+              <p className="text-navy-500 leading-relaxed">
                 We support two key audiences: clients seeking compliant, reliable workforce
                 solutions, and professionals looking for international contract opportunities in
                 their field.
@@ -87,14 +87,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-[#f2eee7]">
+      <section className="py-20 md:py-28 bg-beige">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">Our Values</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mt-3 mb-4">
+            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Values</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">
               What Drives Our Operations
             </h2>
-            <p className="text-[#5a6275] max-w-2xl mx-auto text-lg">
+            <p className="text-navy-500 max-w-2xl mx-auto text-lg">
               Our values guide how we operate, how we select our professionals, and how we support
               our clients in critical environments.
             </p>
@@ -105,11 +105,11 @@ export default function AboutPage() {
                 key={v.title}
                 className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300"
               >
-                <div className="w-14 h-14 rounded-xl bg-[#407df1]/10 flex items-center justify-center mb-5">
-                  <v.icon className="w-7 h-7 text-[#407df1]" />
+                <div className="w-14 h-14 rounded-xl bg-cblue/10 flex items-center justify-center mb-5">
+                  <v.icon className="w-7 h-7 text-cblue" />
                 </div>
-                <h3 className="text-lg font-bold text-[#222c4a] mb-3">{v.title}</h3>
-                <p className="text-[#5a6275] text-sm leading-relaxed">{v.description}</p>
+                <h3 className="text-lg font-bold text-navy mb-3">{v.title}</h3>
+                <p className="text-navy-500 text-sm leading-relaxed">{v.description}</p>
               </div>
             ))}
           </div>
@@ -119,8 +119,8 @@ export default function AboutPage() {
       <section className="py-20 md:py-28 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">Our Journey</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mt-3">Key Milestones</h2>
+            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Journey</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3">Key Milestones</h2>
           </div>
 
           <div className="overflow-x-auto pb-4">
@@ -135,7 +135,7 @@ export default function AboutPage() {
                     {i % 2 === 0 ? (
                       <>
                         <div className="px-2 text-center mb-3">
-                          <p className="text-xs leading-relaxed text-[#5a6275]">{m.event}</p>
+                          <p className="text-xs leading-relaxed text-navy-500">{m.event}</p>
                         </div>
                         <div className="w-px" style={{ height: 32, backgroundColor: '#407df1' }} />
                       </>
@@ -184,7 +184,7 @@ export default function AboutPage() {
                       <>
                         <div className="w-px" style={{ height: 32, backgroundColor: '#fbc134' }} />
                         <div className="px-2 text-center mt-3">
-                          <p className="text-xs leading-relaxed text-[#5a6275]">{m.event}</p>
+                          <p className="text-xs leading-relaxed text-navy-500">{m.event}</p>
                         </div>
                       </>
                     ) : (
@@ -196,7 +196,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <p className="text-center text-xs text-[#5a6275]/60 mt-4 md:hidden">
+          <p className="text-center text-xs text-navy-500/60 mt-4 md:hidden">
             ← Scroll horizontally to explore →
           </p>
         </div>

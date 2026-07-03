@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         type="text/javascript"
         strategy="beforeInteractive"
       />
-      <body className="min-h-screen flex flex-col bg-white text-[#222c4a]">
+      <body className="min-h-screen flex flex-col bg-white text-navy">
         <AttributionTracker />
         <Header />
         <main className="flex-1">{children}</main>

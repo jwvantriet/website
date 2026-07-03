@@ -41,9 +41,9 @@ export default async function BlogListPage() {
 
   return (
     <>
-      <section className="bg-[#222c4a] py-20 md:py-28">
+      <section className="bg-navy py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">Insights</span>
+          <span className="text-yellow text-sm font-semibold uppercase tracking-wider">Insights</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">Blog &amp; Industry News</h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
             Stay informed with the latest insights, trends, and news from aviation, maritime, and offshore energy industries.
@@ -58,7 +58,7 @@ export default async function BlogListPage() {
               {categories.map((cat) => (
                 <span
                   key={cat}
-                  className="px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-gray-100 text-[#5a6275]"
+                  className="px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-gray-100 text-navy-500"
                 >
                   {cat}
                 </span>
@@ -68,7 +68,7 @@ export default async function BlogListPage() {
         </section>
       )}
 
-      <section className="py-16 md:py-20 bg-[#f2eee7]">
+      <section className="py-16 md:py-20 bg-beige">
         <div className="max-w-7xl mx-auto px-6">
           {posts.length === 0 ? (
             <div className="text-center py-20">
@@ -93,35 +93,35 @@ export default async function BlogListPage() {
                   </div>
                   <div className="p-6">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#407df1]/10 text-[#407df1]">
+                      <span className="text-xs font-semibold px-3 py-1 rounded-full bg-cblue/10 text-cblue">
                         {post.category}
                       </span>
                       {post.read_time && (
-                        <span className="text-xs text-[#5a6275] flex items-center gap-1">
+                        <span className="text-xs text-navy-500 flex items-center gap-1">
                           <Clock className="w-3 h-3" /> {post.read_time}
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-bold text-[#222c4a] mb-3 group-hover:text-[#407df1] transition-colors">
+                    <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-cblue transition-colors">
                       {post.title}
                     </h3>
                     {post.excerpt && (
-                      <p className="text-[#5a6275] text-sm leading-relaxed mb-4 line-clamp-3">
+                      <p className="text-navy-500 text-sm leading-relaxed mb-4 line-clamp-3">
                         {post.excerpt}
                       </p>
                     )}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {post.author && (
-                          <span className="text-xs text-[#5a6275] flex items-center gap-1">
+                          <span className="text-xs text-navy-500 flex items-center gap-1">
                             <User className="w-3 h-3" /> {post.author}
                           </span>
                         )}
-                        <span className="text-xs text-[#5a6275] flex items-center gap-1">
+                        <span className="text-xs text-navy-500 flex items-center gap-1">
                           <Calendar className="w-3 h-3" /> {formatDate(post.published_at)}
                         </span>
                       </div>
-                      <span className="text-[#407df1] text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span className="text-cblue text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
                         Read <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>

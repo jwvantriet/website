@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 const INDUSTRIES = [
-  { label: 'All Industries', value: 'all', icon: Briefcase, color: 'bg-[#222c4a]' },
+  { label: 'All Industries', value: 'all', icon: Briefcase, color: 'bg-navy' },
   { label: 'Aviation', value: 'Aviation', icon: Plane, color: 'bg-blue-500' },
   { label: 'Maritime', value: 'Maritime', icon: Ship, color: 'bg-emerald-500' },
   { label: 'Offshore Energy', value: 'Offshore', icon: Fuel, color: 'bg-amber-500' },
@@ -58,7 +58,7 @@ export default function VacancyFilters({
             placeholder="Search by job title, keyword, or location..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none transition-all text-sm"
+            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none transition-all text-sm"
           />
         </div>
 

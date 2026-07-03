@@ -15,28 +15,28 @@ export default function PrivacyPolicyPage() {
     >
       <p>This is the Privacy Policy of the Confair group of companies (together, &quot;Confair&quot;):</p>
           <p>
-            <strong className="text-[#222c4a]">Confair Consultancy BV</strong>
+            <strong className="text-navy">Confair Consultancy BV</strong>
             <br />Tennesseedreef 7e
             <br />3565 CK Utrecht
             <br />The Netherlands
             <br />CoC no.: 30115681
           </p>
           <p>
-            <strong className="text-[#222c4a]">Confair Aviation Consultancy Co. L.L.C</strong>
+            <strong className="text-navy">Confair Aviation Consultancy Co. L.L.C</strong>
             <br />Office 15-85, Ras Al Khor Industrial Area Second
             <br />Dubai, United Arab Emirates
             <br />Trade Licence no.: 1115722 (Dubai Department of Economy &amp; Tourism)
             <br />Commercial Register no.: 1836220
           </p>
           <p>
-            <strong className="text-[#222c4a]">Confair GmbH &amp; Co. KG</strong>
+            <strong className="text-navy">Confair GmbH &amp; Co. KG</strong>
             <br />Freiheitsstraße 15
             <br />59759 Arnsberg, Germany
             <br />Handelsregister: Amtsgericht Arnsberg, HRA 7931
           </p>
           <p>
             Website:{' '}
-            <a href="https://confair.com" className="text-[#407df1] hover:underline">confair.com</a>
+            <a href="https://confair.com" className="text-cblue hover:underline">confair.com</a>
           </p>
 
           <h2>Definitions</h2>

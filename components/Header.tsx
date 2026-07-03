@@ -35,8 +35,8 @@ export default function Header() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 bg-[#222c4a] shadow-lg">
-      <div className="hidden md:block bg-[#1a2340] text-white/70 text-sm">
+    <header className="sticky top-0 z-50 bg-navy shadow-lg">
+      <div className="hidden md:block bg-navy-800 text-white/70 text-sm">
         <div className="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5">
@@ -76,8 +76,8 @@ export default function Header() {
                   href={link.path}
                   className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors flex items-center gap-1 ${
                     isActive(link.path)
-                      ? 'text-[#fbc134]'
-                      : 'text-white hover:text-[#fbc134]'
+                      ? 'text-yellow'
+                      : 'text-white hover:text-yellow'
                   }`}
                 >
                   {link.label}
@@ -89,7 +89,7 @@ export default function Header() {
                       <Link
                         key={child.label}
                         href={child.path}
-                        className="block px-4 py-2.5 text-sm text-[#222c4a] hover:bg-[#f2eee7] hover:text-[#407df1] transition-colors"
+                        className="block px-4 py-2.5 text-sm text-navy hover:bg-beige hover:text-cblue transition-colors"
                       >
                         {child.label}
                       </Link>
@@ -103,8 +103,8 @@ export default function Header() {
                 href={link.path}
                 className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${
                   isActive(link.path)
-                    ? 'text-[#fbc134]'
-                    : 'text-white hover:text-[#fbc134]'
+                    ? 'text-yellow'
+                    : 'text-white hover:text-yellow'
                 }`}
               >
                 {link.label}
@@ -113,7 +113,7 @@ export default function Header() {
           )}
           <a
             href={PLATFORM_LOGIN_URL}
-            className="ml-4 bg-[#fbc134] text-[#222c4a] px-5 py-2 rounded-lg text-sm font-bold hover:bg-[#e5af2e] transition-colors"
+            className="ml-4 bg-yellow text-navy px-5 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition-colors"
           >
             Login
           </a>
@@ -129,14 +129,14 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-[#222c4a] border-t border-white/10 px-6 pb-4">
+        <div className="md:hidden bg-navy border-t border-white/10 px-6 pb-4">
           {navLinks.map((link) => (
             <div key={link.label}>
               <Link
                 href={link.path}
                 onClick={() => setMobileOpen(false)}
                 className={`block py-3 text-sm font-semibold border-b border-white/5 ${
-                  isActive(link.path) ? 'text-[#fbc134]' : 'text-white'
+                  isActive(link.path) ? 'text-yellow' : 'text-white'
                 }`}
               >
                 {link.label}
@@ -147,7 +147,7 @@ export default function Header() {
                     key={child.label}
                     href={child.path}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-2 pl-4 text-sm text-white/70 hover:text-[#fbc134]"
+                    className="block py-2 pl-4 text-sm text-white/70 hover:text-yellow"
                   >
                     {child.label}
                   </Link>
@@ -157,7 +157,7 @@ export default function Header() {
           <a
             href={PLATFORM_LOGIN_URL}
             onClick={() => setMobileOpen(false)}
-            className="block mt-3 bg-[#fbc134] text-[#222c4a] px-5 py-2.5 rounded-lg text-sm font-bold text-center"
+            className="block mt-3 bg-yellow text-navy px-5 py-2.5 rounded-lg text-sm font-bold text-center"
           >
             Login
           </a>

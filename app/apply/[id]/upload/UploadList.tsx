@@ -84,7 +84,7 @@ export default function UploadList({
         </div>
         <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
           <div
-            className="h-full bg-[#fbc134] transition-all duration-300"
+            className="h-full bg-yellow transition-all duration-300"
             style={{ width: `${progressPct}%` }}
           />
         </div>
@@ -129,7 +129,7 @@ export default function UploadList({
               {requiredAll - requiredDone > 0 && (
                 <>
                   {' '}Still missing:{' '}
-                  <strong className="text-[#222c4a]">
+                  <strong className="text-navy">
                     {requiredAll - requiredDone} required
                   </strong>
                   .
@@ -140,7 +140,7 @@ export default function UploadList({
         </div>
         <a
           href={context.continueUrl}
-          className="bg-[#fbc134] text-[#222c4a] px-7 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 inline-flex items-center gap-2 whitespace-nowrap"
+          className="bg-yellow text-navy px-7 py-3 rounded-xl font-bold text-sm hover:bg-yellow-600 transition-colors shadow-lg shadow-yellow/20 inline-flex items-center gap-2 whitespace-nowrap"
         >
           {canContinue ? 'Review my details →' : 'Save & finish later →'}
         </a>
@@ -149,7 +149,7 @@ export default function UploadList({
       <p className="text-xs text-gray-400 text-center mt-6">
         Documents are stored privately and only shared with the Confair recruitment team.
         See our{' '}
-        <a href="/privacy-policy" className="text-[#407df1] hover:underline" target="_blank" rel="noopener noreferrer">
+        <a href="/privacy-policy" className="text-cblue hover:underline" target="_blank" rel="noopener noreferrer">
           Privacy Policy
         </a>.
       </p>
@@ -221,7 +221,7 @@ function SlotRow({ slot, context }: { slot: DocSlot; context: ApplicationContext
       className={[
         'bg-white rounded-2xl border shadow-sm transition-all',
         isUploaded ? 'border-emerald-200' : 'border-gray-100',
-        dragOver ? 'border-[#407df1] ring-2 ring-[#407df1]/20' : '',
+        dragOver ? 'border-cblue ring-2 ring-cblue/20' : '',
         errorMessage ? 'border-red-200' : '',
       ].join(' ')}
       onDragOver={(e) => {
@@ -278,7 +278,7 @@ function SlotBody({
         ].join(' ')}
       >
         {pending ? (
-          <Loader2 className="w-5 h-5 text-[#407df1] animate-spin" />
+          <Loader2 className="w-5 h-5 text-cblue animate-spin" />
         ) : isUploaded ? (
           <CheckCircle2 className="w-5 h-5 text-emerald-500" />
         ) : (
@@ -288,7 +288,7 @@ function SlotBody({
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <p className="text-sm font-semibold text-[#222c4a] truncate">{slot.name}</p>
+          <p className="text-sm font-semibold text-navy truncate">{slot.name}</p>
           {slot.isRequired && (
             <span className="text-[10px] font-bold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded">
               Required
@@ -328,7 +328,7 @@ function SlotBody({
           'inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-colors disabled:opacity-50',
           isUploaded
             ? 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-            : 'bg-[#222c4a] text-white hover:bg-[#1a2340]',
+            : 'bg-navy text-white hover:bg-navy-800',
         ].join(' ')}
       >
         {pending ? (

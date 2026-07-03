@@ -24,15 +24,15 @@ export default function LegalPageLayout({
 }) {
   return (
     <>
-      <section className="relative bg-[#222c4a] py-20 md:py-28 overflow-hidden">
+      <section className="relative bg-navy py-20 md:py-28 overflow-hidden">
         {/* Soft colour glows give the hero the same layered depth as the
             About hero without needing a background image. */}
         <div className="absolute inset-0 opacity-[0.15] pointer-events-none" aria-hidden="true">
-          <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[#407df1] blur-3xl" />
-          <div className="absolute -bottom-32 -right-16 w-96 h-96 rounded-full bg-[#fbc134] blur-3xl" />
+          <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-cblue blur-3xl" />
+          <div className="absolute -bottom-32 -right-16 w-96 h-96 rounded-full bg-yellow blur-3xl" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">Legal</span>
+          <span className="text-yellow text-sm font-semibold uppercase tracking-wider">Legal</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">{title}</h1>
           {subtitle && (
             <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">{subtitle}</p>
@@ -40,16 +40,16 @@ export default function LegalPageLayout({
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-[#f2eee7]">
+      <section className="py-16 md:py-24 bg-beige">
         <div className="max-w-4xl mx-auto px-6">
           <div
             className={
               'bg-white rounded-2xl shadow-sm p-8 md:p-12' +
               (prose
-                ? ' prose prose-slate max-w-none prose-headings:text-[#222c4a] prose-headings:font-bold' +
-                  ' prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-[#5a6275]' +
-                  ' prose-p:leading-relaxed prose-li:text-[#5a6275] prose-strong:text-[#222c4a]' +
-                  ' prose-a:text-[#407df1] prose-a:font-medium hover:prose-a:underline'
+                ? ' prose prose-slate max-w-none prose-headings:text-navy prose-headings:font-bold' +
+                  ' prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-navy-500' +
+                  ' prose-p:leading-relaxed prose-li:text-navy-500 prose-strong:text-navy' +
+                  ' prose-a:text-cblue prose-a:font-medium hover:prose-a:underline'
                 : '')
             }
           >
