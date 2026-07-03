@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { BlogPost } from '@/lib/types';
+import JsonLd from '@/components/JsonLd';
+import { articleSchema } from '@/lib/structured-data';
 
 export const revalidate = 300;
 
@@ -100,6 +102,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
   return (
     <>
+      <JsonLd data={articleSchema(post)} />
       <section className="bg-navy py-16">
         <div className="max-w-4xl mx-auto px-6">
           <Link

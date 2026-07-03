@@ -6,6 +6,8 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import AttributionTracker from '@/components/AttributionTracker';
+import JsonLd from '@/components/JsonLd';
+import { organizationSchema } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: {
@@ -53,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         strategy="beforeInteractive"
       />
       <body className="min-h-screen flex flex-col bg-white text-navy">
+        <JsonLd data={organizationSchema()} />
         <AttributionTracker />
         <Header />
         <main className="flex-1">{children}</main>
