@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ImageIcon, UploadCloud } from 'lucide-react';
+import { ImageIcon, UploadCloud, ExternalLink } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import BrandedImage from '@/components/BrandedImage';
 
@@ -124,15 +124,16 @@ type StockCandidate = {
 };
 
 // Shortlisted Unsplash candidates (free license, commercial use, no attribution
-// required). Previews load via Unsplash's download endpoint; before using one
-// as a blog cover, download it from its photo page and upload it to the
-// brand-images bucket so we host a stable copy ourselves.
+// required). Unsplash blocks embedding its pages/download endpoint as <img>,
+// so these render as link-cards: open the photo on Unsplash, download it, and
+// upload it to the brand-images bucket — then it previews here and can be
+// assigned as a cover.
 const STOCK_CANDIDATES: StockCandidate[] = [
   {
     label: 'N',
     slug: 'an-airplane-is-being-worked-on-inside-a-hangar-MDYvXZpSnPo',
     description: 'Airplane being worked on inside a hangar',
-    suggestedFor: 'ADOPTED — cover of: Hiring EASA Part-66 engineers',
+    suggestedFor: 'Blog: Hiring EASA Part-66 engineers (replaces cockpit-style cover)',
   },
   {
     label: 'O',
@@ -156,7 +157,7 @@ const STOCK_CANDIDATES: StockCandidate[] = [
     label: 'R',
     slug: 'an-overhead-view-of-cargo-containers-and-a-crane-06axNInHp-I',
     description: 'Overhead view, Maasvlakte container terminal, Port of Rotterdam',
-    suggestedFor: 'ADOPTED — cover of: Building Resilient Supply Chains',
+    suggestedFor: 'Blog: Building Resilient Supply Chains',
   },
   {
     label: 'S',
@@ -180,7 +181,7 @@ const STOCK_CANDIDATES: StockCandidate[] = [
     label: 'V',
     slug: 'a-group-of-wind-turbines-in-the-ocean--IaTiYqRTL8',
     description: 'Offshore wind turbines, Belgian North Sea',
-    suggestedFor: 'ADOPTED — cover of: Offshore Wind Energy (legacy post)',
+    suggestedFor: 'Blog: Offshore Wind Energy (legacy post cover refresh)',
   },
   {
     label: 'W',
@@ -189,10 +190,6 @@ const STOCK_CANDIDATES: StockCandidate[] = [
     suggestedFor: 'Offshore wind — alternative',
   },
 ];
-
-function stockPreviewUrl(slug: string): string {
-  return `https://unsplash.com/photos/${slug}/download?w=1600`;
-}
 
 function stockPageUrl(slug: string): string {
   return `https://unsplash.com/photos/${slug}`;
@@ -283,9 +280,11 @@ export default async function ImageLibraryPage() {
 
         <h2 className="text-xl font-bold text-navy mb-2">Stock candidates (Unsplash)</h2>
         <p className="text-navy-500 text-sm mb-5 max-w-3xl leading-relaxed">
-          Shortlisted free-license photos (commercial use, no attribution required). Click a card
-          to open its Unsplash page. To adopt one: download it there, upload it to the
-          brand-images bucket below, and it becomes a stable library image we host ourselves.
+          Shortlisted free-license photos (commercial use, no attribution required). Unsplash
+          does not allow previewing them here directly — click a card to view the photo on
+          Unsplash. To adopt one: download it there, upload it to the brand-images bucket below
+          (keep the letter in the filename, e.g. n-hangar-maintenance.jpg), and it appears in the
+          next section with a stable URL we host ourselves.
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-14">
           {STOCK_CANDIDATES.map((img) => (
@@ -294,14 +293,23 @@ export default async function ImageLibraryPage() {
               href={stockPageUrl(img.slug)}
               target="_blank"
               rel="noreferrer"
-              className="block hover:opacity-90 transition-opacity"
+              className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-shadow"
             >
-              <ImageCard
-                label={img.label}
-                url={stockPreviewUrl(img.slug)}
-                title={img.description}
-                lines={[`Suggested: ${img.suggestedFor}`]}
-              />
+              <div className="relative h-48 bg-navy flex items-center justify-center p-6">
+                <span className="absolute top-3 left-3 w-8 h-8 rounded-full bg-yellow text-navy font-bold flex items-center justify-center text-sm shadow">
+                  {img.label}
+                </span>
+                <span className="text-white/80 text-sm text-center leading-relaxed">
+                  {img.description}
+                </span>
+                <ExternalLink className="absolute bottom-3 right-3 w-4 h-4 text-yellow" />
+              </div>
+              <div className="p-4">
+                <p className="text-navy font-semibold text-sm mb-1 group-hover:text-cblue transition-colors">
+                  View &amp; download on Unsplash
+                </p>
+                <p className="text-navy-500 text-xs leading-relaxed">• Suggested: {img.suggestedFor}</p>
+              </div>
             </a>
           ))}
         </div>
