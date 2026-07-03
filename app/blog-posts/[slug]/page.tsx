@@ -5,6 +5,7 @@ import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { BlogPost } from '@/lib/types';
 import JsonLd from '@/components/JsonLd';
+import BrandedImage from '@/components/BrandedImage';
 import { articleSchema } from '@/lib/structured-data';
 
 export const revalidate = 300;
@@ -105,15 +106,19 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <JsonLd data={articleSchema(post)} />
       <section className="bg-navy py-16">
         <div className="max-w-4xl mx-auto px-6">
-          <Link
-            href="/blog-posts"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-yellow text-sm mb-6 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Blog
-          </Link>
-          <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-cblue/20 text-lblue mb-4">
-            {post.category}
-          </span>
+          <div className="mb-8">
+            <Link
+              href="/blog-posts"
+              className="inline-flex items-center gap-2 text-white/60 hover:text-yellow text-sm transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Blog
+            </Link>
+          </div>
+          <div className="mb-4">
+            <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-cblue/20 text-lblue">
+              {post.category}
+            </span>
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">{post.title}</h1>
           <div className="flex flex-wrap items-center gap-4 text-white/60 text-sm">
             {post.author && (
@@ -132,8 +137,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       {post.cover_image_url && (
         <div className="max-w-4xl mx-auto px-6">
           <div className="rounded-2xl overflow-hidden shadow-lg">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={post.cover_image_url} alt={post.title} className="w-full h-72 md:h-96 object-cover" />
+            <BrandedImage
+              src={post.cover_image_url}
+              alt={post.title}
+              imgClassName="w-full h-72 md:h-96 object-cover"
+            />
           </div>
         </div>
       )}
