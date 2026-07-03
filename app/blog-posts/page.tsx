@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Calendar, Clock, User, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { BlogPost } from '@/lib/types';
+import BrandedImage from '@/components/BrandedImage';
 
 export const metadata: Metadata = {
   title: 'Blog & Industry News',
@@ -100,11 +101,10 @@ export default async function BlogListPage() {
                   className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                 >
                   <div className="h-56 overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <BrandedImage
                       src={coverFor(post)}
                       alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                   <div className="p-6">

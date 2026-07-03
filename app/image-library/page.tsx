@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ImageIcon, UploadCloud } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import BrandedImage from '@/components/BrandedImage';
 
 /**
  * Internal brand image library — a review page for every image the site uses,
@@ -131,7 +132,7 @@ const STOCK_CANDIDATES: StockCandidate[] = [
     label: 'N',
     slug: 'an-airplane-is-being-worked-on-inside-a-hangar-MDYvXZpSnPo',
     description: 'Airplane being worked on inside a hangar',
-    suggestedFor: 'Blog: Hiring EASA Part-66 engineers (replaces cockpit-style cover)',
+    suggestedFor: 'ADOPTED — cover of: Hiring EASA Part-66 engineers',
   },
   {
     label: 'O',
@@ -155,7 +156,7 @@ const STOCK_CANDIDATES: StockCandidate[] = [
     label: 'R',
     slug: 'an-overhead-view-of-cargo-containers-and-a-crane-06axNInHp-I',
     description: 'Overhead view, Maasvlakte container terminal, Port of Rotterdam',
-    suggestedFor: 'Supply chain / maritime — nicely Dutch',
+    suggestedFor: 'ADOPTED — cover of: Building Resilient Supply Chains',
   },
   {
     label: 'S',
@@ -179,7 +180,7 @@ const STOCK_CANDIDATES: StockCandidate[] = [
     label: 'V',
     slug: 'a-group-of-wind-turbines-in-the-ocean--IaTiYqRTL8',
     description: 'Offshore wind turbines, Belgian North Sea',
-    suggestedFor: 'Blog: Offshore Wind Energy (legacy post cover refresh)',
+    suggestedFor: 'ADOPTED — cover of: Offshore Wind Energy (legacy post)',
   },
   {
     label: 'W',
@@ -230,8 +231,7 @@ function ImageCard({
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
       <div className="relative h-48 bg-gray-100">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={url} alt={title} className="w-full h-full object-cover" loading="lazy" />
+        <BrandedImage src={url} alt={title} imgClassName="w-full h-full object-cover" />
         {label && (
           <span className="absolute top-3 left-3 w-8 h-8 rounded-full bg-navy text-yellow font-bold flex items-center justify-center text-sm shadow">
             {label}

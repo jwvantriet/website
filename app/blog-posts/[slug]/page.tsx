@@ -5,6 +5,7 @@ import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { BlogPost } from '@/lib/types';
 import JsonLd from '@/components/JsonLd';
+import BrandedImage from '@/components/BrandedImage';
 import { articleSchema } from '@/lib/structured-data';
 
 export const revalidate = 300;
@@ -136,8 +137,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       {post.cover_image_url && (
         <div className="max-w-4xl mx-auto px-6">
           <div className="rounded-2xl overflow-hidden shadow-lg">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={post.cover_image_url} alt={post.title} className="w-full h-72 md:h-96 object-cover" />
+            <BrandedImage
+              src={post.cover_image_url}
+              alt={post.title}
+              imgClassName="w-full h-72 md:h-96 object-cover"
+            />
           </div>
         </div>
       )}
