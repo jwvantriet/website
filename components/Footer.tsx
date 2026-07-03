@@ -37,6 +37,8 @@ export default function Footer() {
               <li><Link href="/services" className="text-white/60 hover:text-yellow text-sm transition-colors">Industries</Link></li>
               <li><Link href="/contact" className="text-white/60 hover:text-yellow text-sm transition-colors">Hire Talent</Link></li>
               <li><Link href="/vacancies" className="text-white/60 hover:text-yellow text-sm transition-colors">Find Jobs</Link></li>
+              <li><Link href="/blog-posts" className="text-white/60 hover:text-yellow text-sm transition-colors">Insights</Link></li>
+              <li><Link href="/guides/2026-salary-guide" className="text-white/60 hover:text-yellow text-sm transition-colors">2026 Salary Guide</Link></li>
               <li><Link href="/contact" className="text-white/60 hover:text-yellow text-sm transition-colors">Contact</Link></li>
               <li><a href={PLATFORM_LOGIN_URL} className="text-white/60 hover:text-yellow text-sm transition-colors">Platform Login</a></li>
             </ul>

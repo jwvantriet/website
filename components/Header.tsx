@@ -21,6 +21,7 @@ const navLinks = [
     ],
   },
   { label: 'Vacancies', path: '/vacancies' },
+  { label: 'Insights', path: '/blog-posts' },
   { label: 'Contact', path: '/contact' },
 ];
 
