@@ -151,7 +151,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       </section>
 
       {post.cover_image_url && (
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-6 mt-8 md:mt-12">
           <div className="rounded-2xl overflow-hidden shadow-lg">
             <BrandedImage
               src={post.cover_image_url}
