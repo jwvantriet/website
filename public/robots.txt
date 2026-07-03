@@ -2,5 +2,10 @@ User-agent: *
 Allow: /
 
 # Hidden until the team + content work is finished.
+# NOTE: /blog-posts being disallowed means the blog is invisible to search
+# engines — remove that line (and add blog posts to app/sitemap.ts) the moment
+# the first SEO articles are ready. It is the switch for the content engine.
 Disallow: /team
 Disallow: /blog-posts
+
+Sitemap: https://confair.com/sitemap.xml

@@ -22,6 +22,8 @@ import {
 import { createClient } from '@/lib/supabase/server';
 import type { Vacancy } from '@/lib/types';
 import ApplyButton from './ApplyButton';
+import JsonLd from '@/components/JsonLd';
+import { jobPostingSchema } from '@/lib/structured-data';
 
 export const revalidate = 60;
 
@@ -84,6 +86,8 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
 
   return (
     <>
+      {/* JobPosting structured data — surfaces this vacancy in Google for Jobs */}
+      <JsonLd data={jobPostingSchema(vacancy)} />
       {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 py-4">
