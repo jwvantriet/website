@@ -6,6 +6,12 @@ export const metadata: Metadata = {
   title: '2026 Workforce & Salary Guide — Aviation, Maritime & Offshore',
   description:
     'Free 2026 salary and day-rate benchmarks across aviation, maritime, and offshore energy — flight crew, licensed engineers, deck and engine officers, ratings, and certified offshore specialists in Europe and the Middle East.',
+  openGraph: {
+    title: '2026 Workforce & Salary Guide — Aviation, Maritime & Offshore',
+    description:
+      'Free salary and day-rate benchmarks for 25+ roles across aviation, maritime, and offshore energy.',
+    type: 'website',
+  },
 };
 
 const bullets = [

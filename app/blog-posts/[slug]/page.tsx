@@ -37,9 +37,25 @@ async function fetchPost(slug: string): Promise<BlogPost | null> {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await fetchPost(params.slug);
   if (!post) return { title: 'Post not found' };
+  // Full Open Graph + Twitter card metadata so shares (LinkedIn in
+  // particular) render the article title, excerpt and cover image instead
+  // of falling back to the site-wide defaults.
   return {
     title: post.title,
     description: post.excerpt ?? undefined,
+    openGraph: {
+      type: 'article',
+      title: post.title,
+      description: post.excerpt ?? undefined,
+      publishedTime: post.published_at ?? undefined,
+      images: post.cover_image_url ? [{ url: post.cover_image_url }] : undefined,
+    },
+    twitter: {
+      card: post.cover_image_url ? 'summary_large_image' : 'summary',
+      title: post.title,
+      description: post.excerpt ?? undefined,
+      images: post.cover_image_url ? [post.cover_image_url] : undefined,
+    },
   };
 }
 
