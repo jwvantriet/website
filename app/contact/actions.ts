@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { ATTRIBUTION_COOKIE, parseAttribution } from '@/lib/attribution';
+import { screenSubmission } from '@/lib/spam';
 
 export type ContactFormState =
   | { status: 'idle' }
@@ -71,6 +72,18 @@ export async function submitContactForm(
   }
   if (inquiry_type !== 'client' && inquiry_type !== 'candidate') {
     return { status: 'error', message: 'Invalid inquiry type.' };
+  }
+
+  // Spam screen — drop silently (report success) so bots get no feedback.
+  const verdict = screenSubmission({
+    name,
+    message,
+    honeypot: String(formData.get('website') || ''),
+    startedAtMs: Number(formData.get('form_started_at')),
+  });
+  if (verdict.spam) {
+    console.warn(`[contact] dropped suspected spam (${verdict.reason}) from ${email}`);
+    return { status: 'success' };
   }
 
   const supabase = createClient();
