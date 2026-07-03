@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ImageIcon, UploadCloud, ExternalLink } from 'lucide-react';
+import { ImageIcon, UploadCloud } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import BrandedImage from '@/components/BrandedImage';
 
@@ -54,7 +54,7 @@ const CATALOG: CatalogEntry[] = [
     label: 'D',
     url: 'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/8b6c02db-e1c5-4b18-b430-178ec319f74c.png',
     description: 'Services page — aviation section image',
-    usedBy: ['Services: Confair Aviation', 'Blog cover: Hiring EASA Part-66 engineers'],
+    usedBy: ['Services: Confair Aviation'],
   },
   {
     label: 'E',
@@ -88,13 +88,13 @@ const CATALOG: CatalogEntry[] = [
     label: 'I',
     url: 'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/0d2b5e42-5118-46bc-996e-66dd5123894b.png',
     description: 'Offshore-themed (legacy blog cover)',
-    usedBy: ['Blog cover: Offshore Wind Energy — Growing Demand'],
+    usedBy: ['(no longer in use — replaced by uploaded wind farm photo)'],
   },
   {
     label: 'J',
     url: 'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/9c31f02f-6316-4192-b06a-035e5243c780.png',
     description: 'Industry / supply-chain themed (legacy blog cover)',
-    usedBy: ['Blog cover: Building Resilient Supply Chains'],
+    usedBy: ['(no longer in use — replaced by uploaded Rotterdam terminal photo)'],
   },
   {
     label: 'K',
@@ -116,84 +116,42 @@ const CATALOG: CatalogEntry[] = [
   },
 ];
 
-type StockCandidate = {
-  label: string;
-  slug: string;
-  description: string;
-  suggestedFor: string;
-};
-
-// Shortlisted Unsplash candidates (free license, commercial use, no attribution
-// required). Unsplash blocks embedding its pages/download endpoint as <img>,
-// so these render as link-cards: open the photo on Unsplash, download it, and
-// upload it to the brand-images bucket — then it previews here and can be
-// assigned as a cover.
-const STOCK_CANDIDATES: StockCandidate[] = [
-  {
-    label: 'N',
-    slug: 'an-airplane-is-being-worked-on-inside-a-hangar-MDYvXZpSnPo',
-    description: 'Airplane being worked on inside a hangar',
-    suggestedFor: 'Blog: Hiring EASA Part-66 engineers (replaces cockpit-style cover)',
+// What each uploaded file shows and where it's used. Files not listed here
+// (or newly uploaded) fall back to showing just their filename — add an entry
+// once identified.
+const UPLOAD_NOTES: Record<string, { description: string; usedBy?: string }> = {
+  'pandu-agus-wismoyo-7OgQ-Ze7BXQ-unsplash.jpg': {
+    description: 'Aircraft maintenance',
+    usedBy: 'Blog cover: Hiring EASA Part-66 engineers',
   },
-  {
-    label: 'O',
-    slug: 'a-large-container-ship-in-the-middle-of-the-ocean-GFjqsPW7NPY',
-    description: 'Large container ship at sea',
-    suggestedFor: 'Maritime — general / blog covers',
+  'pablo-romay-la140ses0Fw-unsplash.jpg': { description: 'Aircraft maintenance (alternative)' },
+  'mos-design-TL5ueKKDn-k-unsplash.jpg': {
+    description: 'Aircraft maintenance (alternative — 9 MB, compress before using as a cover)',
   },
-  {
-    label: 'P',
-    slug: 'large-container-ship-with-cranes-in-harbor--8n2CGk7Ihk',
-    description: 'Container ship with cranes in harbor',
-    suggestedFor: 'Maritime / logistics',
-  },
-  {
-    label: 'Q',
-    slug: 'a-cargo-ship-being-loaded-by-a-massive-crane-J2pFaFSplUE',
-    description: 'Cargo ship being loaded by crane (Hamburg)',
-    suggestedFor: 'Blog: Building Resilient Supply Chains',
-  },
-  {
-    label: 'R',
-    slug: 'an-overhead-view-of-cargo-containers-and-a-crane-06axNInHp-I',
-    description: 'Overhead view, Maasvlakte container terminal, Port of Rotterdam',
-    suggestedFor: 'Blog: Building Resilient Supply Chains',
-  },
-  {
-    label: 'S',
-    slug: 'an-oil-rig-in-the-middle-of-the-ocean-7UGmtWtWERY',
-    description: 'Oil rig in the middle of the ocean',
-    suggestedFor: 'Offshore O&G',
-  },
-  {
-    label: 'T',
-    slug: 'red-and-grey-oil-platform-in-sea-15mjdcU9RKI',
-    description: 'Red and grey oil platform at sea',
-    suggestedFor: 'Offshore O&G',
-  },
-  {
-    label: 'U',
-    slug: 'aerial-view-of-a-large-ship-with-helipad-at-sea-W61mAfn1qIY',
-    description: 'Aerial view of large ship with helipad (tagged marine engineering)',
-    suggestedFor: 'Offshore support / maritime',
-  },
-  {
-    label: 'V',
-    slug: 'a-group-of-wind-turbines-in-the-ocean--IaTiYqRTL8',
+  'unleashed-agency-r1sVib5QYU4-unsplash.jpg': { description: 'EasyJet aircraft at Zurich Airport' },
+  'jesse-de-meulenaere--IaTiYqRTL8-unsplash.jpg': {
     description: 'Offshore wind turbines, Belgian North Sea',
-    suggestedFor: 'Blog: Offshore Wind Energy (legacy post cover refresh)',
+    usedBy: 'Blog cover: Offshore Wind Energy (legacy post)',
   },
-  {
-    label: 'W',
-    slug: 'a-group-of-wind-turbines-in-the-water-cWUj5FrVxGM',
-    description: 'Wind farm turbines in open water',
-    suggestedFor: 'Offshore wind — alternative',
+  'brigitta-schneiter-cWUj5FrVxGM-unsplash.jpg': { description: 'Wind farm turbines in open water' },
+  'bernd-dittrich-06axNInHp-I-unsplash.jpg': {
+    description: 'Maasvlakte container terminal aerial, Port of Rotterdam',
+    usedBy: 'Blog cover: Building Resilient Supply Chains',
   },
-];
-
-function stockPageUrl(slug: string): string {
-  return `https://unsplash.com/photos/${slug}`;
-}
+  'red-zeppelin-GFjqsPW7NPY-unsplash.jpg': { description: 'Large container ship at sea' },
+  'mike-hindle--8n2CGk7Ihk-unsplash.jpg': { description: 'Container ship with cranes in harbor' },
+  'pix-tresa-J2pFaFSplUE-unsplash.jpg': { description: 'Cargo ship being loaded by crane (Hamburg)' },
+  'j-f-manzanero-W61mAfn1qIY-unsplash.jpg': {
+    description: 'Aerial view of large ship with helipad (offshore support)',
+  },
+  'grant-durr-15mjdcU9RKI-unsplash.jpg': { description: 'Red and grey oil platform at sea' },
+  'sven-piper-7UGmtWtWERY-unsplash.jpg': { description: 'Oil rig in the middle of the ocean' },
+  'david-b-6CIIuaV-d58-unsplash.jpg': { description: 'To identify — check the preview' },
+  'andres-dallimonti-kjqTlMHLci4-unsplash.jpg': { description: 'To identify — check the preview' },
+  'moritz-mentges-cj2I_KczBvY-unsplash.jpg': { description: 'To identify — check the preview' },
+  'brice-cooper-TtgpvFdn4J8-unsplash.jpg': { description: 'To identify — check the preview' },
+  'eric-prouzet-HO8G_3ba4SE-unsplash.jpg': { description: 'To identify — check the preview' },
+};
 
 async function fetchBucketImages(): Promise<{ name: string; url: string }[]> {
   try {
@@ -278,42 +236,6 @@ export default async function ImageLibraryPage() {
           ))}
         </div>
 
-        <h2 className="text-xl font-bold text-navy mb-2">Stock candidates (Unsplash)</h2>
-        <p className="text-navy-500 text-sm mb-5 max-w-3xl leading-relaxed">
-          Shortlisted free-license photos (commercial use, no attribution required). Unsplash
-          does not allow previewing them here directly — click a card to view the photo on
-          Unsplash. To adopt one: download it there, upload it to the brand-images bucket below
-          (keep the letter in the filename, e.g. n-hangar-maintenance.jpg), and it appears in the
-          next section with a stable URL we host ourselves.
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-14">
-          {STOCK_CANDIDATES.map((img) => (
-            <a
-              key={img.label}
-              href={stockPageUrl(img.slug)}
-              target="_blank"
-              rel="noreferrer"
-              className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-shadow"
-            >
-              <div className="relative h-48 bg-navy flex items-center justify-center p-6">
-                <span className="absolute top-3 left-3 w-8 h-8 rounded-full bg-yellow text-navy font-bold flex items-center justify-center text-sm shadow">
-                  {img.label}
-                </span>
-                <span className="text-white/80 text-sm text-center leading-relaxed">
-                  {img.description}
-                </span>
-                <ExternalLink className="absolute bottom-3 right-3 w-4 h-4 text-yellow" />
-              </div>
-              <div className="p-4">
-                <p className="text-navy font-semibold text-sm mb-1 group-hover:text-cblue transition-colors">
-                  View &amp; download on Unsplash
-                </p>
-                <p className="text-navy-500 text-xs leading-relaxed">• Suggested: {img.suggestedFor}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-
         <h2 className="text-xl font-bold text-navy mb-2 flex items-center gap-2">
           <UploadCloud className="w-5 h-5 text-cblue" /> Uploaded to the library
         </h2>
@@ -330,9 +252,17 @@ export default async function ImageLibraryPage() {
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {uploaded.map((img) => (
-              <ImageCard key={img.name} url={img.url} title={img.name} lines={[img.url]} />
-            ))}
+            {uploaded.map((img) => {
+              const note = UPLOAD_NOTES[img.name];
+              return (
+                <ImageCard
+                  key={img.name}
+                  url={img.url}
+                  title={note?.description ?? img.name}
+                  lines={[note?.usedBy ?? 'Available — not yet in use', img.name]}
+                />
+              );
+            })}
           </div>
         )}
       </div>
