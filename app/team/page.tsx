@@ -50,13 +50,13 @@ export default async function TeamPage() {
 
   return (
     <>
-      <section className="relative py-20 md:py-28 bg-[#222c4a] overflow-hidden">
+      <section className="relative py-20 md:py-28 bg-navy overflow-hidden">
         <div className="absolute inset-0 opacity-15">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={TEAM_IMG} alt="Team" className="w-full h-full object-cover" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">Our Team</span>
+          <span className="text-yellow text-sm font-semibold uppercase tracking-wider">Our Team</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">
             Meet the People Behind Confair
           </h1>
@@ -70,11 +70,11 @@ export default async function TeamPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">Leadership</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mt-3 mb-4">
+            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Leadership</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">
               Our Leadership Team
             </h2>
-            <p className="text-[#5a6275] max-w-2xl mx-auto text-lg">
+            <p className="text-navy-500 max-w-2xl mx-auto text-lg">
               Experienced professionals leading each division with deep industry knowledge and
               operational expertise.
             </p>
@@ -104,25 +104,25 @@ export default async function TeamPage() {
                       {initials}
                     </div>
                   )}
-                  <h3 className="text-xl font-bold text-[#222c4a] mb-1">{person.name}</h3>
+                  <h3 className="text-xl font-bold text-navy mb-1">{person.name}</h3>
                   <p className="text-sm font-semibold mb-4" style={{ color }}>
                     {person.role}
                   </p>
                   {person.bio && (
-                    <p className="text-[#5a6275] text-sm leading-relaxed mb-5">{person.bio}</p>
+                    <p className="text-navy-500 text-sm leading-relaxed mb-5">{person.bio}</p>
                   )}
                   <div className="flex gap-3">
                     <a
                       href={(person as TeamMember).linkedin_url || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center text-[#5a6275] hover:bg-[#407df1] hover:text-white transition-colors"
+                      className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center text-navy-500 hover:bg-cblue hover:text-white transition-colors"
                     >
                       <Linkedin className="w-4 h-4" />
                     </a>
                     <a
                       href="mailto:info@confair.com"
-                      className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center text-[#5a6275] hover:bg-[#407df1] hover:text-white transition-colors"
+                      className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center text-navy-500 hover:bg-cblue hover:text-white transition-colors"
                     >
                       <Mail className="w-4 h-4" />
                     </a>
@@ -134,15 +134,15 @@ export default async function TeamPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-[#f2eee7]">
+      <section className="py-20 md:py-28 bg-beige">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">Our Culture</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mt-3 mb-6">
+              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Culture</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-6">
                 A People-First Organization
               </h2>
-              <p className="text-[#5a6275] text-lg leading-relaxed mb-8">
+              <p className="text-navy-500 text-lg leading-relaxed mb-8">
                 At Confair, we believe that our success is built on the strength of our people. We
                 foster an environment where professionals can thrive, grow, and make a meaningful
                 impact.
@@ -150,8 +150,8 @@ export default async function TeamPage() {
               <div className="space-y-6">
                 {culturePoints.map((point) => (
                   <div key={point.title} className="bg-white rounded-xl p-5 shadow-sm">
-                    <h4 className="font-bold text-[#222c4a] mb-1">{point.title}</h4>
-                    <p className="text-[#5a6275] text-sm leading-relaxed">{point.desc}</p>
+                    <h4 className="font-bold text-navy mb-1">{point.title}</h4>
+                    <p className="text-navy-500 text-sm leading-relaxed">{point.desc}</p>
                   </div>
                 ))}
               </div>

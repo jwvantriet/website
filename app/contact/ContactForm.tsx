@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-[#fbc134] text-[#222c4a] hover:bg-[#e5af2e] font-bold py-3 px-4 text-base rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+      className="w-full bg-yellow text-navy hover:bg-yellow-600 font-bold py-3 px-4 text-base rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {pending ? (
         'Sending...'
@@ -33,17 +33,17 @@ export default function ContactForm() {
 
   if (state.status === 'success') {
     return (
-      <div className="bg-[#f2eee7] rounded-2xl p-12 text-center">
+      <div className="bg-beige rounded-2xl p-12 text-center">
         <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-8 h-8 text-green-600" />
         </div>
-        <h3 className="text-2xl font-bold text-[#222c4a] mb-3">Thank You!</h3>
-        <p className="text-[#5a6275] text-lg mb-6">
+        <h3 className="text-2xl font-bold text-navy mb-3">Thank You!</h3>
+        <p className="text-navy-500 text-lg mb-6">
           Your message has been received. Our team will get back to you within 24 hours.
         </p>
         <a
           href="/contact"
-          className="inline-block bg-[#222c4a] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1a2340] transition-colors"
+          className="inline-block bg-navy text-white px-6 py-3 rounded-lg font-semibold hover:bg-navy-800 transition-colors"
         >
           Send Another Message
         </a>
@@ -52,16 +52,16 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="bg-[#f2eee7] rounded-2xl p-8 md:p-10">
-      <h3 className="text-2xl font-bold text-[#222c4a] mb-2">Send Us a Message</h3>
-      <p className="text-[#5a6275] mb-8">Fill out the form below and we&apos;ll respond promptly.</p>
+    <div className="bg-beige rounded-2xl p-8 md:p-10">
+      <h3 className="text-2xl font-bold text-navy mb-2">Send Us a Message</h3>
+      <p className="text-navy-500 mb-8">Fill out the form below and we&apos;ll respond promptly.</p>
 
       <div className="flex gap-3 mb-8">
         <button
           type="button"
           onClick={() => setInquiryType('client')}
           className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-colors ${
-            !isCandidate ? 'bg-[#222c4a] text-white' : 'bg-white text-[#5a6275] hover:bg-gray-50'
+            !isCandidate ? 'bg-navy text-white' : 'bg-white text-navy-500 hover:bg-gray-50'
           }`}
         >
           <Building2 className="w-4 h-4" /> I&apos;m a Client
@@ -70,7 +70,7 @@ export default function ContactForm() {
           type="button"
           onClick={() => setInquiryType('candidate')}
           className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-colors ${
-            isCandidate ? 'bg-[#222c4a] text-white' : 'bg-white text-[#5a6275] hover:bg-gray-50'
+            isCandidate ? 'bg-navy text-white' : 'bg-white text-navy-500 hover:bg-gray-50'
           }`}
         >
           <User className="w-4 h-4" /> I&apos;m a Candidate
@@ -82,7 +82,7 @@ export default function ContactForm() {
 
         <div className="grid md:grid-cols-2 gap-5">
           <div>
-            <label htmlFor="name" className="text-[#222c4a] font-semibold text-sm mb-1.5 block">
+            <label htmlFor="name" className="text-navy font-semibold text-sm mb-1.5 block">
               Full Name *
             </label>
             <input
@@ -90,11 +90,11 @@ export default function ContactForm() {
               name="name"
               required
               placeholder="Your full name"
-              className="w-full bg-white border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none rounded-md px-3 py-2 text-sm"
+              className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
             />
           </div>
           <div>
-            <label htmlFor="email" className="text-[#222c4a] font-semibold text-sm mb-1.5 block">
+            <label htmlFor="email" className="text-navy font-semibold text-sm mb-1.5 block">
               Email Address *
             </label>
             <input
@@ -103,7 +103,7 @@ export default function ContactForm() {
               type="email"
               required
               placeholder="your@email.com"
-              className="w-full bg-white border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none rounded-md px-3 py-2 text-sm"
+              className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
             />
           </div>
         </div>
@@ -111,25 +111,25 @@ export default function ContactForm() {
         {!isCandidate ? (
           <div className="grid md:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="company" className="text-[#222c4a] font-semibold text-sm mb-1.5 block">
+              <label htmlFor="company" className="text-navy font-semibold text-sm mb-1.5 block">
                 Company Name
               </label>
               <input
                 id="company"
                 name="company"
                 placeholder="Your company"
-                className="w-full bg-white border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none rounded-md px-3 py-2 text-sm"
+                className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
               />
             </div>
             <div>
-              <label htmlFor="industry" className="text-[#222c4a] font-semibold text-sm mb-1.5 block">
+              <label htmlFor="industry" className="text-navy font-semibold text-sm mb-1.5 block">
                 Industry
               </label>
               <select
                 id="industry"
                 name="industry"
                 defaultValue=""
-                className="w-full bg-white border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none rounded-md px-3 py-2 text-sm"
+                className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
               >
                 <option value="">Select industry</option>
                 <option value="aviation">Aviation</option>
@@ -141,14 +141,14 @@ export default function ContactForm() {
           </div>
         ) : (
           <div>
-            <label htmlFor="field_of_expertise" className="text-[#222c4a] font-semibold text-sm mb-1.5 block">
+            <label htmlFor="field_of_expertise" className="text-navy font-semibold text-sm mb-1.5 block">
               Field of Expertise
             </label>
             <select
               id="field_of_expertise"
               name="field_of_expertise"
               defaultValue=""
-              className="w-full bg-white border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none rounded-md px-3 py-2 text-sm"
+              className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
             >
               <option value="">Select your field</option>
               <option value="flight_deck">Flight Deck</option>
@@ -166,7 +166,7 @@ export default function ContactForm() {
         )}
 
         <div>
-          <label htmlFor="message" className="text-[#222c4a] font-semibold text-sm mb-1.5 block">
+          <label htmlFor="message" className="text-navy font-semibold text-sm mb-1.5 block">
             Message *
           </label>
           <textarea
@@ -179,7 +179,7 @@ export default function ContactForm() {
                 ? "Tell us about your experience, certifications, and what opportunities you're looking for..."
                 : 'Describe your workforce requirements, timeline, and any specific certifications needed...'
             }
-            className="w-full bg-white border border-gray-200 focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none rounded-md px-3 py-2 text-sm resize-none"
+            className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm resize-none"
           />
         </div>
 

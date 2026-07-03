@@ -39,13 +39,13 @@ export default async function VacanciesPage({
 
   return (
     <>
-      <section className="bg-[#222c4a] py-20 md:py-28 relative overflow-hidden">
+      <section className="bg-navy py-20 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-[#fbc134] blur-[100px]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-[#407df1] blur-[120px]" />
+          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-yellow blur-[100px]" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-cblue blur-[120px]" />
         </div>
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">Careers</span>
+          <span className="text-yellow text-sm font-semibold uppercase tracking-wider">Careers</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">Open Vacancies</h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
             Explore career opportunities across aviation, maritime, and offshore energy. Find your

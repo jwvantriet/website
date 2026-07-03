@@ -128,13 +128,13 @@ function HeroSlider() {
           aria-hidden={index !== current}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1a2340]/90 via-[#222c4a]/75 to-[#222c4a]/40" />
+      <div className="absolute inset-0 bg-gradient-to-r from-navy-800/90 via-navy/75 to-navy/40" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 bg-[#fbc134]/15 border border-[#fbc134]/30 rounded-full px-4 py-1.5 mb-6">
-            <span className="w-2 h-2 rounded-full bg-[#fbc134] animate-pulse" />
-            <span className="text-[#fbc134] text-sm font-semibold">
+          <div className="inline-flex items-center gap-2 bg-yellow/15 border border-yellow/30 rounded-full px-4 py-1.5 mb-6">
+            <span className="w-2 h-2 rounded-full bg-yellow animate-pulse" />
+            <span className="text-yellow text-sm font-semibold">
               Supporting Critical Operations Worldwide
             </span>
           </div>
@@ -148,13 +148,13 @@ function HeroSlider() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-[#fbc134] text-[#222c4a] px-7 py-3.5 rounded-lg font-bold hover:bg-[#e5af2e] transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-yellow text-navy px-7 py-3.5 rounded-lg font-bold hover:bg-yellow-600 transition-colors"
             >
               Request Workforce <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/services"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-7 py-3.5 rounded-lg font-bold hover:border-[#fbc134] hover:text-[#fbc134] transition-colors"
+              className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-7 py-3.5 rounded-lg font-bold hover:border-yellow hover:text-yellow transition-colors"
             >
               Explore Industries
             </Link>
@@ -168,7 +168,7 @@ function HeroSlider() {
             key={slide.alt}
             onClick={() => setCurrent(index)}
             className={`h-1.5 rounded-full transition-all duration-500 ${
-              index === current ? 'w-10 bg-[#fbc134]' : 'w-4 bg-white/40 hover:bg-white/60'
+              index === current ? 'w-10 bg-yellow' : 'w-4 bg-white/40 hover:bg-white/60'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -183,12 +183,12 @@ export default function Home() {
     <>
       <HeroSlider />
 
-      <section className="bg-[#222c4a] py-0 -mt-1">
+      <section className="bg-navy py-0 -mt-1">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center py-10 px-4">
-                <div className="text-3xl md:text-4xl font-bold text-[#fbc134] mb-1">
+                <div className="text-3xl md:text-4xl font-bold text-yellow mb-1">
                   {stat.value}
                 </div>
                 <div className="text-white/60 text-sm">{stat.label}</div>
@@ -201,13 +201,13 @@ export default function Home() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">
+            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
               Critical Industries We Serve
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mt-3 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">
               Expertise Across Critical Operations Industries
             </h2>
-            <p className="text-[#5a6275] max-w-2xl mx-auto text-lg">
+            <p className="text-navy-500 max-w-2xl mx-auto text-lg">
               Confair operates in safety-critical industries where compliance, precision,
               and operational continuity are essential. Each vertical is supported by highly
               skilled professionals with sector-specific expertise.
@@ -234,8 +234,8 @@ export default function Home() {
                   >
                     <v.icon className="w-6 h-6" style={{ color: v.color }} />
                   </div>
-                  <h3 className="text-xl font-bold text-[#222c4a] mb-3">{v.title}</h3>
-                  <p className="text-[#5a6275] text-sm leading-relaxed mb-4">
+                  <h3 className="text-xl font-bold text-navy mb-3">{v.title}</h3>
+                  <p className="text-navy-500 text-sm leading-relaxed mb-4">
                     {v.description}
                   </p>
                   <Link
@@ -252,29 +252,29 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-[#f2eee7]">
+      <section className="py-20 md:py-28 bg-beige">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">
+              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
                 Why Confair
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mt-3 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-6">
                 Workforce Solutions for Critical Operations
               </h2>
-              <p className="text-[#5a6275] text-lg leading-relaxed mb-8">
+              <p className="text-navy-500 text-lg leading-relaxed mb-8">
                 We deliver compliant, reliable workforce solutions to ensure operational
                 continuity across aviation, maritime, and offshore environments.
               </p>
               <div className="space-y-6">
                 {whyChoose.map((item) => (
                   <div key={item.title} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#407df1]/10 flex items-center justify-center shrink-0">
-                      <item.icon className="w-6 h-6 text-[#407df1]" />
+                    <div className="w-12 h-12 rounded-xl bg-cblue/10 flex items-center justify-center shrink-0">
+                      <item.icon className="w-6 h-6 text-cblue" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#222c4a] mb-1">{item.title}</h4>
-                      <p className="text-[#5a6275] text-sm leading-relaxed">{item.desc}</p>
+                      <h4 className="font-bold text-navy mb-1">{item.title}</h4>
+                      <p className="text-navy-500 text-sm leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -282,20 +282,20 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-xl font-bold text-[#222c4a] mb-6">
+                <h3 className="text-xl font-bold text-navy mb-6">
                   Our Areas of Expertise
                 </h3>
 
                 <div className="mb-5">
                   <div className="flex items-center gap-2 mb-2">
-                    <Plane className="w-4 h-4 text-[#407df1]" />
-                    <span className="text-[#222c4a] text-sm font-bold tracking-wide">
+                    <Plane className="w-4 h-4 text-cblue" />
+                    <span className="text-navy text-sm font-bold tracking-wide">
                       Aviation
                     </span>
                   </div>
                   <div className="flex items-center gap-3 py-2.5 pl-6 border-b border-gray-50">
-                    <CheckCircle2 className="w-5 h-5 text-[#fbc134] shrink-0" />
-                    <span className="text-[#222c4a] text-sm font-medium">
+                    <CheckCircle2 className="w-5 h-5 text-yellow shrink-0" />
+                    <span className="text-navy text-sm font-medium">
                       Commercial &amp; Cargo Aviation
                     </span>
                   </div>
@@ -303,8 +303,8 @@ export default function Home() {
 
                 <div className="mb-5">
                   <div className="flex items-center gap-2 mb-2">
-                    <Ship className="w-4 h-4 text-[#61bef6]" />
-                    <span className="text-[#222c4a] text-sm font-bold tracking-wide">
+                    <Ship className="w-4 h-4 text-lblue" />
+                    <span className="text-navy text-sm font-bold tracking-wide">
                       Maritime
                     </span>
                   </div>
@@ -317,16 +317,16 @@ export default function Home() {
                       key={item}
                       className="flex items-center gap-3 py-2.5 pl-6 border-b border-gray-50 last:border-0"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-[#fbc134] shrink-0" />
-                      <span className="text-[#222c4a] text-sm font-medium">{item}</span>
+                      <CheckCircle2 className="w-5 h-5 text-yellow shrink-0" />
+                      <span className="text-navy text-sm font-medium">{item}</span>
                     </div>
                   ))}
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Fuel className="w-4 h-4 text-[#fbc134]" />
-                    <span className="text-[#222c4a] text-sm font-bold tracking-wide">
+                    <Fuel className="w-4 h-4 text-yellow" />
+                    <span className="text-navy text-sm font-bold tracking-wide">
                       Offshore Energy
                     </span>
                   </div>
@@ -335,8 +335,8 @@ export default function Home() {
                       key={item}
                       className="flex items-center gap-3 py-2.5 pl-6 border-b border-gray-50 last:border-0"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-[#fbc134] shrink-0" />
-                      <span className="text-[#222c4a] text-sm font-medium">{item}</span>
+                      <CheckCircle2 className="w-5 h-5 text-yellow shrink-0" />
+                      <span className="text-navy text-sm font-medium">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -349,13 +349,13 @@ export default function Home() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">
+            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
               Work With Confair
             </span>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-[#222c4a] rounded-2xl p-10 text-white">
-              <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">
+            <div className="bg-navy rounded-2xl p-10 text-white">
+              <span className="text-yellow text-sm font-semibold uppercase tracking-wider">
                 For Clients
               </span>
               <h3 className="text-2xl md:text-3xl font-bold mt-3 mb-4">
@@ -367,26 +367,26 @@ export default function Home() {
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-[#fbc134] text-[#222c4a] px-8 py-3.5 rounded-lg font-bold hover:bg-[#e5af2e] transition-colors min-w-[200px]"
+                className="inline-flex items-center justify-center gap-2 bg-yellow text-navy px-8 py-3.5 rounded-lg font-bold hover:bg-yellow-600 transition-colors min-w-[200px]"
               >
                 Request Workforce <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
-            <div className="bg-[#f2eee7] rounded-2xl p-10">
-              <span className="text-[#407df1] text-sm font-semibold uppercase tracking-wider">
+            <div className="bg-beige rounded-2xl p-10">
+              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
                 For Candidates
               </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-[#222c4a] mt-3 mb-4">
+              <h3 className="text-2xl md:text-3xl font-bold text-navy mt-3 mb-4">
                 Looking for Your Next Opportunity?
               </h3>
-              <p className="text-[#5a6275] leading-relaxed mb-6">
+              <p className="text-navy-500 leading-relaxed mb-6">
                 Join our global network and access contract opportunities across aviation,
                 maritime, and offshore energy in safety-critical environments.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-[#222c4a] text-white px-8 py-3.5 rounded-lg font-bold hover:bg-[#1a2340] transition-colors min-w-[200px]"
+                className="inline-flex items-center justify-center gap-2 bg-navy text-white px-8 py-3.5 rounded-lg font-bold hover:bg-navy-800 transition-colors min-w-[200px]"
               >
                 Apply Now <ArrowRight className="w-4 h-4" />
               </Link>

@@ -7,7 +7,7 @@ const PLATFORM_LOGIN_URL =
 
 export default function Footer() {
   return (
-    <footer className="bg-[#222c4a] text-white">
+    <footer className="bg-navy text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
@@ -29,27 +29,27 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-[#fbc134] mb-4 text-sm uppercase tracking-wider">
+            <h4 className="font-semibold text-yellow mb-4 text-sm uppercase tracking-wider">
               Company
             </h4>
             <ul className="space-y-2.5">
-              <li><Link href="/about" className="text-white/60 hover:text-[#fbc134] text-sm transition-colors">About</Link></li>
-              <li><Link href="/services" className="text-white/60 hover:text-[#fbc134] text-sm transition-colors">Industries</Link></li>
-              <li><Link href="/contact" className="text-white/60 hover:text-[#fbc134] text-sm transition-colors">Hire Talent</Link></li>
-              <li><Link href="/vacancies" className="text-white/60 hover:text-[#fbc134] text-sm transition-colors">Find Jobs</Link></li>
-              <li><Link href="/contact" className="text-white/60 hover:text-[#fbc134] text-sm transition-colors">Contact</Link></li>
-              <li><a href={PLATFORM_LOGIN_URL} className="text-white/60 hover:text-[#fbc134] text-sm transition-colors">Platform Login</a></li>
+              <li><Link href="/about" className="text-white/60 hover:text-yellow text-sm transition-colors">About</Link></li>
+              <li><Link href="/services" className="text-white/60 hover:text-yellow text-sm transition-colors">Industries</Link></li>
+              <li><Link href="/contact" className="text-white/60 hover:text-yellow text-sm transition-colors">Hire Talent</Link></li>
+              <li><Link href="/vacancies" className="text-white/60 hover:text-yellow text-sm transition-colors">Find Jobs</Link></li>
+              <li><Link href="/contact" className="text-white/60 hover:text-yellow text-sm transition-colors">Contact</Link></li>
+              <li><a href={PLATFORM_LOGIN_URL} className="text-white/60 hover:text-yellow text-sm transition-colors">Platform Login</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-[#fbc134] mb-4 text-sm uppercase tracking-wider">
+            <h4 className="font-semibold text-yellow mb-4 text-sm uppercase tracking-wider">
               Our Industries
             </h4>
             <ul className="space-y-2.5">
               {['Confair Aviation', 'Confair Maritime', 'Confair Offshore'].map((item) => (
                 <li key={item}>
-                  <Link href="/services" className="text-white/60 hover:text-[#fbc134] text-sm transition-colors">
+                  <Link href="/services" className="text-white/60 hover:text-yellow text-sm transition-colors">
                     {item}
                   </Link>
                 </li>
@@ -58,38 +58,38 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-[#fbc134] mb-4 text-sm uppercase tracking-wider">
+            <h4 className="font-semibold text-yellow mb-4 text-sm uppercase tracking-wider">
               Netherlands Headquarters
             </h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#61bef6]" />
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
                 Tennesseedreef 7e, 3565 CK Utrecht
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
-                <Phone className="w-4 h-4 mt-0.5 shrink-0 text-[#61bef6]" />
+                <Phone className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
                 +31 850 711 950
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
-                <Mail className="w-4 h-4 mt-0.5 shrink-0 text-[#61bef6]" />
+                <Mail className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
                 netherlands@confair.com
               </li>
             </ul>
 
-            <h4 className="font-semibold text-[#fbc134] mb-4 mt-6 text-sm uppercase tracking-wider">
+            <h4 className="font-semibold text-yellow mb-4 mt-6 text-sm uppercase tracking-wider">
               Middle East Headquarters
             </h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#61bef6]" />
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
                 The Prime Tower, Office 2001-25, Business Bay, Dubai
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
-                <Phone className="w-4 h-4 mt-0.5 shrink-0 text-[#61bef6]" />
+                <Phone className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
                 +971 55 692 4772
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
-                <Mail className="w-4 h-4 mt-0.5 shrink-0 text-[#61bef6]" />
+                <Mail className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
                 uae@confair.com
               </li>
             </ul>
@@ -101,14 +101,14 @@ export default function Footer() {
             © {new Date().getFullYear()} Confair Group. All rights reserved.
           </p>
           <div className="flex gap-6 flex-wrap justify-center">
-            <Link href="/privacy-policy" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
+            <Link href="/privacy-policy" className="text-white/40 hover:text-yellow text-sm transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/cookie-policy" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
+            <Link href="/cookie-policy" className="text-white/40 hover:text-yellow text-sm transition-colors">
               Cookie Policy
             </Link>
-            <CookiePreferencesButton className="text-white/40 hover:text-[#fbc134] text-sm transition-colors cursor-pointer" />
-            <Link href="/terms-of-use" className="text-white/40 hover:text-[#fbc134] text-sm transition-colors">
+            <CookiePreferencesButton className="text-white/40 hover:text-yellow text-sm transition-colors cursor-pointer" />
+            <Link href="/terms-of-use" className="text-white/40 hover:text-yellow text-sm transition-colors">
               Terms of Use
             </Link>
           </div>

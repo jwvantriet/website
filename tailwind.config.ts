@@ -1,23 +1,15 @@
 import type { Config } from 'tailwindcss';
 import typography from '@tailwindcss/typography';
+// Brand colors + fonts live in the shared preset (mirrored in the
+// confair-platform repo -- see the note in that file before editing values).
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const confairPreset = require('./tailwind.confair-preset');
 
 const config: Config = {
+  presets: [confairPreset],
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
-    extend: {
-      colors: {
-        confair: {
-          navy: '#222c4a',
-          'navy-dark': '#1a2340',
-          blue: '#407df1',
-          'blue-light': '#61bef6',
-          gold: '#fbc134',
-          'gold-dark': '#e5af2e',
-          cream: '#f2eee7',
-          muted: '#5a6275',
-        },
-      },
-    },
+    extend: {},
   },
   plugins: [typography],
 };

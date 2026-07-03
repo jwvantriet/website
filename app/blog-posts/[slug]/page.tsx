@@ -44,7 +44,7 @@ function renderContent(content: string) {
   return content.split('\n\n').map((paragraph, i) => {
     if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
       return (
-        <h3 key={i} className="text-xl font-bold text-[#222c4a] mt-8 mb-4">
+        <h3 key={i} className="text-xl font-bold text-navy mt-8 mb-4">
           {paragraph.replace(/\*\*/g, '')}
         </h3>
       );
@@ -52,10 +52,10 @@ function renderContent(content: string) {
     if (paragraph.includes('**') && !paragraph.startsWith('1.') && !paragraph.startsWith('- ')) {
       const parts = paragraph.split(/(\*\*.*?\*\*)/g);
       return (
-        <p key={i} className="text-[#5a6275] leading-relaxed mb-4">
+        <p key={i} className="text-navy-500 leading-relaxed mb-4">
           {parts.map((part, j) =>
             part.startsWith('**') && part.endsWith('**') ? (
-              <strong key={j} className="text-[#222c4a]">{part.replace(/\*\*/g, '')}</strong>
+              <strong key={j} className="text-navy">{part.replace(/\*\*/g, '')}</strong>
             ) : (
               <span key={j}>{part}</span>
             ),
@@ -71,12 +71,12 @@ function renderContent(content: string) {
             const text = item.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '');
             const parts = text.split(/(\*\*.*?\*\*)/g);
             return (
-              <li key={j} className="text-[#5a6275] leading-relaxed flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#fbc134] mt-2.5 shrink-0" />
+              <li key={j} className="text-navy-500 leading-relaxed flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-yellow mt-2.5 shrink-0" />
                 <span>
                   {parts.map((part, k) =>
                     part.startsWith('**') && part.endsWith('**') ? (
-                      <strong key={k} className="text-[#222c4a]">{part.replace(/\*\*/g, '')}</strong>
+                      <strong key={k} className="text-navy">{part.replace(/\*\*/g, '')}</strong>
                     ) : (
                       <span key={k}>{part}</span>
                     ),
@@ -89,7 +89,7 @@ function renderContent(content: string) {
       );
     }
     return (
-      <p key={i} className="text-[#5a6275] leading-relaxed mb-4">{paragraph}</p>
+      <p key={i} className="text-navy-500 leading-relaxed mb-4">{paragraph}</p>
     );
   });
 }
@@ -100,15 +100,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
   return (
     <>
-      <section className="bg-[#222c4a] py-16">
+      <section className="bg-navy py-16">
         <div className="max-w-4xl mx-auto px-6">
           <Link
             href="/blog-posts"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-[#fbc134] text-sm mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-white/60 hover:text-yellow text-sm mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Blog
           </Link>
-          <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-[#407df1]/20 text-[#61bef6] mb-4">
+          <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-cblue/20 text-lblue mb-4">
             {post.category}
           </span>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">{post.title}</h1>

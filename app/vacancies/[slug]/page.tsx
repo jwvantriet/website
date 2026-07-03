@@ -88,11 +88,11 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 py-4">
           <nav className="flex items-center gap-2 text-sm text-gray-500">
-            <Link href="/" className="hover:text-[#222c4a] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-navy transition-colors">Home</Link>
             <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
-            <Link href="/vacancies" className="hover:text-[#222c4a] transition-colors">Vacancies</Link>
+            <Link href="/vacancies" className="hover:text-navy transition-colors">Vacancies</Link>
             <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
-            <span className="text-[#222c4a] font-medium truncate max-w-[300px]">{vacancy.title}</span>
+            <span className="text-navy font-medium truncate max-w-[300px]">{vacancy.title}</span>
           </nav>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
         <div className="max-w-5xl mx-auto px-6">
           <Link
             href="/vacancies"
-            className="inline-flex items-center gap-2 text-gray-500 hover:text-[#222c4a] transition-colors mb-8 text-sm"
+            className="inline-flex items-center gap-2 text-gray-500 hover:text-navy transition-colors mb-8 text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Vacancies
@@ -118,7 +118,7 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-4xl font-bold text-[#222c4a] mb-3 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3 leading-tight">
               {vacancy.title}
             </h1>
 
@@ -224,23 +224,23 @@ function ContentSection({
     if (!fallbackText) return null;
     return (
       <div>
-        <h2 className="text-xl font-bold text-[#222c4a] mb-4">{title}</h2>
+        <h2 className="text-xl font-bold text-navy mb-4">{title}</h2>
         <p className="text-gray-600 leading-relaxed">{fallbackText}</p>
       </div>
     );
   }
   return (
     <div>
-      <h2 className="text-xl font-bold text-[#222c4a] mb-4">{title}</h2>
+      <h2 className="text-xl font-bold text-navy mb-4">{title}</h2>
       <div
         className="prose prose-sm max-w-none text-gray-600 leading-relaxed
-          prose-headings:text-[#222c4a] prose-headings:font-semibold
-          prose-a:text-[#407df1] prose-a:no-underline hover:prose-a:underline
-          prose-li:marker:text-[#407df1]
+          prose-headings:text-navy prose-headings:font-semibold
+          prose-a:text-cblue prose-a:no-underline hover:prose-a:underline
+          prose-li:marker:text-cblue
           prose-strong:text-gray-700
           [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5
           [&_p]:mb-3 [&_li]:mb-1
-          [&_h3]:text-base [&_h3]:font-bold [&_h3]:text-[#222c4a] [&_h3]:mt-5 [&_h3]:mb-2"
+          [&_h3]:text-base [&_h3]:font-bold [&_h3]:text-navy [&_h3]:mt-5 [&_h3]:mb-2"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>
@@ -271,19 +271,19 @@ function ContactCard({
               /* eslint-disable-next-line @next/next/no-img-element */
               <img src={photo} alt={name} className="w-16 h-16 rounded-full object-cover" />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-[#222c4a] flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-navy flex items-center justify-center">
                 <User className="w-7 h-7 text-white" />
               </div>
             )}
             <div>
-              <p className="font-bold text-[#222c4a]">{name}</p>
+              <p className="font-bold text-navy">{name}</p>
               <p className="text-sm text-gray-500">{title || 'Recruitment Consultant'}</p>
             </div>
           </div>
           {phone && (
             <a
               href={`tel:${phone}`}
-              className="flex items-center gap-3 text-sm text-gray-600 hover:text-[#407df1] transition-colors py-2"
+              className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue transition-colors py-2"
             >
               <Phone className="w-4 h-4 text-gray-400" />
               {phone}
@@ -292,7 +292,7 @@ function ContactCard({
           {email && (
             <a
               href={`mailto:${email}`}
-              className="flex items-center gap-3 text-sm text-gray-600 hover:text-[#407df1] transition-colors py-2"
+              className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue transition-colors py-2"
             >
               <Mail className="w-4 h-4 text-gray-400" />
               {email}
@@ -307,16 +307,16 @@ function ContactCard({
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full bg-[#222c4a] flex items-center justify-center">
+          <div className="w-16 h-16 rounded-full bg-navy flex items-center justify-center">
             <User className="w-7 h-7 text-white" />
           </div>
           <div>
-            <p className="font-bold text-[#222c4a]">Contact Person</p>
+            <p className="font-bold text-navy">Contact Person</p>
             <p className="text-sm text-gray-500">Recruitment Team</p>
           </div>
         </div>
         <div
-          className="prose prose-sm max-w-none text-gray-600 prose-a:text-[#407df1]"
+          className="prose prose-sm max-w-none text-gray-600 prose-a:text-cblue"
           dangerouslySetInnerHTML={{ __html: contactHtml }}
         />
       </div>
@@ -326,17 +326,17 @@ function ContactCard({
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-16 h-16 rounded-full bg-[#222c4a] flex items-center justify-center">
+        <div className="w-16 h-16 rounded-full bg-navy flex items-center justify-center">
           <Building2 className="w-7 h-7 text-white" />
         </div>
         <div>
-          <p className="font-bold text-[#222c4a]">Confair Group</p>
+          <p className="font-bold text-navy">Confair Group</p>
           <p className="text-sm text-gray-500">Recruitment Team</p>
         </div>
       </div>
       <a
         href="mailto:info@confair.com"
-        className="flex items-center gap-3 text-sm text-gray-600 hover:text-[#407df1] transition-colors py-2"
+        className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue transition-colors py-2"
       >
         <Mail className="w-4 h-4 text-gray-400" />
         info@confair.com
@@ -349,7 +349,7 @@ function MetaItem({ icon, label, value }: { icon: React.ReactNode; label: string
   return (
     <div className="flex flex-col gap-1">
       <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{label}</span>
-      <div className="flex items-center gap-1.5 text-sm font-medium text-[#222c4a]">
+      <div className="flex items-center gap-1.5 text-sm font-medium text-navy">
         <span className="text-gray-400">{icon}</span>
         {value}
       </div>

@@ -110,9 +110,9 @@ const processSteps = [
 export default function ServicesPage() {
   return (
     <>
-      <section className="bg-[#222c4a] py-20 md:py-28">
+      <section className="bg-navy py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">Our Services</span>
+          <span className="text-yellow text-sm font-semibold uppercase tracking-wider">Our Services</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">
             Specialized Workforce Solutions
           </h1>
@@ -126,7 +126,7 @@ export default function ServicesPage() {
         <section
           key={service.id}
           id={service.id}
-          className={`py-20 md:py-28 ${index % 2 === 0 ? 'bg-white' : 'bg-[#f2eee7]'} scroll-mt-20`}
+          className={`py-20 md:py-28 ${index % 2 === 0 ? 'bg-white' : 'bg-beige'} scroll-mt-20`}
         >
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -140,19 +140,19 @@ export default function ServicesPage() {
                     {service.subtitle}
                   </span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
                   {service.title}
                 </h2>
-                <p className="text-[#5a6275] text-lg leading-relaxed mb-8">
+                <p className="text-navy-500 text-lg leading-relaxed mb-8">
                   {service.description}
                 </p>
 
-                <h4 className="font-bold text-[#222c4a] mb-4">Key Roles We Supply</h4>
+                <h4 className="font-bold text-navy mb-4">Key Roles We Supply</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                   {service.roles.map((role) => (
                     <div key={role} className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: service.color }} />
-                      <span className="text-[#5a6275] text-sm">{role}</span>
+                      <span className="text-navy-500 text-sm">{role}</span>
                     </div>
                   ))}
                 </div>
@@ -183,10 +183,10 @@ export default function ServicesPage() {
         </section>
       ))}
 
-      <section className="py-20 md:py-28 bg-[#222c4a]">
+      <section className="py-20 md:py-28 bg-navy">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider">How We Work</span>
+            <span className="text-yellow text-sm font-semibold uppercase tracking-wider">How We Work</span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">Our Process</h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg">
               A streamlined approach to delivering the right professionals for your operations.
@@ -195,9 +195,9 @@ export default function ServicesPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {processSteps.map((step, i) => (
               <div key={step.title} className="text-center">
-                <div className="w-16 h-16 rounded-2xl bg-[#fbc134]/10 flex items-center justify-center mx-auto mb-5 relative">
-                  <step.icon className="w-7 h-7 text-[#fbc134]" />
-                  <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[#fbc134] text-[#222c4a] text-xs font-bold flex items-center justify-center">
+                <div className="w-16 h-16 rounded-2xl bg-yellow/10 flex items-center justify-center mx-auto mb-5 relative">
+                  <step.icon className="w-7 h-7 text-yellow" />
+                  <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-yellow text-navy text-xs font-bold flex items-center justify-center">
                     {i + 1}
                   </span>
                 </div>
@@ -209,25 +209,25 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-[#f2eee7]">
+      <section className="py-20 bg-beige">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#222c4a] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
             Ready to Get Started?
           </h2>
-          <p className="text-[#5a6275] text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-navy-500 text-lg mb-8 max-w-2xl mx-auto">
             Whether you need workforce solutions or you&apos;re looking for your next contract
             opportunity, we&apos;re here to help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-[#fbc134] text-[#222c4a] px-7 py-3.5 rounded-lg font-bold hover:bg-[#e5af2e] transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-yellow text-navy px-7 py-3.5 rounded-lg font-bold hover:bg-yellow-600 transition-colors"
             >
               Contact Us <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center justify-center gap-2 bg-[#222c4a] text-white px-7 py-3.5 rounded-lg font-bold hover:bg-[#1a2340] transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-navy text-white px-7 py-3.5 rounded-lg font-bold hover:bg-navy-800 transition-colors"
             >
               Learn About Us
             </Link>

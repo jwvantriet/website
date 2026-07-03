@@ -46,9 +46,9 @@ export default function ApplyButton({
 
   return (
     <>
-      <div className="bg-[#222c4a] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-navy rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[#fbc134] text-sm font-semibold uppercase tracking-wider mb-1">
+          <p className="text-yellow text-sm font-semibold uppercase tracking-wider mb-1">
             Take the next step
           </p>
           <p className="text-white/70 text-sm">{subline}</p>
@@ -56,7 +56,7 @@ export default function ApplyButton({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex-shrink-0 bg-[#fbc134] text-[#222c4a] px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20"
+          className="flex-shrink-0 bg-yellow text-navy px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-yellow-600 transition-colors shadow-lg shadow-yellow/20"
         >
           Apply for this job
         </button>
@@ -143,12 +143,12 @@ function ApplyDialog({
         ref={dialogRef}
         className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
       >
-        <div className="bg-[#222c4a] px-6 py-5">
+        <div className="bg-navy px-6 py-5">
           <div className="flex items-start justify-between">
             <div className="flex-1 pr-4">
               <div className="flex items-center gap-2 mb-2">
-                <Briefcase className="w-4 h-4 text-[#fbc134]" />
-                <span className="text-[#fbc134] text-xs font-semibold uppercase tracking-wider">
+                <Briefcase className="w-4 h-4 text-yellow" />
+                <span className="text-yellow text-xs font-semibold uppercase tracking-wider">
                   Apply for this job
                 </span>
               </div>
@@ -176,7 +176,7 @@ function ApplyDialog({
               <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-8 h-8 text-emerald-500" />
               </div>
-              <h3 className="text-xl font-bold text-[#222c4a] mb-2">Application received</h3>
+              <h3 className="text-xl font-bold text-navy mb-2">Application received</h3>
               {(() => {
                 if (state.status !== 'success') {
                   return (
@@ -187,7 +187,7 @@ function ApplyDialog({
                       <button
                         type="button"
                         onClick={onClose}
-                        className="bg-[#222c4a] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a2340] transition-colors"
+                        className="bg-navy text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-navy-800 transition-colors"
                       >
                         Close
                       </button>
@@ -207,7 +207,7 @@ function ApplyDialog({
                       </p>
                       <a
                         href={loginUrl}
-                        className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 inline-flex items-center gap-2"
+                        className="bg-yellow text-navy px-8 py-3 rounded-xl font-bold text-sm hover:bg-yellow-600 transition-colors shadow-lg shadow-yellow/20 inline-flex items-center gap-2"
                       >
                         Sign in to my account →
                       </a>
@@ -226,7 +226,7 @@ function ApplyDialog({
                     {welcomeUrl ? (
                       <a
                         href={welcomeUrl}
-                        className="bg-[#fbc134] text-[#222c4a] px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 inline-flex items-center gap-2"
+                        className="bg-yellow text-navy px-8 py-3 rounded-xl font-bold text-sm hover:bg-yellow-600 transition-colors shadow-lg shadow-yellow/20 inline-flex items-center gap-2"
                       >
                         Create my password →
                       </a>
@@ -234,7 +234,7 @@ function ApplyDialog({
                       <button
                         type="button"
                         onClick={onClose}
-                        className="bg-[#222c4a] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a2340] transition-colors"
+                        className="bg-navy text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-navy-800 transition-colors"
                       >
                         Close
                       </button>
@@ -290,12 +290,12 @@ function ApplyDialog({
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm text-gray-500 hover:border-[#407df1] hover:text-[#407df1] transition-all flex items-center justify-center gap-2 bg-gray-50/50"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm text-gray-500 hover:border-cblue hover:text-cblue transition-all flex items-center justify-center gap-2 bg-gray-50/50"
                 >
                   {cvFile ? (
                     <>
-                      <FileText className="w-4 h-4 text-[#407df1]" />
-                      <span className="text-[#407df1] font-medium">{cvFile.name}</span>
+                      <FileText className="w-4 h-4 text-cblue" />
+                      <span className="text-cblue font-medium">{cvFile.name}</span>
                     </>
                   ) : (
                     <>
@@ -308,7 +308,7 @@ function ApplyDialog({
 
               <p className="text-xs text-gray-400 leading-relaxed">
                 By submitting this application, you agree to our{' '}
-                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#407df1] hover:underline">
+                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-cblue hover:underline">
                   Privacy Policy
                 </a>{' '}
                 and consent to the processing of your personal data for recruitment purposes.
@@ -328,7 +328,7 @@ function ApplyDialog({
 }
 
 const inputClass =
-  'w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-[#407df1] focus:ring-2 focus:ring-[#407df1]/20 outline-none transition-all placeholder:text-gray-300';
+  'w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none transition-all placeholder:text-gray-300';
 
 function Field({
   icon,
@@ -356,7 +356,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-[#fbc134] text-[#222c4a] py-3.5 rounded-xl font-bold text-sm hover:bg-[#f0b020] transition-colors shadow-lg shadow-[#fbc134]/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      className="w-full bg-yellow text-navy py-3.5 rounded-xl font-bold text-sm hover:bg-yellow-600 transition-colors shadow-lg shadow-yellow/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
     >
       {pending ? (
         <>

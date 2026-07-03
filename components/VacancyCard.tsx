@@ -44,7 +44,7 @@ export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
               {vacancy.industry}
             </span>
             {vacancyIsNew && (
-              <span className="inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#fbc134] text-[#222c4a] uppercase tracking-wider">
+              <span className="inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-yellow text-navy uppercase tracking-wider">
                 New
               </span>
             )}
@@ -55,7 +55,7 @@ export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
           </span>
         </div>
 
-        <h3 className="text-lg font-bold text-[#222c4a] mb-3 group-hover:text-[#407df1] transition-colors leading-tight line-clamp-2">
+        <h3 className="text-lg font-bold text-navy mb-3 group-hover:text-cblue transition-colors leading-tight line-clamp-2">
           {vacancy.title}
         </h3>
 
@@ -81,7 +81,7 @@ export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
         )}
 
         <div className="mt-auto pt-4 border-t border-gray-50">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#222c4a] group-hover:text-[#fbc134] transition-colors">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-navy group-hover:text-yellow transition-colors">
             View Details
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </span>
