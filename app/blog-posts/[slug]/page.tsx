@@ -68,7 +68,15 @@ function renderContent(content: string) {
         </h3>
       );
     }
-    if (paragraph.includes('**') && !paragraph.startsWith('1.') && !paragraph.startsWith('- ')) {
+    // A paragraph is a list block only when it actually contains multiple
+    // lines (or dash bullets). A single-line "1. **Term** — text" paragraph is
+    // a numbered *paragraph* and must keep its number and inline bold —
+    // routing it into the bullet branch stripped the number and rendered a
+    // lone dot while items 2..n rendered as paragraphs (seen on the aviation
+    // workforce article's "Digital Certification Management" item).
+    const isListBlock =
+      paragraph.startsWith('- ') || (/^\d+\.\s/.test(paragraph) && paragraph.includes('\n'));
+    if (paragraph.includes('**') && !isListBlock) {
       const parts = paragraph.split(/(\*\*.*?\*\*)/g);
       return (
         <p key={i} className="text-navy-500 leading-relaxed mb-4">
@@ -82,7 +90,7 @@ function renderContent(content: string) {
         </p>
       );
     }
-    if (paragraph.startsWith('1.') || paragraph.startsWith('- ')) {
+    if (isListBlock) {
       const items = paragraph.split('\n');
       return (
         <ul key={i} className="space-y-2 mb-6 ml-4">
