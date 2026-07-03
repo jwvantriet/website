@@ -115,6 +115,88 @@ const CATALOG: CatalogEntry[] = [
   },
 ];
 
+type StockCandidate = {
+  label: string;
+  slug: string;
+  description: string;
+  suggestedFor: string;
+};
+
+// Shortlisted Unsplash candidates (free license, commercial use, no attribution
+// required). Previews load via Unsplash's download endpoint; before using one
+// as a blog cover, download it from its photo page and upload it to the
+// brand-images bucket so we host a stable copy ourselves.
+const STOCK_CANDIDATES: StockCandidate[] = [
+  {
+    label: 'N',
+    slug: 'an-airplane-is-being-worked-on-inside-a-hangar-MDYvXZpSnPo',
+    description: 'Airplane being worked on inside a hangar',
+    suggestedFor: 'Blog: Hiring EASA Part-66 engineers (replaces cockpit-style cover)',
+  },
+  {
+    label: 'O',
+    slug: 'a-large-container-ship-in-the-middle-of-the-ocean-GFjqsPW7NPY',
+    description: 'Large container ship at sea',
+    suggestedFor: 'Maritime — general / blog covers',
+  },
+  {
+    label: 'P',
+    slug: 'large-container-ship-with-cranes-in-harbor--8n2CGk7Ihk',
+    description: 'Container ship with cranes in harbor',
+    suggestedFor: 'Maritime / logistics',
+  },
+  {
+    label: 'Q',
+    slug: 'a-cargo-ship-being-loaded-by-a-massive-crane-J2pFaFSplUE',
+    description: 'Cargo ship being loaded by crane (Hamburg)',
+    suggestedFor: 'Blog: Building Resilient Supply Chains',
+  },
+  {
+    label: 'R',
+    slug: 'an-overhead-view-of-cargo-containers-and-a-crane-06axNInHp-I',
+    description: 'Overhead view, Maasvlakte container terminal, Port of Rotterdam',
+    suggestedFor: 'Supply chain / maritime — nicely Dutch',
+  },
+  {
+    label: 'S',
+    slug: 'an-oil-rig-in-the-middle-of-the-ocean-7UGmtWtWERY',
+    description: 'Oil rig in the middle of the ocean',
+    suggestedFor: 'Offshore O&G',
+  },
+  {
+    label: 'T',
+    slug: 'red-and-grey-oil-platform-in-sea-15mjdcU9RKI',
+    description: 'Red and grey oil platform at sea',
+    suggestedFor: 'Offshore O&G',
+  },
+  {
+    label: 'U',
+    slug: 'aerial-view-of-a-large-ship-with-helipad-at-sea-W61mAfn1qIY',
+    description: 'Aerial view of large ship with helipad (tagged marine engineering)',
+    suggestedFor: 'Offshore support / maritime',
+  },
+  {
+    label: 'V',
+    slug: 'a-group-of-wind-turbines-in-the-ocean--IaTiYqRTL8',
+    description: 'Offshore wind turbines, Belgian North Sea',
+    suggestedFor: 'Blog: Offshore Wind Energy (legacy post cover refresh)',
+  },
+  {
+    label: 'W',
+    slug: 'a-group-of-wind-turbines-in-the-water-cWUj5FrVxGM',
+    description: 'Wind farm turbines in open water',
+    suggestedFor: 'Offshore wind — alternative',
+  },
+];
+
+function stockPreviewUrl(slug: string): string {
+  return `https://unsplash.com/photos/${slug}/download?w=1600`;
+}
+
+function stockPageUrl(slug: string): string {
+  return `https://unsplash.com/photos/${slug}`;
+}
+
 async function fetchBucketImages(): Promise<{ name: string; url: string }[]> {
   try {
     const supabase = createClient();
@@ -196,6 +278,31 @@ export default async function ImageLibraryPage() {
               title={img.description}
               lines={img.usedBy}
             />
+          ))}
+        </div>
+
+        <h2 className="text-xl font-bold text-navy mb-2">Stock candidates (Unsplash)</h2>
+        <p className="text-navy-500 text-sm mb-5 max-w-3xl leading-relaxed">
+          Shortlisted free-license photos (commercial use, no attribution required). Click a card
+          to open its Unsplash page. To adopt one: download it there, upload it to the
+          brand-images bucket below, and it becomes a stable library image we host ourselves.
+        </p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-14">
+          {STOCK_CANDIDATES.map((img) => (
+            <a
+              key={img.label}
+              href={stockPageUrl(img.slug)}
+              target="_blank"
+              rel="noreferrer"
+              className="block hover:opacity-90 transition-opacity"
+            >
+              <ImageCard
+                label={img.label}
+                url={stockPreviewUrl(img.slug)}
+                title={img.description}
+                lines={[`Suggested: ${img.suggestedFor}`]}
+              />
+            </a>
           ))}
         </div>
 
