@@ -7,13 +7,29 @@ import type { BlogPost } from '@/lib/types';
 export const metadata: Metadata = {
   title: 'Blog & Industry News',
   description: 'Insights, trends, and news from aviation, maritime, and offshore energy industries.',
-  robots: { index: false, follow: false },
 };
 
 export const revalidate = 300;
 
-const AVIATION_IMG =
+// Fallback covers per category for posts without a cover_image_url, reusing
+// the sector imagery already on the site so the grid stays on-brand. Every
+// published post should still get its own cover in the blog_posts table.
+const FALLBACK_COVERS: Record<string, string> = {
+  Aviation:
+    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/29d4afd4-8a38-4bee-81b8-37dd2414c980.png',
+  Maritime:
+    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png',
+  Offshore:
+    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png',
+  'Offshore Energy':
+    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png',
+};
+const DEFAULT_COVER =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/29d4afd4-8a38-4bee-81b8-37dd2414c980.png';
+
+function coverFor(post: BlogPost): string {
+  return post.cover_image_url || FALLBACK_COVERS[post.category] || DEFAULT_COVER;
+}
 
 function formatDate(dateStr: string | null): string {
   if (!dateStr) return '';
@@ -86,7 +102,7 @@ export default async function BlogListPage() {
                   <div className="h-56 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={post.cover_image_url || AVIATION_IMG}
+                      src={coverFor(post)}
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
