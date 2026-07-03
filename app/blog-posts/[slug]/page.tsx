@@ -105,15 +105,19 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <JsonLd data={articleSchema(post)} />
       <section className="bg-navy py-16">
         <div className="max-w-4xl mx-auto px-6">
-          <Link
-            href="/blog-posts"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-yellow text-sm mb-6 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Blog
-          </Link>
-          <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-cblue/20 text-lblue mb-4">
-            {post.category}
-          </span>
+          <div className="mb-8">
+            <Link
+              href="/blog-posts"
+              className="inline-flex items-center gap-2 text-white/60 hover:text-yellow text-sm transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Blog
+            </Link>
+          </div>
+          <div className="mb-4">
+            <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-cblue/20 text-lblue">
+              {post.category}
+            </span>
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">{post.title}</h1>
           <div className="flex flex-wrap items-center gap-4 text-white/60 text-sm">
             {post.author && (
