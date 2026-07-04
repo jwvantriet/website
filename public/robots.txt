@@ -4,4 +4,7 @@ Allow: /
 # Hidden until the team page content is finished.
 Disallow: /team
 
+# Private, tokenised client proposals.
+Disallow: /p/
+
 Sitemap: https://confair.com/sitemap.xml
