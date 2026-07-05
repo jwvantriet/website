@@ -65,19 +65,23 @@ export default function AboutPage() {
                 industries.
               </p>
               <p className="text-navy-500 leading-relaxed mb-6">
-                We understand that in complex operational environments, the quality of your people
-                directly determines the safety, reliability, and performance of your operations.
+                We understand that in complex operational environments, the quality — and continuity —
+                of your people directly determines the safety, reliability and performance of your
+                operations.
               </p>
               <p className="text-navy-500 leading-relaxed mb-6">
-                Our expertise is structured across three core verticals: Confair Aviation, Confair
-                Maritime, and Confair Offshore. Each focuses on delivering sector-specific knowledge
-                and highly skilled, certified professionals for both short- and long-term assignments
-                worldwide.
+                Our expertise is structured across three core verticals — Confair Aviation, Confair
+                Maritime and Confair Offshore — each delivering sector-specific, certified
+                professionals for short- and long-term assignments worldwide. What connects them is a
+                single way of working: one continuous process from recruitment and compliance through
+                onboarding, deployment and payroll, so nothing is entered twice and nothing falls
+                through the cracks.
               </p>
               <p className="text-navy-500 leading-relaxed">
-                We support two key audiences: clients seeking compliant, reliable workforce
-                solutions, and professionals looking for international contract opportunities in
-                their field.
+                We support two audiences through the same connected approach. Clients get compliant,
+                reliable workforce solutions with real-time visibility and far less administration;
+                professionals get one profile that follows their career — faster onboarding, accurate
+                payroll and opportunities across projects, countries and sectors.
               </p>
             </div>
             <div className="rounded-2xl overflow-hidden shadow-lg">
