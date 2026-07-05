@@ -83,7 +83,7 @@ export default function ServicesPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">What We Do</span>
+            <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">What We Do</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">Our Service Lines</h2>
             <p className="text-navy-500 max-w-2xl mx-auto text-lg">
               Buy any one on its own, or combine them — delivered together on one platform, so nothing
@@ -105,7 +105,7 @@ export default function ServicesPage() {
                     s.highlight ? 'bg-yellow/20' : 'bg-cblue/10'
                   }`}
                 >
-                  <s.icon className={`w-7 h-7 ${s.highlight ? 'text-yellow' : 'text-cblue'}`} />
+                  <s.icon className={`w-7 h-7 ${s.highlight ? 'text-yellow' : 'text-cblue-700'}`} />
                 </div>
                 <div className="flex items-center gap-2 mb-3">
                   <h3 className={`text-lg font-bold ${s.highlight ? 'text-white' : 'text-navy'}`}>
@@ -130,7 +130,7 @@ export default function ServicesPage() {
       <section className="py-20 md:py-28 bg-beige">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">How We Deliver</span>
+            <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">How We Deliver</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">The Five Promises</h2>
             <p className="text-navy-500 max-w-2xl mx-auto text-lg">
               The commitments behind every assignment — from the first vacancy to redeployment.
@@ -141,7 +141,7 @@ export default function ServicesPage() {
               <div key={p.title} className="bg-white rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-11 h-11 rounded-xl bg-cblue/10 flex items-center justify-center shrink-0">
-                    <p.icon className="w-5 h-5 text-cblue" />
+                    <p.icon className="w-5 h-5 text-cblue-700" />
                   </div>
                   <span className="text-2xl font-bold text-yellow">{i + 1}</span>
                 </div>

@@ -55,7 +55,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Story</span>
+              <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">Our Story</span>
               <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-6">
                 Built on Expertise, Driven by People
               </h2>
@@ -95,7 +95,7 @@ export default function AboutPage() {
       <section className="py-20 md:py-28 bg-beige">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Values</span>
+            <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">Our Values</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">
               What Drives Our Operations
             </h2>
@@ -111,7 +111,7 @@ export default function AboutPage() {
                 className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300"
               >
                 <div className="w-14 h-14 rounded-xl bg-cblue/10 flex items-center justify-center mb-5">
-                  <v.icon className="w-7 h-7 text-cblue" />
+                  <v.icon className="w-7 h-7 text-cblue-700" />
                 </div>
                 <h3 className="text-lg font-bold text-navy mb-3">{v.title}</h3>
                 <p className="text-navy-500 text-sm leading-relaxed">{v.description}</p>
@@ -124,7 +124,7 @@ export default function AboutPage() {
       <section className="py-20 md:py-28 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Journey</span>
+            <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">Our Journey</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3">Key Milestones</h2>
           </div>
 

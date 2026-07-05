@@ -70,7 +70,7 @@ export default async function TeamPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Leadership</span>
+            <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">Leadership</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">
               Our Leadership Team
             </h2>
@@ -138,7 +138,7 @@ export default async function TeamPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">Our Culture</span>
+              <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">Our Culture</span>
               <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-6">
                 A People-First Organization
               </h2>

@@ -37,13 +37,13 @@ export default function ContactPage() {
                   HQ Netherlands
                 </h3>
                 <div className="space-y-4 pl-4">
-                  <ContactInfoRow icon={<MapPin className="w-4 h-4 text-cblue" />} bg="bg-cblue/10">
+                  <ContactInfoRow icon={<MapPin className="w-4 h-4 text-cblue-700" />} bg="bg-cblue/10">
                     Tennesseedreef 7e, 3565 CK Utrecht
                   </ContactInfoRow>
-                  <ContactInfoRow icon={<Phone className="w-4 h-4 text-cblue" />} bg="bg-cblue/10">
+                  <ContactInfoRow icon={<Phone className="w-4 h-4 text-cblue-700" />} bg="bg-cblue/10">
                     +31 850 711 950
                   </ContactInfoRow>
-                  <ContactInfoRow icon={<Mail className="w-4 h-4 text-cblue" />} bg="bg-cblue/10">
+                  <ContactInfoRow icon={<Mail className="w-4 h-4 text-cblue-700" />} bg="bg-cblue/10">
                     netherlands@confair.com
                   </ContactInfoRow>
                 </div>
@@ -69,7 +69,7 @@ export default function ContactPage() {
 
               <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-lg bg-cblue/10 flex items-center justify-center shrink-0">
-                  <Clock className="w-4 h-4 text-cblue" />
+                  <Clock className="w-4 h-4 text-cblue-700" />
                 </div>
                 <div>
                   <h4 className="font-bold text-navy mb-1">Business Hours</h4>
@@ -80,13 +80,13 @@ export default function ContactPage() {
               <div className="mt-10 p-6 bg-beige rounded-2xl">
                 <h4 className="font-bold text-navy mb-3">Quick Links</h4>
                 <div className="space-y-2">
-                  <a href="mailto:aviation@confair.com" className="block text-sm text-cblue hover:underline">
+                  <a href="mailto:aviation@confair.com" className="block text-sm text-cblue-700 hover:underline">
                     Aviation inquiries → aviation@confair.com
                   </a>
-                  <a href="mailto:maritime@confair.com" className="block text-sm text-cblue hover:underline">
+                  <a href="mailto:maritime@confair.com" className="block text-sm text-cblue-700 hover:underline">
                     Maritime inquiries → maritime@confair.com
                   </a>
-                  <a href="mailto:offshore@confair.com" className="block text-sm text-cblue hover:underline">
+                  <a href="mailto:offshore@confair.com" className="block text-sm text-cblue-700 hover:underline">
                     Offshore inquiries → offshore@confair.com
                   </a>
                 </div>

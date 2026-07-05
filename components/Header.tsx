@@ -91,7 +91,7 @@ export default function Header() {
                       <Link
                         key={child.label}
                         href={child.path}
-                        className="block px-4 py-2.5 text-sm text-navy hover:bg-beige hover:text-cblue transition-colors"
+                        className="block px-4 py-2.5 text-sm text-navy hover:bg-beige hover:text-cblue-700 transition-colors"
                       >
                         {child.label}
                       </Link>

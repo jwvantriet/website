@@ -115,7 +115,7 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-cblue transition-colors">
+                    <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-cblue-700 transition-colors">
                       {post.title}
                     </h3>
                     {post.excerpt && (
@@ -132,7 +132,7 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
                           <Calendar className="w-3 h-3" /> {formatDate(post.published_at)}
                         </span>
                       </div>
-                      <span className="text-cblue text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span className="text-cblue-700 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
                         Read <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>

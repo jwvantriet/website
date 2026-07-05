@@ -49,7 +49,7 @@ export default function SalaryGuidePage() {
               <ul className="space-y-4">
                 {bullets.map((b) => (
                   <li key={b} className="flex gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-cblue shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-cblue-700 shrink-0 mt-0.5" />
                     <span className="text-navy-500 leading-relaxed">{b}</span>
                   </li>
                 ))}

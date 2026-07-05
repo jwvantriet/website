@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <p>
             Website:{' '}
-            <a href="https://confair.com" className="text-cblue hover:underline">confair.com</a>
+            <a href="https://confair.com" className="text-cblue-700 hover:underline">confair.com</a>
           </p>
 
           <h2>Definitions</h2>
