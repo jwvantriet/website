@@ -1,237 +1,178 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
-  Plane,
-  Ship,
-  Fuel,
-  ArrowRight,
-  CheckCircle2,
-  Wrench,
   Users,
-  Clock,
-  FileCheck,
+  FileSignature,
+  ShieldCheck,
+  Plane,
+  Wallet,
+  Layers,
+  Zap,
+  Eye,
+  Repeat,
+  ArrowRight,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Industries & Services',
-  description: 'One connected partner for aviation, maritime and offshore energy — recruitment, compliance, onboarding, deployment and payroll in a single process.',
+  title: 'Services',
+  description:
+    'One connected partner for safety-critical workforces — recruitment, contracting & EOR, compliance, onboarding, payroll and managed workforce solutions, in a single process.',
 };
-
-const AVIATION_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/8b6c02db-e1c5-4b18-b430-178ec319f74c.png';
-const MARITIME_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png';
-const OFFSHORE_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png';
 
 const services = [
   {
-    id: 'aviation',
+    icon: Users,
+    title: 'Recruitment & Search',
+    desc: 'Permanent and contract placement of certified professionals across aviation, maritime and offshore energy — the entry point to the relationship, not the whole of it.',
+  },
+  {
+    icon: FileSignature,
+    title: 'Contracting & Employer of Record',
+    desc: 'We contract and employ the professional, handling multi-country tax, social security and compliant international engagement so you don’t carry the administrative or legal burden.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Compliance & Verification',
+    desc: 'Licences, medicals, visas, training and background checks — collected and verified once, then monitored continuously against expiry, so compliance holds up to audit.',
+  },
+  {
     icon: Plane,
-    title: 'Confair Aviation',
-    subtitle: 'Aviation Workforce Solutions',
-    color: '#407df1',
-    image: AVIATION_IMG,
-    description:
-      'We provide certified aviation professionals to airlines, MRO facilities, airports, and aviation service providers worldwide. Our aviation specialists are fully licensed and experienced in operating within strict regulatory frameworks including EASA, FAA, and ICAO standards. The result: crews in place fast, compliance that holds up to audit, and flights that depart on schedule.',
-    roles: [
-      'Licensed Pilots (EASA & FAA certified)',
-      'Licensed Aircraft Engineers (B1/B2)',
-      'Cabin Crew & Flight Attendants',
-      'Aviation Safety Officers',
-      'Ground Handling Specialists',
-      'Airport Operations Managers',
-      'Quality & Compliance Auditors',
-    ],
-    features: [
-      'EASA & FAA Licensed and Certified Professionals',
-      'Rapid deployment within 48 hours',
-      'Short and long-term contracts',
-      'Full documentation management',
-    ],
+    title: 'Onboarding & Mobilisation',
+    desc: 'Digital onboarding orchestrated across every stakeholder, plus travel, visa and joining logistics — so people arrive on site ready, compliant and on time.',
   },
   {
-    id: 'maritime',
-    icon: Ship,
-    title: 'Confair Maritime',
-    subtitle: 'Maritime Workforce Solutions',
-    color: '#61bef6',
-    image: MARITIME_IMG,
-    description:
-      'We supply qualified maritime personnel for vessel operations, port services, and shipyard projects across the globe. Our maritime professionals hold valid STCW certifications and are experienced in operating across diverse vessel types and maritime environments. The result: compliant crews, smooth crew changes and vessels that sail on time.',
-    roles: [
-      'Masters & Deck Officers (STCW certified)',
-      'Marine Engineers',
-      'Shipyard Project Managers',
-      'Port & Terminal Operators',
-      'Marine Surveyors',
-      'Able Seamen & Ratings',
-    ],
-    features: [
-      'STCW Certified Maritime Professionals',
-      'Flag state compliance',
-      'Global Crew Management & Deployment',
-      '24/7 operational support',
-    ],
+    icon: Wallet,
+    title: 'Payroll & Administration',
+    desc: 'Roster and operational data become accurate, multi-currency payroll and invoicing — one partner, one invoice, no surprises and no re-keying.',
   },
   {
-    id: 'offshore',
-    icon: Fuel,
-    title: 'Confair Offshore',
-    subtitle: 'Offshore Energy Workforce Solutions',
-    color: '#fbc134',
-    image: OFFSHORE_IMG,
-    description:
-      'We deliver experienced offshore energy professionals for drilling, production, construction, and maintenance operations. Our offshore specialists are trained in the highest HSE standards and hold all required certifications for offshore work including BOSIET, HUET, and GWO. The result: mobilised teams, valid certifications and projects that stay on schedule.',
-    roles: [
-      'Project Engineers & Managers',
-      'Drilling Engineers & Supervisors',
-      'Offshore Wind Technicians (GWO certified)',
-      'Maintenance & Inspection Engineers',
-      'Production Technicians',
-      'HSE Officers & Advisors',
-    ],
-    features: [
-      'BOSIET, HUET & GWO Certified Offshore Professionals',
-      'Oil & gas + renewables',
-      'Strict HSE compliance',
-      'Global Mobilization & Rapid Deployment',
-    ],
+    icon: Layers,
+    title: 'Managed Workforce Solutions',
+    desc: 'We run all or part of your workforce programme (MSP / RPO) — crewing entire operations end-to-end, from sourcing through compliance, deployment and payroll.',
+    highlight: true,
   },
 ];
 
-const processSteps = [
-  { icon: FileCheck, title: 'Requirements Analysis', desc: 'We assess your operational needs, regulatory requirements, and timeline to define the ideal candidate profile.' },
-  { icon: Users, title: 'Candidate Selection', desc: 'Our recruiters match pre-vetted, certified professionals from our global talent pool to your specific requirements.' },
-  { icon: Wrench, title: 'Compliance & Onboarding', desc: 'We handle all documentation, certifications, and compliance checks to ensure seamless integration.' },
-  { icon: Clock, title: 'Deployment & Support', desc: 'Rapid mobilization with ongoing support throughout the contract duration, ensuring operational continuity.' },
+const promises = [
+  { icon: Zap, title: 'Find Faster', desc: 'We shorten the time between a workforce need and qualified, certified professionals — with rapid deployment where the operation demands it.' },
+  { icon: ShieldCheck, title: 'Verify Once', desc: 'Every credential is collected, verified and stored once, then kept current — eliminating duplicate administration while strengthening compliance.' },
+  { icon: Plane, title: 'Deploy With Confidence', desc: 'Contracts, travel, onboarding and mobilisation run through one connected workflow, so people arrive ready and compliant.' },
+  { icon: Eye, title: 'Manage Transparently', desc: 'Real-time visibility of every professional throughout the assignment, with payroll that flows from operational reality — not manual re-keying.' },
+  { icon: Repeat, title: 'Retain & Redeploy', desc: 'Profiles, compliance history and experience stay with us — so the next assignment starts faster, across projects, countries and sectors.' },
 ];
 
 export default function ServicesPage() {
   return (
     <>
+      {/* Hero */}
       <section className="bg-navy py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <span className="text-yellow text-sm font-semibold uppercase tracking-wider">Our Services</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">
-            Specialized Workforce Solutions
+            One Connected Partner, From Vacancy to Payroll
           </h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
-            Three dedicated divisions, one connected process — recruitment, compliance, onboarding,
-            deployment and payroll for aviation, maritime and offshore energy.
+            Most staffing firms hand you a CV and disappear. We run the whole journey — sourcing,
+            compliance, onboarding, workforce management and payroll — as one continuous process, so
+            your operations stay staffed, compliant and running.
           </p>
         </div>
       </section>
 
-      {services.map((service, index) => (
-        <section
-          key={service.id}
-          id={service.id}
-          className={`py-20 md:py-28 ${index % 2 === 0 ? 'bg-white' : 'bg-beige'} scroll-mt-20`}
-        >
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div className={index % 2 !== 0 ? 'lg:order-2' : ''}>
-                <div
-                  className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4"
-                  style={{ backgroundColor: `${service.color}15` }}
-                >
-                  <service.icon className="w-4 h-4" style={{ color: service.color }} />
-                  <span className="text-sm font-semibold" style={{ color: service.color }}>
-                    {service.subtitle}
-                  </span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
-                  {service.title}
-                </h2>
-                <p className="text-navy-500 text-lg leading-relaxed mb-8">
-                  {service.description}
-                </p>
-
-                <h4 className="font-bold text-navy mb-4">Key Roles We Supply</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-                  {service.roles.map((role) => (
-                    <div key={role} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: service.color }} />
-                      <span className="text-navy-500 text-sm">{role}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                  {service.features.map((f) => (
-                    <span
-                      key={f}
-                      className="text-xs font-semibold px-3 py-1.5 rounded-full border"
-                      style={{
-                        color: service.color,
-                        borderColor: `${service.color}40`,
-                        backgroundColor: `${service.color}08`,
-                      }}
-                    >
-                      {f}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className={`rounded-2xl overflow-hidden shadow-lg ${index % 2 !== 0 ? 'lg:order-1' : ''}`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={service.image} alt={service.title} className="w-full h-80 object-cover" />
-              </div>
-            </div>
-          </div>
-        </section>
-      ))}
-
-      <section className="py-20 md:py-28 bg-navy">
+      {/* Service lines */}
+      <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-yellow text-sm font-semibold uppercase tracking-wider">How We Work</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">Our Process</h2>
-            <p className="text-white/60 max-w-2xl mx-auto text-lg">
-              One connected process — from workforce need to a compliant professional on site, and
-              accurate payroll after.
+            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">What We Do</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">Our Service Lines</h2>
+            <p className="text-navy-500 max-w-2xl mx-auto text-lg">
+              Buy any one on its own, or combine them — delivered together on one platform, so nothing
+              is entered twice and nothing falls through the cracks.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {processSteps.map((step, i) => (
-              <div key={step.title} className="text-center">
-                <div className="w-16 h-16 rounded-2xl bg-yellow/10 flex items-center justify-center mx-auto mb-5 relative">
-                  <step.icon className="w-7 h-7 text-yellow" />
-                  <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-yellow text-navy text-xs font-bold flex items-center justify-center">
-                    {i + 1}
-                  </span>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((s) => (
+              <div
+                key={s.title}
+                className={`rounded-2xl p-8 transition-all duration-300 hover:shadow-lg ${
+                  s.highlight
+                    ? 'bg-navy text-white shadow-lg'
+                    : 'bg-white border border-gray-100 shadow-sm'
+                }`}
+              >
+                <div
+                  className={`w-14 h-14 rounded-xl flex items-center justify-center mb-5 ${
+                    s.highlight ? 'bg-yellow/20' : 'bg-cblue/10'
+                  }`}
+                >
+                  <s.icon className={`w-7 h-7 ${s.highlight ? 'text-yellow' : 'text-cblue'}`} />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed">{step.desc}</p>
+                <div className="flex items-center gap-2 mb-3">
+                  <h3 className={`text-lg font-bold ${s.highlight ? 'text-white' : 'text-navy'}`}>
+                    {s.title}
+                  </h3>
+                  {s.highlight && (
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-yellow text-navy px-2 py-0.5 rounded-full">
+                      End-to-end
+                    </span>
+                  )}
+                </div>
+                <p className={`text-sm leading-relaxed ${s.highlight ? 'text-white/70' : 'text-navy-500'}`}>
+                  {s.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-beige">
+      {/* Five Promises */}
+      <section className="py-20 md:py-28 bg-beige">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">How We Deliver</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">The Five Promises</h2>
+            <p className="text-navy-500 max-w-2xl mx-auto text-lg">
+              The commitments behind every assignment — from the first vacancy to redeployment.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {promises.map((p, i) => (
+              <div key={p.title} className="bg-white rounded-2xl p-6 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 rounded-xl bg-cblue/10 flex items-center justify-center shrink-0">
+                    <p.icon className="w-5 h-5 text-cblue" />
+                  </div>
+                  <span className="text-2xl font-bold text-yellow">{i + 1}</span>
+                </div>
+                <h3 className="font-bold text-navy mb-2">{p.title}</h3>
+                <p className="text-navy-500 text-sm leading-relaxed">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
-            Ready to Get Started?
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">Let’s scope your operation</h2>
           <p className="text-navy-500 text-lg mb-8 max-w-2xl mx-auto">
-            Whether you need workforce solutions or you&apos;re looking for your next contract
-            opportunity, we&apos;re here to help.
+            Tell us what you need to crew, where and by when — we’ll come back with a plan and a clear,
+            online quote.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 bg-yellow text-navy px-7 py-3.5 rounded-lg font-bold hover:bg-yellow-600 transition-colors"
             >
-              Contact Us <ArrowRight className="w-4 h-4" />
+              Request Workforce <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/about"
+              href="/industries"
               className="inline-flex items-center justify-center gap-2 bg-navy text-white px-7 py-3.5 rounded-lg font-bold hover:bg-navy-800 transition-colors"
             >
-              Learn About Us
+              Explore Industries
             </Link>
           </div>
         </div>
