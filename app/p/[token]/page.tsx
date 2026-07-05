@@ -73,7 +73,11 @@ export default async function ProposalPage({ params }: { params: { token: string
               <> by {proposal.accepted_by_name}{proposal.accepted_by_title ? `, ${proposal.accepted_by_title}` : ''}</>
             )}
             {proposal.accepted_at && <> on {new Date(proposal.accepted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</>}
-            . Our team will be in touch with the framework agreement.
+            . Our team will be in touch with the framework agreement.{' '}
+            <a href={`/p/${params.token}/certificate`} className="font-semibold underline">
+              View signing certificate
+            </a>
+            .
           </div>
         </div>
       )}

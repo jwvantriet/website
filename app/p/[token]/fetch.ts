@@ -68,3 +68,34 @@ export const fetchProposal = cache(async (token: string): Promise<PublicProposal
     return null;
   }
 });
+
+export interface ProposalSignature {
+  title: string;
+  client_name: string;
+  reference: string | null;
+  signer: { name: string; title: string | null; email: string | null };
+  signed_at: string | null;
+  ip: string | null;
+  user_agent: string | null;
+  content_sha256: string | null;
+  method: string | null;
+}
+
+// The signature attestation behind the Certificate of Electronic Signature.
+// Only resolves once a proposal has been signed (accepted); null otherwise.
+export const fetchSignature = cache(async (token: string): Promise<ProposalSignature | null> => {
+  const apiUrl = process.env.CONFAIR_API_URL;
+  if (!apiUrl) return null;
+  try {
+    const res = await fetch(`${apiUrl}/proposal/${encodeURIComponent(token)}/signature`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return null;
+    const json = (await res.json()) as { signature?: ProposalSignature };
+    return json.signature ?? null;
+  } catch (err) {
+    console.error('[proposal] signature fetch failed:', err);
+    return null;
+  }
+});

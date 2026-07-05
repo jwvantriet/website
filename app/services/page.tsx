@@ -14,7 +14,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'Industries & Services',
-  description: 'Specialized workforce solutions across aviation, maritime, and offshore energy.',
+  description: 'One connected partner for aviation, maritime and offshore energy — recruitment, compliance, onboarding, deployment and payroll in a single process.',
 };
 
 const AVIATION_IMG =
@@ -117,7 +117,8 @@ export default function ServicesPage() {
             Specialized Workforce Solutions
           </h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
-            Three dedicated divisions delivering sector-specific expertise across aviation, maritime, and offshore energy industries.
+            Three dedicated divisions, one connected process — recruitment, compliance, onboarding,
+            deployment and payroll for aviation, maritime and offshore energy.
           </p>
         </div>
       </section>
@@ -189,7 +190,8 @@ export default function ServicesPage() {
             <span className="text-yellow text-sm font-semibold uppercase tracking-wider">How We Work</span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">Our Process</h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg">
-              A streamlined approach to delivering the right professionals for your operations.
+              One connected process — from workforce need to a compliant professional on site, and
+              accurate payroll after.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">

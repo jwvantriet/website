@@ -50,6 +50,12 @@ export default function AcceptPanel({ token }: { token: string }) {
           We&apos;ve recorded your acceptance with a verified timestamp and notified our team.
           You&apos;ll receive the framework agreement for signature shortly.
         </p>
+        <a
+          href={`/p/${token}/certificate`}
+          className="mt-6 inline-block rounded-lg bg-yellow px-6 py-3 text-sm font-bold text-navy transition-colors hover:bg-yellow-600"
+        >
+          View signing certificate
+        </a>
       </section>
     );
   }
