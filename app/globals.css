@@ -6,3 +6,27 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Keep brand background colours when printing / saving to PDF (browsers strip
+   them by default) — used by the signing certificate. */
+.print-exact {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Print / Save-as-PDF: drop the site chrome so a printed page (e.g. the
+   Certificate of Electronic Signature) comes out as a clean standalone
+   document, not a screenshot of the website. */
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+  }
+  @page {
+    margin: 1.5cm;
+  }
+}

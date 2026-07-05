@@ -45,7 +45,7 @@ export default async function CertificatePage({ params }: { params: { token: str
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12 print:py-0">
-      <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm print:border-0 print:shadow-none md:p-12">
+      <div className="print-exact rounded-2xl border border-gray-200 bg-white p-8 shadow-sm print:border-0 print:shadow-none md:p-12">
         {/* Header — navy band so the reversed logo reads on print + screen */}
         <div className="-mx-8 -mt-8 rounded-t-2xl border-b-4 border-yellow bg-navy px-8 py-8 md:-mx-12 md:-mt-12 md:px-12 print:rounded-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
