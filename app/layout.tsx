@@ -43,6 +43,13 @@ export const metadata: Metadata = {
       'Contracting solutions for aviation, maritime, and offshore operations.',
     type: 'website',
   },
+  // Google Search Console ownership verification. Paste the token from
+  // GSC → "HTML tag" method into the GOOGLE_SITE_VERIFICATION env (Vercel →
+  // Settings → Environment Variables) and redeploy; Next renders the
+  // <meta name="google-site-verification"> tag. Left undefined = no tag.
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 // Cookiebot Consent Management Platform identifier (data-cbid). This is
