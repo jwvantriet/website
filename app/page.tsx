@@ -142,8 +142,9 @@ function HeroSlider() {
             Contracting Solutions for Aviation, Maritime &amp; Offshore Operations
           </h1>
           <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-8">
-            Certified professionals ensuring compliance and operational continuity across
-            safety-critical industries.
+            Certified professionals — sourced, verified, deployed and paid through one
+            connected partner — keeping your operations running across aviation, maritime
+            and offshore energy.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
@@ -260,11 +261,12 @@ export default function Home() {
                 Why Confair
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-6">
-                Workforce Solutions for Critical Operations
+                One Connected Partner, From Vacancy to Payroll
               </h2>
               <p className="text-navy-500 text-lg leading-relaxed mb-8">
-                We deliver compliant, reliable workforce solutions to ensure operational
-                continuity across aviation, maritime, and offshore environments.
+                We connect recruitment, compliance, onboarding, workforce management and
+                payroll into one partnership — so your operations stay staffed, compliant
+                and running, without the administration.
               </p>
               <div className="space-y-6">
                 {whyChoose.map((item) => (

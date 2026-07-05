@@ -1,0 +1,842 @@
+<style>
+  :root {
+    /* --- Brand tokens (from confair-platform tailwind preset) --- */
+    --navy: #222c4a;
+    --navy-800: #1a2238;
+    --cobalt: #407df1;
+    --sky: #61bef6;
+    --yellow: #fbc134;
+    --beige: #f3efe6;
+
+    /* --- Semantic (scorecard only) --- */
+    --good: #0f9d74;
+    --warn: #d98a1a;
+    --weak: #d0503f;
+
+    /* --- Light theme surfaces / ink (warm neutral, biased toward navy) --- */
+    --ground: #faf8f3;
+    --surface: #ffffff;
+    --surface-2: #f5f1e8;
+    --ink: #1c2439;
+    --ink-soft: #4a536b;
+    --ink-faint: #7a8298;
+    --line: #e4ddcf;
+    --line-strong: #d6cdba;
+    --accent: var(--cobalt);
+    --accent-ink: #2b62c9;
+    --shadow: 0 1px 2px rgba(28,36,57,.04), 0 8px 24px -12px rgba(28,36,57,.18);
+
+    /* type */
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+
+    --measure: 68ch;
+    --maxw: 1120px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0f1424;
+      --surface: #161d31;
+      --surface-2: #1b2338;
+      --ink: #eef1f7;
+      --ink-soft: #b3bcd0;
+      --ink-faint: #7f89a3;
+      --line: #2a3350;
+      --line-strong: #384366;
+      --accent: #6ea0ff;
+      --accent-ink: #9dbcff;
+      --beige: #1b2338;
+      --good: #34c896;
+      --warn: #f0ad4e;
+      --weak: #f07a68;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #faf8f3; --surface: #ffffff; --surface-2: #f5f1e8;
+    --ink: #1c2439; --ink-soft: #4a536b; --ink-faint: #7a8298;
+    --line: #e4ddcf; --line-strong: #d6cdba; --beige: #f3efe6;
+    --accent: #407df1; --accent-ink: #2b62c9;
+    --good: #0f9d74; --warn: #d98a1a; --weak: #d0503f;
+    --shadow: 0 1px 2px rgba(28,36,57,.04), 0 8px 24px -12px rgba(28,36,57,.18);
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1424; --surface: #161d31; --surface-2: #1b2338;
+    --ink: #eef1f7; --ink-soft: #b3bcd0; --ink-faint: #7f89a3;
+    --line: #2a3350; --line-strong: #384366; --beige: #1b2338;
+    --accent: #6ea0ff; --accent-ink: #9dbcff;
+    --good: #34c896; --warn: #f0ad4e; --weak: #f07a68;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 30px -14px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; }
+
+  .doc {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  .measure { max-width: var(--measure); }
+
+  /* ---- Type scale ---- */
+  h1,h2,h3,h4 { font-family: var(--serif); font-weight: 600; text-wrap: balance; line-height: 1.12; margin: 0; letter-spacing: -0.01em; }
+  h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); }
+  h3 { font-size: clamp(1.25rem, 2vw, 1.55rem); line-height: 1.2; }
+  h4 { font-size: 1.06rem; line-height: 1.25; }
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent-ink); text-underline-offset: 3px; }
+
+  .eyebrow {
+    font-family: var(--sans); font-weight: 700; font-size: .72rem;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--accent-ink);
+    margin: 0 0 .9rem;
+  }
+  .lede { font-size: 1.22rem; line-height: 1.55; color: var(--ink-soft); }
+
+  /* ---- Top bar / nav ---- */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(140%) blur(10px);
+    background: color-mix(in srgb, var(--ground) 82%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar .row { display: flex; align-items: center; gap: 18px; height: 58px; }
+  .brand { font-family: var(--serif); font-weight: 700; letter-spacing: -.02em; font-size: 1.15rem; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 9px; }
+  .brand .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--yellow); box-shadow: 0 0 0 3px color-mix(in srgb, var(--yellow) 28%, transparent); }
+  .navlinks { margin-left: auto; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .navlinks::-webkit-scrollbar { display: none; }
+  .navlinks a {
+    font-size: .82rem; font-weight: 600; color: var(--ink-soft); text-decoration: none;
+    padding: 6px 11px; border-radius: 7px; white-space: nowrap;
+  }
+  .navlinks a:hover { color: var(--ink); background: var(--surface-2); }
+  .navlinks a.active { color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  @media (max-width: 820px) { .navlinks { display: none; } }
+
+  /* ---- Cover ---- */
+  .cover { position: relative; overflow: hidden; background:
+      radial-gradient(120% 140% at 85% -10%, color-mix(in srgb, var(--cobalt) 26%, var(--navy)) 0%, var(--navy) 45%, var(--navy-800) 100%);
+      color: #fff; border-bottom: 3px solid var(--yellow); }
+  .cover .wrap { padding-top: 96px; padding-bottom: 84px; }
+  .cover .kicker { color: var(--yellow); font-weight: 700; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; }
+  .cover h1 { font-size: clamp(2.5rem, 5.6vw, 4.3rem); line-height: 1.02; margin: 20px 0 22px; max-width: 16ch; color: #fff; }
+  .cover .sub { font-size: 1.3rem; line-height: 1.5; color: rgba(255,255,255,.82); max-width: 46ch; }
+  .cover .oneliner { margin-top: 30px; font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--yellow); max-width: 30ch; }
+  .cover .meta { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 26px 40px; font-size: .82rem; color: rgba(255,255,255,.6); border-top: 1px solid rgba(255,255,255,.16); padding-top: 22px; }
+  .cover .meta b { color: #fff; font-weight: 600; display: block; font-size: .95rem; font-family: var(--sans); }
+  .glow { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; pointer-events: none; }
+  .glow.a { width: 380px; height: 380px; background: var(--cobalt); top: -120px; right: -60px; }
+  .glow.b { width: 300px; height: 300px; background: var(--sky); bottom: -160px; right: 22%; opacity:.35; }
+
+  /* ---- Section rhythm ---- */
+  section.band { padding: 72px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 70px; }
+  section.band.alt { background: var(--surface); }
+  .sec-head { margin-bottom: 40px; }
+
+  /* ---- Cards / grid ---- */
+  .grid { display: grid; gap: 20px; }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 860px) { .g2, .g3 { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px; box-shadow: var(--shadow);
+  }
+  .card h4 { margin-bottom: 8px; }
+  .card p { color: var(--ink-soft); font-size: .96rem; margin: 0; }
+  .num { font-family: var(--mono); font-size: .8rem; font-weight: 600; color: var(--accent-ink); letter-spacing: .04em; }
+
+  ul.clean { list-style: none; padding: 0; margin: 0; }
+  ul.clean li { position: relative; padding-left: 26px; margin-bottom: 10px; color: var(--ink-soft); font-size: .97rem; }
+  ul.clean li::before { content: ""; position: absolute; left: 4px; top: .55em; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); }
+  ul.check li::before { content: "✓"; background: none; left: 0; top: 0; color: var(--good); font-weight: 800; width: auto; height: auto; }
+
+  .pill { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .04em; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink-soft); background: var(--surface-2); }
+
+  /* ---- Callout ---- */
+  .callout { border-left: 4px solid var(--yellow); background: var(--surface-2); border-radius: 0 12px 12px 0; padding: 20px 24px; }
+  .callout p { margin: 0; }
+  .callout .q { font-family: var(--serif); font-size: 1.35rem; line-height: 1.35; color: var(--ink); font-style: italic; }
+
+  /* ---- Promises ---- */
+  .promise { display: grid; grid-template-columns: 2.4rem 1fr; gap: 18px; align-items: start; padding: 20px 0; border-top: 1px solid var(--line); }
+  .promise:first-child { border-top: none; }
+  .promise .n { font-family: var(--serif); font-size: 1.7rem; color: var(--accent); line-height: 1; }
+  .promise h4 { margin-bottom: 5px; }
+  .promise p { margin: 0; color: var(--ink-soft); font-size: .98rem; }
+
+  /* ---- Lifecycle flow ---- */
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .flow .stage {
+    flex: 1 1 128px; background: var(--surface); border: 1px solid var(--line); border-radius: 11px;
+    padding: 13px 14px; position: relative; min-width: 118px;
+  }
+  .flow .stage .s-n { font-family: var(--mono); font-size: .68rem; color: var(--ink-faint); }
+  .flow .stage .s-t { font-weight: 700; font-size: .92rem; margin-top: 3px; }
+  .flow .stage .s-d { font-size: .78rem; color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
+  .flow .stage.hot { border-color: color-mix(in srgb, var(--cobalt) 45%, var(--line)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cobalt) 30%, transparent); }
+  .flow .stage.hot .s-t { color: var(--accent-ink); }
+
+  /* ---- Two-audience value ---- */
+  .valuebox { border-radius: 14px; padding: 26px; border: 1px solid var(--line); }
+  .valuebox.client { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .valuebox.client h3, .valuebox.client .eyebrow { color: #fff; }
+  .valuebox.client .eyebrow { color: var(--yellow); }
+  .valuebox.client ul.clean li { color: rgba(255,255,255,.8); }
+  .valuebox.client ul.clean li::before { background: var(--yellow); }
+  .valuebox.pro { background: var(--surface-2); }
+
+  /* ---- Table / scorecard ---- */
+  .tablescroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+  table.score { border-collapse: collapse; width: 100%; min-width: 760px; font-size: .88rem; background: var(--surface); }
+  table.score th, table.score td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.score thead th { position: sticky; top: 0; background: var(--surface-2); font-family: var(--sans); font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); z-index: 1; }
+  table.score tbody th { font-weight: 700; color: var(--ink); font-family: var(--sans); }
+  table.score tr.confair td, table.score tr.confair th { background: color-mix(in srgb, var(--yellow) 14%, var(--surface)); }
+  .mk { font-weight: 700; font-size: .8rem; }
+  .mk.g { color: var(--good); } .mk.w { color: var(--warn); } .mk.r { color: var(--weak); }
+  .subtle { color: var(--ink-faint); font-size: .78rem; }
+
+  /* competitor profile rows */
+  .comp { padding: 18px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 200px 1fr; gap: 20px; }
+  .comp:first-of-type { border-top: none; }
+  .comp .cname { font-weight: 700; font-family: var(--serif); font-size: 1.15rem; }
+  .comp .ctag { font-size: .8rem; color: var(--ink-faint); margin-top: 3px; }
+  .comp .cbody p { margin: 0 0 7px; font-size: .93rem; color: var(--ink-soft); }
+  .comp .cbody b { color: var(--ink); }
+  @media (max-width: 720px) { .comp { grid-template-columns: 1fr; gap: 6px; } }
+
+  /* ---- Messaging blocks ---- */
+  .msg { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
+  .msg .tag { font-family: var(--mono); font-size: .72rem; color: var(--accent-ink); font-weight: 600; }
+  .msg p { margin: 6px 0 0; font-size: 1.02rem; color: var(--ink); }
+  .wordgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .wordgrid > div { padding: 16px 18px; }
+  .wordgrid .use { background: color-mix(in srgb, var(--good) 8%, var(--surface)); }
+  .wordgrid .avoid { background: color-mix(in srgb, var(--weak) 8%, var(--surface)); border-left: 1px solid var(--line); }
+  .wordgrid h4 { font-family: var(--sans); font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
+  .wordgrid .use h4 { color: var(--good); } .wordgrid .avoid h4 { color: var(--weak); }
+  .wordgrid ul { margin: 0; padding-left: 18px; font-size: .9rem; color: var(--ink-soft); }
+  .wordgrid li { margin-bottom: 5px; }
+  @media (max-width: 620px) { .wordgrid { grid-template-columns: 1fr; } .wordgrid .avoid { border-left: none; border-top: 1px solid var(--line);} }
+
+  /* funnel steps */
+  .funnel { display: grid; gap: 10px; }
+  .fstep { display: grid; grid-template-columns: 130px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px dashed var(--line-strong); }
+  .fstep:first-child { border-top: none; }
+  .fstep .stage-name { font-weight: 700; color: var(--accent-ink); font-size: .95rem; }
+  .fstep .stage-name small { display: block; color: var(--ink-faint); font-weight: 600; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
+  .fstep p { margin: 0; font-size: .93rem; color: var(--ink-soft); }
+  @media (max-width: 640px) { .fstep { grid-template-columns: 1fr; gap: 4px; } }
+
+  .checklist { counter-reset: c; list-style: none; padding: 0; margin: 0; }
+  .checklist li { counter-increment: c; position: relative; padding: 12px 0 12px 44px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .96rem; }
+  .checklist li:first-child { border-top: none; }
+  .checklist li::before { content: counter(c); position: absolute; left: 0; top: 11px; width: 28px; height: 28px; border-radius: 8px; background: var(--navy); color: #fff; font-family: var(--mono); font-size: .8rem; font-weight: 700; display: grid; place-items: center; }
+  .checklist li b { color: var(--ink); }
+
+  .stat-strip { display: flex; flex-wrap: wrap; gap: 14px; }
+  .stat { flex: 1 1 150px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+  .stat .v { font-family: var(--serif); font-size: 2rem; color: var(--accent-ink); line-height: 1; }
+  .stat .l { font-size: .82rem; color: var(--ink-soft); margin-top: 6px; }
+
+  footer.doc-foot { background: var(--navy-800); color: rgba(255,255,255,.7); padding: 40px 0; font-size: .85rem; }
+  footer.doc-foot .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
+  footer.doc-foot b { color: #fff; }
+
+  hr.soft { border: none; border-top: 1px solid var(--line); margin: 34px 0; }
+  .note { font-size: .82rem; color: var(--ink-faint); font-style: italic; }
+</style>
+
+<div class="doc">
+
+  <!-- ===== Top nav ===== -->
+  <div class="topbar">
+    <div class="wrap row">
+      <a class="brand" href="#top"><span class="dot"></span>Confair · Blueprint</a>
+      <nav class="navlinks" id="nav">
+        <a href="#summary">Summary</a>
+        <a href="#story">Story</a>
+        <a href="#position">Positioning</a>
+        <a href="#promises">Promises</a>
+        <a href="#value">Value</a>
+        <a href="#journey">Journey</a>
+        <a href="#platform">Platform</a>
+        <a href="#markets">Markets</a>
+        <a href="#services">Services</a>
+        <a href="#compete">Competitors</a>
+        <a href="#messaging">Messaging</a>
+        <a href="#funnel">Funnel &amp; SEO</a>
+        <a href="#cycle">Sales Cycle</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ===== Cover ===== -->
+  <header class="cover" id="top">
+    <span class="glow a"></span><span class="glow b"></span>
+    <div class="wrap">
+      <div class="kicker">The Confair Company Blueprint · Version 1.0</div>
+      <h1>The connected workforce for safety-critical industries.</h1>
+      <p class="sub">A single source of truth for how Confair is described, positioned and sold — across the website, proposals, outreach and every conversation with a client or professional.</p>
+      <p class="oneliner">"Born in aviation. Built for every safety-critical workforce."</p>
+      <div class="meta">
+        <div><b>Scope v1</b>Aviation · Maritime · Offshore Energy</div>
+        <div><b>Audience</b>Clients · Professionals · Team · Investors</div>
+        <div><b>Grounded in</b>Confair's live platform &amp; 2025–26 market</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== 1. Executive summary ===== -->
+  <section class="band alt" id="summary">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">01 · Executive Summary</p>
+        <h2>What Confair is — and why it wins</h2>
+      </div>
+      <div class="grid g2" style="align-items:start">
+        <div class="measure">
+          <p class="lede">Confair is a workforce partner for aviation, maritime and offshore energy that combines recruitment, contracting, compliance, onboarding, workforce management and payroll into <strong>one connected, technology-enabled process</strong> — not six disconnected services.</p>
+          <p>Founded in aviation in 2007, Confair has spent 15+ years operating in one of the world's most regulated environments. That discipline — certification, compliance, deployment under pressure — now extends across maritime and offshore energy, where the same challenge exists: internationally mobile, certified professionals who must be sourced, verified, deployed and paid without error or delay.</p>
+          <p>Clients don't buy recruitment. They buy <strong>operational continuity</strong> — aircraft that fly, vessels that sail, turbines that turn, payroll that's right, compliance that holds up to audit. Everything Confair builds serves that outcome.</p>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:18px">
+            <h4>The one-line positioning</h4>
+            <p style="color:var(--ink);font-family:var(--serif);font-size:1.15rem;font-style:italic;margin-top:6px">Confair keeps safety-critical operations staffed, compliant and running — worldwide.</p>
+          </div>
+          <div class="stat-strip">
+            <div class="stat"><div class="v">2007</div><div class="l">Founded in aviation, Netherlands</div></div>
+            <div class="stat"><div class="v">3,000+</div><div class="l">Professionals deployed</div></div>
+            <div class="stat"><div class="v">40+</div><div class="l">Countries served</div></div>
+          </div>
+        </div>
+      </div>
+      <hr class="soft">
+      <div class="grid g3">
+        <div class="card"><span class="num">Edge 01</span><h4 style="margin-top:8px">Cross-sector, by design</h4><p>Aviation + maritime + offshore energy under one roof — with certifications and safety competencies that overlap. A professional finishing offshore can be redeployed to wind or aviation. <b>No rival does this;</b> they are all single-vertical or diluted generalists.</p></div>
+        <div class="card"><span class="num">Edge 02</span><h4 style="margin-top:8px">A platform, not a mailbox</h4><p>Roster data becomes payroll automatically. Onboarding is orchestrated across every stakeholder. Compliance is continuous, not periodic. Most competitors still run this on email and spreadsheets.</p></div>
+        <div class="card"><span class="num">Edge 03</span><h4 style="margin-top:8px">Operational intelligence</h4><p>Because the platform knows who worked where, under what terms, with which credentials, Confair becomes the <b>system of record</b> for workforce operations — turning data into availability, demand and compliance-risk insight nobody else owns.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. Story ===== -->
+  <section class="band" id="story">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">02 · Our Story</p>
+        <h2>Built on expertise, driven by people</h2>
+        <p class="lede measure">Confair was born in aviation — the discipline of that industry shaped everything. It was never meant to stay there.</p>
+      </div>
+      <div class="grid g2" style="align-items:start">
+        <div class="measure">
+          <p>Confair was founded in <strong>2007 in IJmuiden</strong>, focused on aviation workforce solutions. New ownership in 2015 began the expansion into multiple industries; the headquarters moved to <strong>Utrecht</strong> in 2016. By 2018 Confair had deployed 2,000+ professionals globally. In 2021 the company expanded into <strong>offshore renewable energy (offshore wind)</strong>, and in 2022 incorporated <strong>Confair Middle East (UAE)</strong> to support regional operations. By 2024 Confair was operating in <strong>40+ countries with 3,000+ professionals deployed.</strong></p>
+          <p>That history matters commercially: aviation is one of the most demanding, tightly regulated workforce environments on earth. Proving the model there — under EASA, FAA and ICAO scrutiny — is the credibility that lets Confair say it can handle maritime and offshore energy with the same rigour.</p>
+          <div class="callout" style="margin-top:20px">
+            <p class="q">Developed in one of the world's most demanding industries. Designed for every safety-critical workforce.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:16px">Milestones</h4>
+          <div class="funnel">
+            <div class="fstep"><div class="stage-name">2007</div><p>Founded in IJmuiden — aviation workforce solutions.</p></div>
+            <div class="fstep"><div class="stage-name">2015–16</div><p>New ownership; expansion beyond aviation; HQ established in Utrecht.</p></div>
+            <div class="fstep"><div class="stage-name">2018</div><p>2,000+ professionals deployed globally.</p></div>
+            <div class="fstep"><div class="stage-name">2021</div><p>Expansion into offshore wind / renewable energy.</p></div>
+            <div class="fstep"><div class="stage-name">2022</div><p>Confair Middle East (UAE) incorporated.</p></div>
+            <div class="fstep"><div class="stage-name">2024→</div><p>40+ countries, 3,000+ professionals; aviation, maritime &amp; offshore energy.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. Positioning ===== -->
+  <section class="band alt" id="position">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">03 · Positioning</p>
+        <h2>We don't sell people. We sell continuity.</h2>
+        <p class="lede measure">The category shift that separates Confair from every "recruitment agency" in the market.</p>
+      </div>
+      <div class="grid g2" style="align-items:stretch">
+        <div class="valuebox pro">
+          <p class="eyebrow" style="color:var(--weak)">The old story</p>
+          <h3 style="margin-bottom:12px">"We supply qualified personnel."</h3>
+          <p style="color:var(--ink-soft)">Recruitment lives in one system. Compliance in spreadsheets. Contracts by email. Payroll somewhere else. Every handover adds delay, duplication and risk — and the client is left wondering where their people actually are.</p>
+          <ul class="clean" style="margin-top:14px">
+            <li>Competes on price and CV volume</li>
+            <li>Transactional — the relationship ends at placement</li>
+            <li>Speaks to HR, not to the business</li>
+          </ul>
+        </div>
+        <div class="valuebox client">
+          <p class="eyebrow">The Confair story</p>
+          <h3 style="margin-bottom:12px">"We create operational certainty."</h3>
+          <p style="color:rgba(255,255,255,.82)">One connected journey: plan, source, verify, contract, onboard, mobilise, deploy, operate, pay, redeploy. Information is entered once. Compliance is continuous. The client sees their workforce in real time.</p>
+          <ul class="clean" style="margin-top:14px">
+            <li>Competes on outcomes — uptime, compliance, speed</li>
+            <li>Becomes embedded infrastructure, not a supplier</li>
+            <li>Speaks to the CEO, COO and CFO, not only HR</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:24px">
+        <p>An airline doesn't want pilots — it wants flights that depart. A ship manager doesn't want officers — it wants a vessel that sails on time and passes audit. An offshore operator doesn't want technicians — it wants turbines producing power. <strong>Confair exists to remove the friction between skilled professionals and the organisations that depend on them.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. Promises ===== -->
+  <section class="band" id="promises">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">04 · The Five Promises</p>
+        <h2>Five promises, simple enough to appear everywhere</h2>
+        <p class="lede measure">On the website, in proposals, in a pitch, in a cold email — the same five promises carry the message.</p>
+      </div>
+      <div class="grid g2" style="align-items:start">
+        <div>
+          <div class="promise"><div class="n">1</div><div><h4>Find Faster</h4><p>We shorten the time between identifying a workforce need and presenting qualified, certified professionals — with rapid deployment where operations demand it.</p></div></div>
+          <div class="promise"><div class="n">2</div><div><h4>Verify Once</h4><p>Every credential — licence, medical, visa, training, background — is collected, verified and stored once. Duplicate administration disappears; compliance strengthens.</p></div></div>
+          <div class="promise"><div class="n">3</div><div><h4>Deploy With Confidence</h4><p>Contracts, travel, onboarding and mobilisation are coordinated through one connected workflow, so people arrive on site ready and compliant.</p></div></div>
+        </div>
+        <div>
+          <div class="promise"><div class="n">4</div><div><h4>Manage Transparently</h4><p>Clients have real-time visibility into every professional throughout the assignment — from application to completion — and payroll flows from operational reality, not manual re-keying.</p></div></div>
+          <div class="promise"><div class="n">5</div><div><h4>Retain &amp; Redeploy</h4><p>When an assignment ends, the profile, compliance history and experience remain. The professional moves to the next opportunity — across projects, countries and even sectors — instead of starting over.</p></div></div>
+          <div class="card" style="margin-top:8px;background:var(--surface-2)">
+            <p style="margin:0;color:var(--ink-soft);font-size:.95rem">These five map directly to Confair's platform: <b>Find</b> → recruitment &amp; sourcing · <b>Verify</b> → compliance engine · <b>Deploy</b> → onboarding &amp; mobilisation · <b>Manage</b> → roster &amp; payroll · <b>Redeploy</b> → the talent pool &amp; operational intelligence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. Value proposition ===== -->
+  <section class="band alt" id="value">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">05 · Value Proposition</p>
+        <h2>Two audiences, one platform</h2>
+      </div>
+      <div class="grid g2" style="align-items:stretch">
+        <div class="valuebox client">
+          <p class="eyebrow">For clients</p>
+          <h3 style="margin-bottom:14px">Why organisations choose Confair</h3>
+          <ul class="clean check">
+            <li>Faster deployment — the right professional, when operations need them</li>
+            <li>Compliance that holds up to audit, maintained continuously</li>
+            <li>Less administration — one partner instead of ten suppliers</li>
+            <li>Real-time visibility of every professional in the pipeline</li>
+            <li>Payroll and invoicing without surprises or corrections</li>
+            <li>One accountable relationship across all three sectors</li>
+          </ul>
+        </div>
+        <div class="valuebox pro">
+          <p class="eyebrow">For professionals</p>
+          <h3 style="margin-bottom:14px">Why professionals choose Confair</h3>
+          <ul class="clean check">
+            <li>One profile that follows your whole career — enter it once</li>
+            <li>Faster, digital onboarding instead of repeated paperwork</li>
+            <li>Accurate, on-time payroll in multiple currencies</li>
+            <li>Your certificates and compliance history, always current</li>
+            <li>Opportunities across projects, countries and sectors</li>
+            <li>A long-term relationship, not a one-off placement</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. Journey ===== -->
+  <section class="band" id="journey">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">06 · The Connected Workforce Journey</p>
+        <h2>From workforce planning to redeployment</h2>
+        <p class="lede measure">From planning to redeployment, one continuous journey — powered by Continuum. A professional's information is entered once and flows through every stage: no re-keying, no lost documents, no blind spots.</p>
+      </div>
+      <div class="flow">
+        <div class="stage"><div class="s-n">01</div><div class="s-t">Plan</div><div class="s-d">Demand forecast &amp; workforce planning</div></div>
+        <div class="stage"><div class="s-n">02</div><div class="s-t">Source</div><div class="s-d">Talent discovery across pools &amp; network</div></div>
+        <div class="stage"><div class="s-n">03</div><div class="s-t">Qualify</div><div class="s-d">Screening, matching, suitability</div></div>
+        <div class="stage hot"><div class="s-n">04</div><div class="s-t">Verify</div><div class="s-d">Compliance: licences, medical, visa, checks</div></div>
+        <div class="stage"><div class="s-n">05</div><div class="s-t">Contract</div><div class="s-d">Agreements, rates, digital signature</div></div>
+        <div class="stage hot"><div class="s-n">06</div><div class="s-t">Onboard</div><div class="s-d">Orchestrated across all stakeholders</div></div>
+        <div class="stage"><div class="s-n">07</div><div class="s-t">Mobilise</div><div class="s-d">Travel, visa, joining, equipment</div></div>
+        <div class="stage"><div class="s-n">08</div><div class="s-t">Deploy</div><div class="s-d">On site, status visible to the client</div></div>
+        <div class="stage hot"><div class="s-n">09</div><div class="s-t">Operate</div><div class="s-d">Roster, time, leave, expenses</div></div>
+        <div class="stage hot"><div class="s-n">10</div><div class="s-t">Pay</div><div class="s-d">Roster → payroll → invoice, automatically</div></div>
+        <div class="stage"><div class="s-n">11</div><div class="s-t">Redeploy</div><div class="s-d">Next assignment — across sectors</div></div>
+      </div>
+      <p class="note" style="margin-top:14px">Highlighted stages — Verify, Onboard, Operate, Pay — are where Confair's platform already automates work competitors still do by hand.</p>
+    </div>
+  </section>
+
+  <!-- ===== 7. Platform ===== -->
+  <section class="band alt" id="platform">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">07 · Continuum — The Platform &amp; Operational Intelligence</p>
+        <h2>What we've actually built</h2>
+        <p class="lede measure">We call it <strong>Continuum</strong> — Confair's own connected workforce platform. This is not a slide-deck vision: these capabilities run in production today, which is what lets Confair claim the "platform, not agency" position credibly.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card"><h4>Recruitment &amp; ATS</h4><p>Confair's own applicant &amp; candidate system feeds vacancies straight to the website and pulls applications back — one pipeline, not a job-board reposting exercise.</p></div>
+        <div class="card"><h4>Compliance &amp; onboarding</h4><p>A verification-gated onboarding tool (proven in aviation, e.g. cabin-crew programmes) that orchestrates document collection, training, IT, travel and reporting across every stakeholder.</p></div>
+        <div class="card"><h4>Roster → payroll engine</h4><p>Operational data becomes payment data automatically: rosters, flight hours, duty types, allowances, overtime and CLA rules convert to multi-currency payroll — the capability most rivals lack entirely.</p></div>
+        <div class="card"><h4>Invoicing &amp; finance</h4><p>Placement and company invoicing, expenses, recurring billing, SEPA payment files and accounting export — the money side of the workforce, connected to the same data.</p></div>
+        <div class="card"><h4>Client &amp; candidate portals</h4><p>A dashboard PWA for the operations team plus candidate-facing flows — the foundation for the real-time visibility clients want and the self-service professionals expect.</p></div>
+        <div class="card" style="border-color:color-mix(in srgb,var(--yellow) 55%,var(--line));background:color-mix(in srgb,var(--yellow) 8%,var(--surface))"><h4>Operational intelligence <span class="pill" style="background:var(--yellow);color:var(--navy);border:none">The differentiator</span></h4><p>Because every stage writes to one record in Continuum, Confair can surface availability, mobilisation lead times, rate benchmarks, compliance risk and redeployment candidates — decisions, not just data.</p></div>
+      </div>
+      <div class="callout" style="margin-top:24px">
+        <p><strong>Why this is the moat.</strong> Recruitment firms own <em>relationships</em>. Confair owns the <em>operating data</em> of a workforce. Once a client's rosters, compliance records and payroll run through Continuum, switching means rebuilding their operational backbone — which is exactly why infrastructure companies become embedded and recruitment companies compete on price.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 8. Markets ===== -->
+  <section class="band" id="markets">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">08 · The Markets We Serve</p>
+        <h2>Three verticals, one operating model</h2>
+        <p class="lede measure">Version 1 is deliberately scoped to three safety-critical industries where the same platform runs with sector-specific compliance and workflows.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card">
+          <h4 style="color:var(--cobalt)">Confair Aviation</h4>
+          <p style="margin-bottom:12px">Certified professionals for airlines, MROs, airports and aviation service providers under EASA, FAA and ICAO frameworks.</p>
+          <ul class="clean" style="font-size:.9rem">
+            <li>Licensed pilots (EASA &amp; FAA)</li>
+            <li>Licensed engineers (B1/B2)</li>
+            <li>Cabin crew &amp; safety officers</li>
+            <li>Ground handling &amp; ops management</li>
+          </ul>
+          <p style="margin-top:12px"><span class="pill">Rapid deployment · 48h</span></p>
+        </div>
+        <div class="card">
+          <h4 style="color:var(--sky)">Confair Maritime</h4>
+          <p style="margin-bottom:12px">STCW-certified crew for vessel operations, port services and shipyard projects, with flag-state compliance and 24/7 support.</p>
+          <ul class="clean" style="font-size:.9rem">
+            <li>Masters &amp; deck officers (STCW)</li>
+            <li>Marine engineers</li>
+            <li>Surveyors &amp; port/terminal ops</li>
+            <li>Able seamen &amp; ratings</li>
+          </ul>
+          <p style="margin-top:12px"><span class="pill">Global crew management</span></p>
+        </div>
+        <div class="card">
+          <h4 style="color:var(--warn)">Confair Offshore</h4>
+          <p style="margin-bottom:12px">HSE-trained specialists for oil &amp; gas and offshore wind — drilling, production, construction, inspection and maintenance.</p>
+          <ul class="clean" style="font-size:.9rem">
+            <li>Wind technicians (GWO)</li>
+            <li>Project &amp; drilling engineers</li>
+            <li>Maintenance &amp; inspection</li>
+            <li>HSE officers &amp; advisors</li>
+          </ul>
+          <p style="margin-top:12px"><span class="pill">BOSIET · HUET · GWO</span></p>
+        </div>
+      </div>
+      <p class="note" style="margin-top:14px">The strategic point: these are not three businesses. They are three configurations of one platform — and the overlap in safety competencies is what makes cross-sector redeployment possible.</p>
+    </div>
+  </section>
+
+  <!-- ===== 9. Service offering ===== -->
+  <section class="band alt" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">09 · Service Offering</p>
+        <h2>How we package what we do</h2>
+        <p class="lede measure">Competitors sell these as separate, disconnected service lines. Confair delivers them as one continuous workflow on Continuum — which is the offering, not just the list.</p>
+      </div>
+
+      <div class="grid g3">
+        <div class="card"><span class="num">Service 01</span><h4 style="margin-top:8px">Recruitment &amp; Search</h4><p>Permanent and contract placement of certified professionals across all three sectors — the entry point to the relationship, not the whole product.</p></div>
+        <div class="card"><span class="num">Service 02</span><h4 style="margin-top:8px">Contracting &amp; Employer of Record</h4><p>Confair contracts and employs the professional — handling multi-country tax, social security and compliant, mobile international engagement.</p></div>
+        <div class="card"><span class="num">Service 03</span><h4 style="margin-top:8px">Compliance &amp; Verification</h4><p>Licences, medicals, visas, training and background checks collected and verified once, then monitored continuously against expiry.</p></div>
+        <div class="card"><span class="num">Service 04</span><h4 style="margin-top:8px">Onboarding &amp; Mobilisation</h4><p>Digital onboarding orchestrated across every stakeholder — plus travel, visa and joining logistics — so people arrive ready and compliant.</p></div>
+        <div class="card"><span class="num">Service 05</span><h4 style="margin-top:8px">Payroll &amp; Administration</h4><p>Roster and operational data become multi-currency payroll and invoicing automatically — the money side, connected to the same record.</p></div>
+        <div class="card"><span class="num">Service 06</span><h4 style="margin-top:8px">Managed Workforce Solutions</h4><p>Run all or part of a client's workforce programme (MSP / RPO). Confair already crews entire operations end-to-end — sourcing, compliance, deployment and payroll for the whole crew, not individual seats. <span class="pill" style="background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good);border-color:transparent">Live today</span></p></div>
+      </div>
+
+      <div class="callout" style="margin-top:24px">
+        <p><strong>Case in point — wet-lease / ACMI · Boeing 777 · Budapest.</strong> Confair sourced and managed the flight crew for a wet-lease/ACMI operator's Boeing 777 operation based in Budapest — taking responsibility for crewing the entire operation, not just filling individual roles. That is a managed workforce solution delivered in practice, today.</p>
+      </div>
+
+      <hr class="soft">
+      <h3 style="margin-bottom:6px">How our model compares to the market</h3>
+      <p class="measure" style="color:var(--ink-soft);margin-top:8px">Every rival offers a slice of this. The pattern: they specialise in one delivery model and run it on manual back-offices. Confair's move is to match each model — then connect them.</p>
+      <div style="margin-top:20px">
+        <div class="comp"><div><div class="cname">Contract &amp; permanent staffing</div><div class="ctag">Airswift · NES · GOOSE · Zenon · Brookfield</div></div><div class="cbody"><p>Table stakes — everyone does it. <b>Confair:</b> offered, but framed as the way in, not the product. We compete above it on what happens <em>after</em> placement.</p></div></div>
+        <div class="comp"><div><div class="cname">Crew leasing / EOR</div><div class="ctag">Rishworth · CAE Parc · NES</div></div><div class="cbody"><p>Sticky, high-value — Confair employs the professional and carries the admin. <b>Confair:</b> yes, and automated end-to-end in Continuum, versus their admin-heavy manual back-offices — a direct wedge.</p></div></div>
+        <div class="comp"><div><div class="cname">Managed solutions (MSP / RPO)</div><div class="ctag">NES "Advantage" · GOOSE campaigns</div></div><div class="cbody"><p>Enterprise clients want a partner to run the programme. <b>Confair:</b> already delivered — we crew entire operations end-to-end (see the Boeing 777 wet-lease case above) — and Continuum's real-time visibility makes the managed model defensible in a way incumbents can't match.</p></div></div>
+        <div class="comp"><div><div class="cname">Train-to-deploy / certification</div><div class="ctag">CAE Parc (sim) · Resource Group (Part-147) · Anglo-Eastern (academy)</div></div><div class="cbody"><p>Owning the training pipeline is a talent moat. <b>Confair:</b> partner rather than build — secure vetted supply through training alliances without the capex.</p></div></div>
+        <div class="comp"><div><div class="cname">Adjacent services (travel, insurance, payments)</div><div class="ctag">V.Group · BSM (NiumPay crew fintech)</div></div><div class="cbody"><p>Incumbents bundle broadly (ship management, catering, insurance). <b>Confair:</b> stay focused on workforce — selectively add travel/mobilisation (already in scope) and embedded crew payments as a retention lever.</p></div></div>
+      </div>
+
+      <div class="callout" style="margin-top:24px">
+        <p><strong>The integrated advantage.</strong> A client can buy any one service from a dozen firms. What none of them can offer is all of it running on one record — recruit, verify, deploy, operate and pay without the data ever leaving the system. That's the difference between a supplier and infrastructure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10. Competitors ===== -->
+  <section class="band" id="compete">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">10 · Competitive Landscape</p>
+        <h2>Where Confair wins</h2>
+        <p class="lede measure">A scan of the leading players across all three verticals reveals a consistent pattern — and a clear space Confair can own.</p>
+      </div>
+
+      <div class="tablescroll">
+        <table class="score">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Focus</th>
+              <th>Cross-sector<br>mobility</th>
+              <th>Candidate<br>self-service</th>
+              <th>Compliance /<br>payroll depth</th>
+              <th>Flagship data<br>report</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="confair">
+              <th>Confair</th>
+              <td>Aviation · Maritime · Offshore <span class="subtle">(all three)</span></td>
+              <td><span class="mk g">Yes ✦</span></td>
+              <td><span class="mk w">Building</span></td>
+              <td><span class="mk g">Strong — roster→pay</span></td>
+              <td><span class="mk w">Salary guide (v1)</span></td>
+            </tr>
+            <tr><th>Airswift</th><td>Energy (broad, incl. tech/infra)</td><td><span class="mk r">No — diluted</span></td><td><span class="mk g">Yes (Airswift Digital)</span></td><td><span class="mk g">Strong (EOR)</span></td><td><span class="mk g">GETI index</span></td></tr>
+            <tr><th>NES Fircroft</th><td>Engineering / energy</td><td><span class="mk r">No — generalist</span></td><td><span class="mk w">Timesheet app only</span></td><td><span class="mk g">Strong (MSP/RPO)</span></td><td><span class="mk r">No flagship</span></td></tr>
+            <tr><th>Atlas / NextWave</th><td>Offshore / marine / energy</td><td><span class="mk w">Partial (marine+energy)</span></td><td><span class="mk w">Portal only</span></td><td><span class="mk g">Good</span></td><td><span class="mk r">Content-light</span></td></tr>
+            <tr><th>V.Group</th><td>Maritime (multi-brand)</td><td><span class="mk r">No</span></td><td><span class="mk g">Yes (V.Crew Connect)</span></td><td><span class="mk g">Strong</span></td><td><span class="mk w">Generic bulletins</span></td></tr>
+            <tr><th>BSM</th><td>Maritime (LNG/offshore)</td><td><span class="mk r">No</span></td><td><span class="mk g">Yes + crew fintech</span></td><td><span class="mk g">Strong (proprietary ERP)</span></td><td><span class="mk r">No flagship</span></td></tr>
+            <tr><th>GOOSE</th><td>Aviation only</td><td><span class="mk r">No</span></td><td><span class="mk w">Job board</span></td><td><span class="mk w">Benchmarking</span></td><td><span class="mk g">The Pilot Survey</span></td></tr>
+            <tr><th>Rishworth</th><td>Aviation only</td><td><span class="mk r">No</span></td><td><span class="mk r">None — manual</span></td><td><span class="mk g">Crew leasing/EOR</span></td><td><span class="mk r">No flagship</span></td></tr>
+            <tr><th>Zenon</th><td>Aviation only</td><td><span class="mk r">No</span></td><td><span class="mk r">None</span></td><td><span class="mk w">Placement</span></td><td><span class="mk r">No</span></td></tr>
+            <tr><th>CAE Parc</th><td>Aviation (+ training/sim)</td><td><span class="mk r">No</span></td><td><span class="mk r">None visible</span></td><td><span class="mk w">Leasing</span></td><td><span class="mk r">No flagship</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:12px">Assessment based on public information (websites, app stores, trade press), 2025–26. ✦ = unoccupied whitespace.</p>
+
+      <hr class="soft">
+      <h3 style="margin-bottom:6px">What the market teaches us</h3>
+      <div class="grid g2" style="margin-top:20px;align-items:start">
+        <div>
+          <div class="comp"><div><div class="cname">The whitespace</div><div class="ctag">Nobody occupies this</div></div><div class="cbody"><p><b>Cross-sector mobility.</b> Every scaled rival is single-vertical (V.Group, BSM, GOOSE, Rishworth, Zenon, CAE Parc, Brookfield) or a broad generalist that dilutes the safety-critical niche (Airswift, NES). Aviation + maritime + offshore <b>together</b>, with one profile that redeploys across them, is Confair's to claim — and Atlas (marine+energy only) is the closest anyone comes.</p></div></div>
+          <div class="comp"><div><div class="cname">Adopt: a flagship report</div><div class="ctag">Airswift GETI · GOOSE Pilot Survey</div></div><div class="cbody"><p>The proven lead-gen and SEO engine in this industry is an <b>annual, branded data report</b>. Airswift's GETI (9,000+ professionals, 143 countries) and GOOSE's Pilot Survey dominate search and PR. <b>No offshore or maritime player has a strong equivalent</b> — an open goal for a cross-sector Confair index.</p></div></div>
+        </div>
+        <div>
+          <div class="comp"><div><div class="cname">Adopt: real self-service</div><div class="ctag">V.Crew Connect · BSM Portal · Airswift Digital</div></div><div class="cbody"><p>Candidate/crew apps (documents, expiry, availability, e-sign, payslips) are now baseline in maritime and at Airswift — but <b>entirely absent across aviation crewing</b>. Confair's portal + records tooling is a genuine differentiator there, and table stakes in maritime. BSM's embedded crew fintech (multi-currency wallet, instant pay) is worth studying as a retention lever.</p></div></div>
+          <div class="comp"><div><div class="cname">Avoid</div><div class="ctag">The cautionary tales</div></div><div class="cbody"><p><b>Multi-brand sprawl</b> (V.Group) fragments UX — keep one coherent identity. <b>Over-broadening</b> (Airswift into tech/infra) dilutes the niche — stay sharp on safety-critical. <b>Pure job-board plays</b> commoditise; compete on tooling and data, not listing volume.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 11. Messaging ===== -->
+  <section class="band alt" id="messaging">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">11 · The Messaging System</p>
+        <h2>One story, every length</h2>
+        <p class="lede measure">Copy-paste building blocks so the website, a proposal, a LinkedIn bio and a cold email all tell the same story.</p>
+      </div>
+
+      <div class="grid g2" style="align-items:start">
+        <div>
+          <div class="msg"><span class="tag">10 words</span><p>Confair keeps safety-critical operations staffed, compliant and running — worldwide.</p></div>
+          <div class="msg"><span class="tag">25 words</span><p>Confair is a workforce partner for aviation, maritime and offshore energy. We source, verify, deploy, manage and pay certified professionals through one connected, compliance-first platform.</p></div>
+          <div class="msg"><span class="tag">50 words</span><p>Confair keeps safety-critical operations running. Born in aviation in 2007 and now working across maritime and offshore energy in 40+ countries, we combine recruitment, compliance, onboarding, workforce management and payroll into one connected platform — so aircraft fly, vessels sail and turbines turn, with the right certified professionals, deployed and paid without friction.</p></div>
+          <div class="msg"><span class="tag">Elevator (spoken)</span><p>"Most staffing firms hand you a CV and disappear. We run the whole journey — sourcing, compliance, onboarding, rosters and payroll — on one platform, across aviation, maritime and offshore energy. So instead of chasing ten suppliers and a spreadsheet, you get one partner who can tell you exactly where every professional is, and prove they're compliant."</p></div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <h4 style="margin-bottom:10px">Tone of voice</h4>
+            <p style="color:var(--ink-soft);font-size:.95rem;margin-bottom:12px">Professional · international · technology-forward · compliance-led · human · reliable. Evidence over adjectives. Something you'd genuinely send to KLM, Boskalis, Van Oord, V.Group or Shell.</p>
+            <div class="wordgrid">
+              <div class="use">
+                <h4>Words we use</h4>
+                <ul>
+                  <li>Workforce partner / platform</li>
+                  <li>Certified professionals</li>
+                  <li>Deployment · mobilisation</li>
+                  <li>Operational continuity</li>
+                  <li>Compliance by design</li>
+                  <li>Connected journey</li>
+                </ul>
+              </div>
+              <div class="avoid">
+                <h4>Words we avoid</h4>
+                <ul>
+                  <li>"Just a recruitment agency"</li>
+                  <li>Generic "candidates / staff"</li>
+                  <li>Buzzword AI / "revolutionary"</li>
+                  <li>Unprovable superlatives</li>
+                  <li>"Body shop" / "headcount"</li>
+                  <li>Hype without evidence</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="callout">
+            <p style="font-size:.95rem">Write to the <strong>business outcome</strong>, then name the service. Not "we provide recruitment" but "we reduce the time between a workforce requirement and a compliant professional on site." Same meaning — far stronger.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 12. Funnel & SEO ===== -->
+  <section class="band" id="funnel">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">12 · Sales Funnel, Lead-Gen &amp; SEO</p>
+        <h2>Filling the funnel you've already built</h2>
+        <p class="lede measure">The plumbing exists — website attribution, a lead webhook and HubSpot are already wired. The gap is <strong>top-of-funnel fuel</strong>. Here's the plan, mapped to your real stack.</p>
+      </div>
+
+      <h3 style="margin-bottom:18px">The client funnel (HubSpot is the system of record)</h3>
+      <div class="funnel" style="margin-bottom:8px">
+        <div class="fstep"><div class="stage-name">Awareness<small>Discover</small></div><p>Decision-makers at airlines, MROs, shipyards and offshore operators find Confair via search, LinkedIn, referrals, events. <b>Status today:</b> thin — few content assets pulling traffic.</p></div>
+        <div class="fstep"><div class="stage-name">Lead / MQL<small>Engage</small></div><p>Contact form or lead magnet → Supabase + <code>POST /webhooks/website/lead</code> → HubSpot contact (<code>lifecyclestage=lead</code>), with first-touch UTM attribution attached. <b>Status:</b> ✓ built.</p></div>
+        <div class="fstep"><div class="stage-name">SQL<small>Qualify</small></div><p>Confirmed hiring need + budget + authority → deal moves to Qualified. <b>Status:</b> pipeline defined; needs consistent rep discipline.</p></div>
+        <div class="fstep"><div class="stage-name">Opportunity<small>Propose</small></div><p>A live vacancy/job order in discussion → proposal. <b>Lever:</b> proposal templates derived from this Blueprint.</p></div>
+        <div class="fstep"><div class="stage-name">Won → Client<small>Deliver</small></div><p>Terms signed → delivery runs on Continuum, Confair's platform. Expansion = new deals per division.</p></div>
+      </div>
+      <p class="note" style="margin-bottom:26px">Candidate enquiries correctly stay out of the sales pipeline — they belong in Continuum's recruitment pipeline, not HubSpot deals.</p>
+
+      <div class="grid g2" style="align-items:start">
+        <div class="card">
+          <h4 style="margin-bottom:12px">The flagship move: a data report</h4>
+          <p style="color:var(--ink-soft);font-size:.96rem;margin-bottom:12px">Build the <strong>Confair Safety-Critical Workforce Index</strong> — an annual salary, rate &amp; compliance report spanning aviation, maritime and offshore energy. This is the single highest-leverage asset: it's the one thing GETI and the Pilot Survey prove works, and <b>no cross-sector version exists.</b></p>
+          <ul class="clean" style="font-size:.92rem">
+            <li>Gated download → feeds the lead webhook you already have</li>
+            <li>SEO magnet + annual PR moment + sales-conversation opener</li>
+            <li>Extends your live 2026 Salary Guide from one vertical to three</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:12px">SEO &amp; content engine</h4>
+          <ul class="clean" style="font-size:.94rem">
+            <li><b>Pillar pages</b> per vertical × role (e.g. "GWO wind technician contracts", "STCW crew management", "B1/B2 engineer leasing")</li>
+            <li><b>Compliance guides</b> — BOSIET/HUET/GWO, STCW, EASA licensing, visa &amp; mobilisation by country</li>
+            <li><b>Problem-led blog</b> — "the hidden cost of expired certificates", "from vacancy to deployment in days", "why redeployment beats re-hiring"</li>
+            <li><b>Vacancies</b> as organic surface — already synced from Continuum; ensure they're indexable &amp; structured-data tagged</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="soft">
+      <h3 style="margin-bottom:16px">Activation checklist — turn the wiring on</h3>
+      <ol class="checklist">
+        <li><b>Confirm HubSpot is live in production</b> — service key set, deal pipeline &amp; stage IDs configured on the API. Until the token is set the lead webhook logs "disabled" and nothing syncs (though Supabase still captures leads for backfill).</li>
+        <li><b>Add the custom UTM properties</b> in HubSpot (source/medium/campaign/term/content) so pipeline can be attributed to campaigns, not just read on the contact note.</li>
+        <li><b>Ship the flagship report</b> as the anchor lead magnet; gate it through the existing guide/lead flow.</li>
+        <li><b>Stand up 6–10 pillar/compliance pages</b> targeting real search demand per vertical, interlinked to vacancies and the report.</li>
+        <li><b>Wire outbound</b> — Apollo/Instantly for cold-email sequencing and LinkedIn Sales Navigator, all tagged with the UTM scheme so outbound-sourced pipeline is measurable.</li>
+        <li><b>Instrument the loop</b> — a simple HubSpot dashboard: leads by source, MQL→SQL rate, pipeline by campaign. Optimise what you can now see.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== 13. Sales cycle ===== -->
+  <section class="band alt" id="cycle">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">13 · The Sales Cycle</p>
+        <h2>From first cold email to a signed quote</h2>
+        <p class="lede measure">How the funnel is worked in practice — the concrete selling motion and the tools that already run it. This is where the Blueprint aligns with the platform, not just the website.</p>
+      </div>
+
+      <div class="funnel">
+        <div class="fstep"><div class="stage-name">01 · Target<small>Outbound</small></div><p>Build the target list against the ideal client profile — airlines, MROs, ship managers, offshore operators, wet-lease/ACMI carriers — enriched with Apollo and LinkedIn Sales Navigator.</p></div>
+        <div class="fstep"><div class="stage-name">02 · First touch<small>Cold email · LinkedIn</small></div><p>UTM-tagged, sequenced outreach built on the Five Promises and the operational-certainty angle — "we keep your operation crewed and compliant," not "we have CVs." Copy derives from the messaging system (§11).</p></div>
+        <div class="fstep"><div class="stage-name">03 · Capture<small>HubSpot</small></div><p>A reply, form or lead-magnet download creates a HubSpot contact (<code>lifecyclestage=lead</code>) with first-touch attribution, via the lead webhook already wired (§12).</p></div>
+        <div class="fstep"><div class="stage-name">04 · Discovery<small>Qualify → SQL</small></div><p>Confirm the operation, need, budget and authority. Discovery questions tuned per persona — Crew Planning, Operations, Procurement, CFO. The deal moves to Qualified.</p></div>
+        <div class="fstep"><div class="stage-name">05 · Scope<small>Solution design</small></div><p>Define roles, certifications, rotation, locations and timeline — and decide role-fill versus a managed operation (as with the Boeing 777 wet-lease crewing).</p></div>
+        <div class="fstep"><div class="stage-name">06 · Online quote<small>Proposal Studio → /p/token</small></div><p>Author the quote in the platform's Proposal Studio and publish it as a private, "commercial in confidence" page at confair.com/p/… — live rate card, standards, timeline, validity and next steps. No PDF attachments to lose.</p></div>
+        <div class="fstep"><div class="stage-name">07 · Accept online<small>Closed Won</small></div><p>The client accepts on the page itself — name, title, email, timestamped — and the team is notified automatically. The deal moves to Closed Won.</p></div>
+        <div class="fstep"><div class="stage-name">08 · Agreement &amp; handover<small>Continuum</small></div><p>Framework agreement / MSA signed; the operation flows into Continuum, where recruit → verify → deploy → operate → pay begins.</p></div>
+        <div class="fstep"><div class="stage-name">09 · Expand<small>Retain &amp; redeploy</small></div><p>New deals per operation and division; redeployment of crew already in the system shortens the next cycle and lifts margin.</p></div>
+      </div>
+
+      <div class="callout" style="margin-top:24px">
+        <p><strong>Live example — RwandAir.</strong> The RwandAir quote sits at step 06: a published, tokenised proposal awaiting online acceptance. When the client signs off on the page it flips to Closed Won and hands over to Continuum — the whole cycle, on Confair's own stack. <span class="note">(Internal reference — anonymise before any public use.)</span></p>
+      </div>
+
+      <hr class="soft">
+      <div class="grid g2" style="align-items:start">
+        <div class="card">
+          <h4 style="margin-bottom:10px">This runs on your own stack</h4>
+          <p style="color:var(--ink-soft);font-size:.95rem">The platform's marketing suite is already the cockpit: <b>Leads</b>, <b>Content Studio</b>, <b>Funnel</b>, <b>Image Library</b> and <b>Proposal Studio</b> — plus HubSpot for pipeline and the tokenised proposal pages on the website. The sales cycle isn't aspirational; the tooling exists.</p>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:10px">Sharpen the edges</h4>
+          <ul class="clean" style="font-size:.93rem">
+            <li>Templatise proposals from this Blueprint so every quote tells the same story</li>
+            <li>Use proposal view-tracking to time follow-ups — the page already registers views</li>
+            <li>Add e-signature to the framework agreement to close the last gap after acceptance</li>
+            <li>Feed accepted deals into redeployment so won crew shortens the next sale</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="doc-foot">
+    <div class="wrap">
+      <div><b>The Confair Company Blueprint</b> · Version 1.0 · Aviation · Maritime · Offshore Energy</div>
+      <div>Single source of truth for website · proposals · outreach · sales</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Scroll-spy for the section nav
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+    var map = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (el) map[id] = a;
+    });
+    var ids = Object.keys(map);
+    if (!ids.length || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('active'); });
+          var a = map[e.target.id];
+          if (a) {
+            a.classList.add('active');
+            a.scrollIntoView({ block: 'nearest', inline: 'center' });
+          }
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    ids.forEach(function (id) { io.observe(document.getElementById(id)); });
+  })();
+</script>

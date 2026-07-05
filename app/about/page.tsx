@@ -3,7 +3,7 @@ import { Target, Eye, Heart, Shield, Users, Award } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Confair is a specialized contracting and workforce solutions provider for safety-critical industries.',
+  description: 'Confair is a connected workforce partner for safety-critical industries — aviation, maritime and offshore energy — combining recruitment, compliance, deployment and payroll in one continuous process.',
 };
 
 const ABOUT_IMG =
@@ -44,8 +44,9 @@ export default function AboutPage() {
           <span className="text-yellow text-sm font-semibold uppercase tracking-wider">About Us</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">Who We Are</h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
-            Confair is a specialized contracting and workforce solutions provider operating in
-            safety-critical industries, including aviation, maritime, and offshore energy.
+            Confair is a connected workforce partner for safety-critical industries — aviation,
+            maritime and offshore energy. We bring recruitment, compliance, onboarding, workforce
+            management and payroll together in one continuous process.
           </p>
         </div>
       </section>
