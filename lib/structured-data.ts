@@ -138,3 +138,52 @@ export function articleSchema(post: BlogPost) {
     mainEntityOfPage: `${SITE_URL}/blog-posts/${post.slug}`,
   };
 }
+
+/**
+ * Service schema for a vertical landing page — ties the offering to the
+ * EmploymentAgency brand entity and names the sector served.
+ */
+export function serviceSchema(input: {
+  name: string;
+  description: string;
+  path: string;
+  serviceType: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: input.name,
+    description: input.description,
+    serviceType: input.serviceType,
+    url: `${SITE_URL}${input.path}`,
+    provider: { '@type': 'EmploymentAgency', name: 'Confair Group', url: SITE_URL },
+    areaServed: 'Worldwide',
+  };
+}
+
+/** FAQPage schema — eligible for the FAQ rich result and "People Also Ask". */
+export function faqSchema(faqs: { q: string; a: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+}
+
+/** BreadcrumbList schema — renders the breadcrumb trail in search results. */
+export function breadcrumbSchema(crumbs: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.name,
+      item: `${SITE_URL}${c.path}`,
+    })),
+  };
+}

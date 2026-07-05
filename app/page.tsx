@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   Plane,
@@ -225,12 +226,13 @@ export default function Home() {
                 key={v.title}
                 className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="h-52 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="relative h-52 overflow-hidden">
+                  <Image
                     src={v.image}
                     alt={v.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-6">
@@ -245,7 +247,7 @@ export default function Home() {
                     {v.description}
                   </p>
                   <Link
-                    href={`/industries#${v.id}`}
+                    href={`/industries/${v.id}`}
                     className={`inline-flex items-center gap-1.5 text-sm font-semibold hover:gap-3 transition-all ${v.linkClass}`}
                   >
                     {v.cta} <ArrowRight className="w-4 h-4" />

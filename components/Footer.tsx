@@ -51,9 +51,9 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               {[
-                { name: 'Confair Aviation', href: '/industries#aviation' },
-                { name: 'Confair Maritime', href: '/industries#maritime' },
-                { name: 'Confair Offshore', href: '/industries#offshore' },
+                { name: 'Confair Aviation', href: '/industries/aviation' },
+                { name: 'Confair Maritime', href: '/industries/maritime' },
+                { name: 'Confair Offshore', href: '/industries/offshore' },
               ].map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="text-white/60 hover:text-yellow text-sm transition-colors">
