@@ -102,7 +102,15 @@ export default async function CertificatePage({ params }: { params: { token: str
 
         <div className="mt-8 flex items-center justify-between gap-4">
           <p className="text-xs text-navy-500/70">Confair Group — Utrecht, The Netherlands · Dubai, UAE</p>
-          <PrintButton />
+          <div className="flex items-center gap-3 print:hidden">
+            <a
+              href={`/p/${params.token}/certificate.pdf`}
+              className="inline-flex items-center gap-2 rounded-lg bg-yellow px-6 py-3 text-sm font-bold text-navy transition-colors hover:bg-yellow-600"
+            >
+              Download PDF
+            </a>
+            <PrintButton />
+          </div>
         </div>
       </div>
     </main>
