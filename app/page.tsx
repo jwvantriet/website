@@ -154,7 +154,7 @@ function HeroSlider() {
               Request Workforce <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/services"
+              href="/industries"
               className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-7 py-3.5 rounded-lg font-bold hover:border-yellow hover:text-yellow transition-colors"
             >
               Explore Industries
@@ -240,7 +240,7 @@ export default function Home() {
                     {v.description}
                   </p>
                   <Link
-                    href={`/services#${v.id}`}
+                    href={`/industries#${v.id}`}
                     className="inline-flex items-center gap-1.5 text-sm font-semibold hover:gap-3 transition-all"
                     style={{ color: v.color }}
                   >

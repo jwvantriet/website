@@ -34,7 +34,8 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               <li><Link href="/about" className="text-white/60 hover:text-yellow text-sm transition-colors">About</Link></li>
-              <li><Link href="/services" className="text-white/60 hover:text-yellow text-sm transition-colors">Industries</Link></li>
+              <li><Link href="/services" className="text-white/60 hover:text-yellow text-sm transition-colors">Services</Link></li>
+              <li><Link href="/industries" className="text-white/60 hover:text-yellow text-sm transition-colors">Industries</Link></li>
               <li><Link href="/contact" className="text-white/60 hover:text-yellow text-sm transition-colors">Hire Talent</Link></li>
               <li><Link href="/vacancies" className="text-white/60 hover:text-yellow text-sm transition-colors">Find Jobs</Link></li>
               <li><Link href="/blog-posts" className="text-white/60 hover:text-yellow text-sm transition-colors">Insights</Link></li>
@@ -49,10 +50,14 @@ export default function Footer() {
               Our Industries
             </h4>
             <ul className="space-y-2.5">
-              {['Confair Aviation', 'Confair Maritime', 'Confair Offshore'].map((item) => (
-                <li key={item}>
-                  <Link href="/services" className="text-white/60 hover:text-yellow text-sm transition-colors">
-                    {item}
+              {[
+                { name: 'Confair Aviation', href: '/industries#aviation' },
+                { name: 'Confair Maritime', href: '/industries#maritime' },
+                { name: 'Confair Offshore', href: '/industries#offshore' },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-white/60 hover:text-yellow text-sm transition-colors">
+                    {item.name}
                   </Link>
                 </li>
               ))}

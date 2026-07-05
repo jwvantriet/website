@@ -11,13 +11,14 @@ import { Menu, X, ChevronDown, Phone, Mail, MapPin } from 'lucide-react';
 const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
+  { label: 'Services', path: '/services' },
   {
     label: 'Industries',
-    path: '/services',
+    path: '/industries',
     children: [
-      { label: 'Aviation', path: '/services#aviation' },
-      { label: 'Maritime', path: '/services#maritime' },
-      { label: 'Offshore', path: '/services#offshore' },
+      { label: 'Aviation', path: '/industries#aviation' },
+      { label: 'Maritime', path: '/industries#maritime' },
+      { label: 'Offshore', path: '/industries#offshore' },
     ],
   },
   { label: 'Vacancies', path: '/vacancies' },
