@@ -44,3 +44,9 @@ Ignore the stray `todo.md` / `*.pdf` / `marketing-inputs/` unless asked.
 
 Before pushing: `npm run lint && npm run typecheck` (must pass). Then
 `npm run build` for a production sanity check. `npm run dev` for local work.
+
+## Agent skills
+
+This site runs on Supabase — the `supabase` and `supabase-postgres-best-practices`
+agent skills (`npx skills add supabase/agent-skills`) provide the relevant
+migration/RLS/security guidance and pair with the Supabase MCP tools.
