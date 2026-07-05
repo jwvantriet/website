@@ -148,7 +148,7 @@ export default function GuideContent() {
 
       <section>
         <h3 className="text-xl font-bold text-navy mb-4 flex items-center gap-2">
-          <Plane className="w-5 h-5 text-cblue" /> Aviation
+          <Plane className="w-5 h-5 text-cblue-700" /> Aviation
         </h3>
         <SegmentTables segments={aviation} />
         <p className="text-navy-500 text-sm leading-relaxed">
@@ -184,7 +184,7 @@ export default function GuideContent() {
 
       <section className="bg-beige rounded-2xl p-8">
         <h3 className="text-xl font-bold text-navy mb-3 flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-cblue" /> What this means for hiring in 2026
+          <TrendingUp className="w-5 h-5 text-cblue-700" /> What this means for hiring in 2026
         </h3>
         <ul className="space-y-2 text-navy-500 text-sm leading-relaxed list-disc pl-5">
           <li>Time-to-hire for licensed, type-rated and certified roles keeps lengthening — plan requisitions a quarter ahead.</li>
@@ -193,7 +193,7 @@ export default function GuideContent() {
         </ul>
         <p className="text-navy mt-6 font-medium">
           Need certified professionals against these benchmarks?{' '}
-          <a href="/contact?utm_source=salary-guide&utm_medium=lead-magnet&utm_campaign=salary-guide-2026" className="text-cblue hover:underline">
+          <a href="/contact?utm_source=salary-guide&utm_medium=lead-magnet&utm_campaign=salary-guide-2026" className="text-cblue-700 hover:underline">
             Talk to Confair →
           </a>
         </p>

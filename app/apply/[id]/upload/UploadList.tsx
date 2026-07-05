@@ -149,7 +149,7 @@ export default function UploadList({
       <p className="text-xs text-gray-400 text-center mt-6">
         Documents are stored privately and only shared with the Confair recruitment team.
         See our{' '}
-        <a href="/privacy-policy" className="text-cblue hover:underline" target="_blank" rel="noopener noreferrer">
+        <a href="/privacy-policy" className="text-cblue-700 hover:underline" target="_blank" rel="noopener noreferrer">
           Privacy Policy
         </a>.
       </p>
@@ -278,7 +278,7 @@ function SlotBody({
         ].join(' ')}
       >
         {pending ? (
-          <Loader2 className="w-5 h-5 text-cblue animate-spin" />
+          <Loader2 className="w-5 h-5 text-cblue-700 animate-spin" />
         ) : isUploaded ? (
           <CheckCircle2 className="w-5 h-5 text-emerald-500" />
         ) : (

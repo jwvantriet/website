@@ -239,8 +239,8 @@ function ContentSection({
       <div
         className="prose prose-sm max-w-none text-gray-600 leading-relaxed
           prose-headings:text-navy prose-headings:font-semibold
-          prose-a:text-cblue prose-a:no-underline hover:prose-a:underline
-          prose-li:marker:text-cblue
+          prose-a:text-cblue-700 prose-a:no-underline hover:prose-a:underline
+          prose-li:marker:text-cblue-700
           prose-strong:text-gray-700
           [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5
           [&_p]:mb-3 [&_li]:mb-1
@@ -287,7 +287,7 @@ function ContactCard({
           {phone && (
             <a
               href={`tel:${phone}`}
-              className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue transition-colors py-2"
+              className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue-700 transition-colors py-2"
             >
               <Phone className="w-4 h-4 text-gray-400" />
               {phone}
@@ -296,7 +296,7 @@ function ContactCard({
           {email && (
             <a
               href={`mailto:${email}`}
-              className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue transition-colors py-2"
+              className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue-700 transition-colors py-2"
             >
               <Mail className="w-4 h-4 text-gray-400" />
               {email}
@@ -320,7 +320,7 @@ function ContactCard({
           </div>
         </div>
         <div
-          className="prose prose-sm max-w-none text-gray-600 prose-a:text-cblue"
+          className="prose prose-sm max-w-none text-gray-600 prose-a:text-cblue-700"
           dangerouslySetInnerHTML={{ __html: contactHtml }}
         />
       </div>
@@ -340,7 +340,7 @@ function ContactCard({
       </div>
       <a
         href="mailto:info@confair.com"
-        className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue transition-colors py-2"
+        className="flex items-center gap-3 text-sm text-gray-600 hover:text-cblue-700 transition-colors py-2"
       >
         <Mail className="w-4 h-4 text-gray-400" />
         info@confair.com

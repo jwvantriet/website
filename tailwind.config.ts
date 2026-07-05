@@ -18,6 +18,16 @@ const config: Config = {
         sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
         heading: ['var(--font-poppins)', 'Poppins', 'system-ui', 'sans-serif'],
       },
+      // Text-safe accent shades for small text / links on light (white/beige)
+      // backgrounds. The bright brand accents (cblue/lblue/yellow) fail WCAG AA
+      // as small text on white, so use these darker, same-family shades for
+      // labels and links; keep the bright tokens for icons, chips, buttons and
+      // large display. Verified ≥4.5:1 on both white and beige.
+      colors: {
+        cblue: { 700: '#2358c0' }, // aviation + eyebrow/link text on light
+        'accent-maritime': '#146685', // darkened lblue for maritime link text
+        'accent-offshore': '#806300', // dark amber for offshore link text
+      },
     },
   },
   plugins: [typography],

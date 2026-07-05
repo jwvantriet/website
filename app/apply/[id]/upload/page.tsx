@@ -137,7 +137,7 @@ export default async function UploadPage({ params, searchParams }: PageProps) {
           </a>
           <p className="text-sm text-gray-500 mt-6">
             Or email any documents you have ready to{' '}
-            <a href="mailto:recruitment@confair.com" className="text-cblue hover:underline">
+            <a href="mailto:recruitment@confair.com" className="text-cblue-700 hover:underline">
               recruitment@confair.com
             </a>{' '}
             with the subject &ldquo;Application {application.id} — {application.vacancy_title}&rdquo;.

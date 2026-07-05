@@ -55,7 +55,7 @@ export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
           </span>
         </div>
 
-        <h3 className="text-lg font-bold text-navy mb-3 group-hover:text-cblue transition-colors leading-tight line-clamp-2">
+        <h3 className="text-lg font-bold text-navy mb-3 group-hover:text-cblue-700 transition-colors leading-tight line-clamp-2">
           {vacancy.title}
         </h3>
 

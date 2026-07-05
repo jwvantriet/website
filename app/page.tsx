@@ -56,6 +56,9 @@ const verticals = [
       'Supporting airline operations, maintenance, and ground services with certified professionals in highly regulated environments.',
     image: AVIATION_IMG,
     color: '#407df1',
+    // AA-safe shade for the link text on white; the bright `color` above stays
+    // on the icon + chip. See the text-safe tokens in tailwind.config.
+    linkClass: 'text-cblue-700',
     cta: 'Explore Aviation',
   },
   {
@@ -66,6 +69,7 @@ const verticals = [
       'Ensuring safe and compliant vessel operations with experienced maritime professionals across global fleets and port environments.',
     image: MARITIME_IMG,
     color: '#61bef6',
+    linkClass: 'text-accent-maritime',
     cta: 'Explore Maritime',
   },
   {
@@ -76,6 +80,7 @@ const verticals = [
       'Delivering specialized offshore professionals to support energy operations with a strong focus on safety, compliance, and operational continuity.',
     image: OFFSHORE_IMG,
     color: '#fbc134',
+    linkClass: 'text-accent-offshore',
     cta: 'Explore Offshore',
   },
 ];
@@ -202,7 +207,7 @@ export default function Home() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
+            <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">
               Critical Industries We Serve
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">
@@ -241,8 +246,7 @@ export default function Home() {
                   </p>
                   <Link
                     href={`/industries#${v.id}`}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold hover:gap-3 transition-all"
-                    style={{ color: v.color }}
+                    className={`inline-flex items-center gap-1.5 text-sm font-semibold hover:gap-3 transition-all ${v.linkClass}`}
                   >
                     {v.cta} <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -257,7 +261,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
+              <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">
                 Why Confair
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-6">
@@ -272,7 +276,7 @@ export default function Home() {
                 {whyChoose.map((item) => (
                   <div key={item.title} className="flex gap-4">
                     <div className="w-12 h-12 rounded-xl bg-cblue/10 flex items-center justify-center shrink-0">
-                      <item.icon className="w-6 h-6 text-cblue" />
+                      <item.icon className="w-6 h-6 text-cblue-700" />
                     </div>
                     <div>
                       <h4 className="font-bold text-navy mb-1">{item.title}</h4>
@@ -290,7 +294,7 @@ export default function Home() {
 
                 <div className="mb-5">
                   <div className="flex items-center gap-2 mb-2">
-                    <Plane className="w-4 h-4 text-cblue" />
+                    <Plane className="w-4 h-4 text-cblue-700" />
                     <span className="text-navy text-sm font-bold tracking-wide">
                       Aviation
                     </span>
@@ -351,7 +355,7 @@ export default function Home() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
+            <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">
               Work With Confair
             </span>
           </div>
@@ -376,7 +380,7 @@ export default function Home() {
             </div>
 
             <div className="bg-beige rounded-2xl p-10">
-              <span className="text-cblue text-sm font-semibold uppercase tracking-wider">
+              <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">
                 For Candidates
               </span>
               <h3 className="text-2xl md:text-3xl font-bold text-navy mt-3 mb-4">

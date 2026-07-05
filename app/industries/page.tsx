@@ -31,6 +31,9 @@ const services = [
     title: 'Confair Aviation',
     subtitle: 'Aviation Workforce Solutions',
     color: '#407df1',
+    // AA-safe shade for text/badge labels on light tints (bright `color` above
+    // stays on icons + tinted backgrounds). Mirrors tailwind text-safe tokens.
+    textColor: '#2358c0',
     image: AVIATION_IMG,
     description:
       'We provide certified aviation professionals to airlines, MRO facilities, airports, and aviation service providers worldwide. Our aviation specialists are fully licensed and experienced in operating within strict regulatory frameworks including EASA, FAA, and ICAO standards. The result: crews in place fast, compliance that holds up to audit, and flights that depart on schedule.',
@@ -56,6 +59,7 @@ const services = [
     title: 'Confair Maritime',
     subtitle: 'Maritime Workforce Solutions',
     color: '#61bef6',
+    textColor: '#146685',
     image: MARITIME_IMG,
     description:
       'We supply qualified maritime personnel for vessel operations, port services, and shipyard projects across the globe. Our maritime professionals hold valid STCW certifications and are experienced in operating across diverse vessel types and maritime environments. The result: compliant crews, smooth crew changes and vessels that sail on time.',
@@ -80,6 +84,7 @@ const services = [
     title: 'Confair Offshore',
     subtitle: 'Offshore Energy Workforce Solutions',
     color: '#fbc134',
+    textColor: '#806300',
     image: OFFSHORE_IMG,
     description:
       'We deliver experienced offshore energy professionals for drilling, production, construction, and maintenance operations. Our offshore specialists are trained in the highest HSE standards and hold all required certifications for offshore work including BOSIET, HUET, and GWO. The result: mobilised teams, valid certifications and projects that stay on schedule.',
@@ -137,7 +142,7 @@ export default function ServicesPage() {
                   style={{ backgroundColor: `${service.color}15` }}
                 >
                   <service.icon className="w-4 h-4" style={{ color: service.color }} />
-                  <span className="text-sm font-semibold" style={{ color: service.color }}>
+                  <span className="text-sm font-semibold" style={{ color: service.textColor }}>
                     {service.subtitle}
                   </span>
                 </div>
@@ -164,8 +169,8 @@ export default function ServicesPage() {
                       key={f}
                       className="text-xs font-semibold px-3 py-1.5 rounded-full border"
                       style={{
-                        color: service.color,
-                        borderColor: `${service.color}40`,
+                        color: service.textColor,
+                        borderColor: `${service.textColor}40`,
                         backgroundColor: `${service.color}08`,
                       }}
                     >

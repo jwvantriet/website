@@ -290,12 +290,12 @@ function ApplyDialog({
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm text-gray-500 hover:border-cblue hover:text-cblue transition-all flex items-center justify-center gap-2 bg-gray-50/50"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm text-gray-500 hover:border-cblue hover:text-cblue-700 transition-all flex items-center justify-center gap-2 bg-gray-50/50"
                 >
                   {cvFile ? (
                     <>
-                      <FileText className="w-4 h-4 text-cblue" />
-                      <span className="text-cblue font-medium">{cvFile.name}</span>
+                      <FileText className="w-4 h-4 text-cblue-700" />
+                      <span className="text-cblue-700 font-medium">{cvFile.name}</span>
                     </>
                   ) : (
                     <>
@@ -308,7 +308,7 @@ function ApplyDialog({
 
               <p className="text-xs text-gray-400 leading-relaxed">
                 By submitting this application, you agree to our{' '}
-                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-cblue hover:underline">
+                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-cblue-700 hover:underline">
                   Privacy Policy
                 </a>{' '}
                 and consent to the processing of your personal data for recruitment purposes.

@@ -49,7 +49,7 @@ export default function LegalPageLayout({
                 ? ' prose prose-slate max-w-none prose-headings:text-navy prose-headings:font-bold' +
                   ' prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-navy-500' +
                   ' prose-p:leading-relaxed prose-li:text-navy-500 prose-strong:text-navy' +
-                  ' prose-a:text-cblue prose-a:font-medium hover:prose-a:underline'
+                  ' prose-a:text-cblue-700 prose-a:font-medium hover:prose-a:underline'
                 : '')
             }
           >

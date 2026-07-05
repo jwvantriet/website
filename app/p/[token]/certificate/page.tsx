@@ -58,7 +58,7 @@ export default async function CertificatePage({ params }: { params: { token: str
 
         {/* Proposal */}
         <section className="mt-8">
-          <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-cblue">Proposal</h2>
+          <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-cblue-700">Proposal</h2>
           <dl>
             <Row label="Title">{sig.title}</Row>
             <Row label="Client">{sig.client_name}</Row>
@@ -68,7 +68,7 @@ export default async function CertificatePage({ params }: { params: { token: str
 
         {/* Signatory */}
         <section className="mt-8">
-          <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-cblue">Signatory</h2>
+          <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-cblue-700">Signatory</h2>
           <dl>
             <Row label="Name">{sig.signer.name}</Row>
             {sig.signer.title && <Row label="Job title">{sig.signer.title}</Row>}
@@ -78,7 +78,7 @@ export default async function CertificatePage({ params }: { params: { token: str
 
         {/* Signature */}
         <section className="mt-8">
-          <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-cblue">Signature record</h2>
+          <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-cblue-700">Signature record</h2>
           <dl>
             <Row label="Signed at">{formatUtc(sig.signed_at)}</Row>
             <Row label="Verification">{methodLabel}</Row>

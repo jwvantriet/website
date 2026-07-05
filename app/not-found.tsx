@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <section className="bg-gray-50 min-h-[60vh] flex items-center">
       <div className="max-w-3xl mx-auto px-6 py-20 text-center">
-        <p className="text-cblue text-sm font-semibold uppercase tracking-wider mb-3">
+        <p className="text-cblue-700 text-sm font-semibold uppercase tracking-wider mb-3">
           404
         </p>
         <h1 className="text-4xl md:text-5xl font-bold text-navy mb-4">
