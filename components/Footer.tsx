@@ -104,18 +104,18 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/40 text-sm">
+          <p className="text-white/70 text-sm">
             © {new Date().getFullYear()} Confair Group. All rights reserved.
           </p>
           <div className="flex gap-6 flex-wrap justify-center">
-            <Link href="/privacy-policy" className="text-white/40 hover:text-yellow text-sm transition-colors">
+            <Link href="/privacy-policy" className="text-white/70 hover:text-yellow text-sm transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/cookie-policy" className="text-white/40 hover:text-yellow text-sm transition-colors">
+            <Link href="/cookie-policy" className="text-white/70 hover:text-yellow text-sm transition-colors">
               Cookie Policy
             </Link>
-            <CookiePreferencesButton className="text-white/40 hover:text-yellow text-sm transition-colors cursor-pointer" />
-            <Link href="/terms-of-use" className="text-white/40 hover:text-yellow text-sm transition-colors">
+            <CookiePreferencesButton className="text-white/70 hover:text-yellow text-sm transition-colors cursor-pointer" />
+            <Link href="/terms-of-use" className="text-white/70 hover:text-yellow text-sm transition-colors">
               Terms of Use
             </Link>
           </div>

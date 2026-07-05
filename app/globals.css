@@ -7,6 +7,15 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Headings render in the brand display face (Poppins) by default, so pages
+   and components don't each have to remember `font-heading`. Body text keeps
+   the default sans (Inter) from the Tailwind config. */
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: theme('fontFamily.heading');
+  }
+}
+
 /* Keep brand background colours when printing / saving to PDF (browsers strip
    them by default) — used by the signing certificate. */
 .print-exact {
