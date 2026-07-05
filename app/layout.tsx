@@ -1,8 +1,26 @@
 import type { Metadata } from 'next';
+import { Inter, Poppins } from 'next/font/google';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
+
+// Brand webfonts. The shared preset (tailwind.confair-preset.js) declares
+// Inter (body) + Poppins (headings) but leaves loading to the app; without
+// this the site silently falls back to system-ui. next/font self-hosts the
+// files (no external request at runtime) and exposes them as CSS variables
+// that tailwind.config maps onto font-sans / font-heading.
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['500', '600', '700', '800'],
+  variable: '--font-poppins',
+  display: 'swap',
+});
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import AttributionTracker from '@/components/AttributionTracker';
@@ -34,7 +52,7 @@ const COOKIEBOT_CBID = '47f0ce2e-c2fa-4634-bf72-978741be7db6';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       {/*
         Cookiebot Consent Management Platform.
         Loaded as the first script in <head> with strategy
