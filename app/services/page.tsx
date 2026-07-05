@@ -33,7 +33,7 @@ const services = [
     color: '#407df1',
     image: AVIATION_IMG,
     description:
-      'We provide certified aviation professionals to airlines, MRO facilities, airports, and aviation service providers worldwide. Our aviation specialists are fully licensed and experienced in operating within strict regulatory frameworks including EASA, FAA, and ICAO standards.',
+      'We provide certified aviation professionals to airlines, MRO facilities, airports, and aviation service providers worldwide. Our aviation specialists are fully licensed and experienced in operating within strict regulatory frameworks including EASA, FAA, and ICAO standards. The result: crews in place fast, compliance that holds up to audit, and flights that depart on schedule.',
     roles: [
       'Licensed Pilots (EASA & FAA certified)',
       'Licensed Aircraft Engineers (B1/B2)',
@@ -58,7 +58,7 @@ const services = [
     color: '#61bef6',
     image: MARITIME_IMG,
     description:
-      'We supply qualified maritime personnel for vessel operations, port services, and shipyard projects across the globe. Our maritime professionals hold valid STCW certifications and are experienced in operating across diverse vessel types and maritime environments.',
+      'We supply qualified maritime personnel for vessel operations, port services, and shipyard projects across the globe. Our maritime professionals hold valid STCW certifications and are experienced in operating across diverse vessel types and maritime environments. The result: compliant crews, smooth crew changes and vessels that sail on time.',
     roles: [
       'Masters & Deck Officers (STCW certified)',
       'Marine Engineers',
@@ -82,7 +82,7 @@ const services = [
     color: '#fbc134',
     image: OFFSHORE_IMG,
     description:
-      'We deliver experienced offshore energy professionals for drilling, production, construction, and maintenance operations. Our offshore specialists are trained in the highest HSE standards and hold all required certifications for offshore work including BOSIET, HUET, and GWO.',
+      'We deliver experienced offshore energy professionals for drilling, production, construction, and maintenance operations. Our offshore specialists are trained in the highest HSE standards and hold all required certifications for offshore work including BOSIET, HUET, and GWO. The result: mobilised teams, valid certifications and projects that stay on schedule.',
     roles: [
       'Project Engineers & Managers',
       'Drilling Engineers & Supervisors',
