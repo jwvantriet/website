@@ -16,9 +16,9 @@ const navLinks = [
     label: 'Industries',
     path: '/industries',
     children: [
-      { label: 'Aviation', path: '/industries#aviation' },
-      { label: 'Maritime', path: '/industries#maritime' },
-      { label: 'Offshore', path: '/industries#offshore' },
+      { label: 'Aviation', path: '/industries/aviation' },
+      { label: 'Maritime', path: '/industries/maritime' },
+      { label: 'Offshore', path: '/industries/offshore' },
     ],
   },
   { label: 'Vacancies', path: '/vacancies' },

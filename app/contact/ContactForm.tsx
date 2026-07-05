@@ -27,7 +27,13 @@ function SubmitButton() {
   );
 }
 
-export default function ContactForm() {
+export default function ContactForm({
+  lockedIndustry,
+}: {
+  /** When set (on a vertical landing page), the industry is fixed to this
+   *  value and the selector is hidden so the lead is tagged to that vertical. */
+  lockedIndustry?: 'aviation' | 'maritime' | 'offshore';
+} = {}) {
   const [state, formAction] = useFormState(submitContactForm, initialState);
   const [inquiryType, setInquiryType] = useState<'client' | 'candidate'>('client');
   const isCandidate = inquiryType === 'candidate';
@@ -111,36 +117,41 @@ export default function ContactForm() {
         </div>
 
         {!isCandidate ? (
-          <div className="grid md:grid-cols-2 gap-5">
-            <div>
-              <label htmlFor="company" className="text-navy font-semibold text-sm mb-1.5 block">
-                Company Name
-              </label>
-              <input
-                id="company"
-                name="company"
-                placeholder="Your company"
-                className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
-              />
+          <>
+            {lockedIndustry && <input type="hidden" name="industry" value={lockedIndustry} />}
+            <div className={lockedIndustry ? '' : 'grid md:grid-cols-2 gap-5'}>
+              <div>
+                <label htmlFor="company" className="text-navy font-semibold text-sm mb-1.5 block">
+                  Company Name
+                </label>
+                <input
+                  id="company"
+                  name="company"
+                  placeholder="Your company"
+                  className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
+                />
+              </div>
+              {!lockedIndustry && (
+                <div>
+                  <label htmlFor="industry" className="text-navy font-semibold text-sm mb-1.5 block">
+                    Industry
+                  </label>
+                  <select
+                    id="industry"
+                    name="industry"
+                    defaultValue=""
+                    className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
+                  >
+                    <option value="">Select industry</option>
+                    <option value="aviation">Aviation</option>
+                    <option value="maritime">Maritime</option>
+                    <option value="offshore">Offshore Energy</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              )}
             </div>
-            <div>
-              <label htmlFor="industry" className="text-navy font-semibold text-sm mb-1.5 block">
-                Industry
-              </label>
-              <select
-                id="industry"
-                name="industry"
-                defaultValue=""
-                className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
-              >
-                <option value="">Select industry</option>
-                <option value="aviation">Aviation</option>
-                <option value="maritime">Maritime</option>
-                <option value="offshore">Offshore Energy</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
+          </>
         ) : (
           <div>
             <label htmlFor="field_of_expertise" className="text-navy font-semibold text-sm mb-1.5 block">
