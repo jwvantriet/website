@@ -64,3 +64,40 @@ export function screenSubmission(input: {
 
   return { spam: false };
 }
+
+/**
+ * Spam screening for the vacancy apply form.
+ *
+ * Deliberately NOT screenSubmission(). The cost of a false positive is not the
+ * same: dropping a lead loses an enquiry we can chase, dropping an application
+ * loses a type-rated captain who believes they applied and will never hear
+ * back. So this keeps only the checks that cannot plausibly fire on a real
+ * candidate:
+ *
+ * - Honeypot — the hidden "website" field. A human never sees it, a form-
+ *   filling bot does. No false positives.
+ * - Missing timer — a client that posts straight at the server action never
+ *   rendered <SpamShieldFields/>, so it has no timestamp to send.
+ *
+ * Two checks from the lead forms are deliberately ABSENT:
+ *
+ * - The 3s minimum fill time. A candidate with browser autofill and a CV
+ *   already to hand can beat it, and any threshold low enough to be safe for
+ *   them is also low enough for a script to sleep past. It buys nothing and
+ *   risks the one submission on this site we cannot afford to lose.
+ * - The gibberish/link-stuffing heuristics. There is no free-text field left
+ *   on this form to stuff, and real pilot names — transliterated, single
+ *   token, mixed case — trip looksLikeGibberish().
+ */
+export function screenApplication(input: {
+  honeypot: string;
+  startedAtMs: number;
+}): SpamVerdict {
+  if (input.honeypot.trim() !== '') {
+    return { spam: true, reason: 'honeypot' };
+  }
+  if (!Number.isFinite(input.startedAtMs) || input.startedAtMs <= 0) {
+    return { spam: true, reason: 'no-timer' };
+  }
+  return { spam: false };
+}
