@@ -14,6 +14,7 @@
  */
 
 import type { Vacancy, BlogPost } from '@/lib/types';
+import { publicEmployerName } from '@/lib/employer';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://confair.com';
 
@@ -89,6 +90,19 @@ export function jobPostingSchema(vacancy: Vacancy) {
   const employmentType =
     EMPLOYMENT_TYPE_MAP[String(vacancy.employment_type ?? '').toLowerCase()] ?? 'FULL_TIME';
 
+  // Google for Jobs asks a staffing agency to name the ACTUAL employer in
+  // hiringOrganization and itself in employmentAgency. Posting every vacancy
+  // as "Confair Group" cost us the operator name in the search result — the
+  // one thing a pilot scans for. Where the client is confidential (our own
+  // entity in Carerix) the agency is the correct hiringOrganization, which is
+  // what the spec prescribes for undisclosed employers.
+  const employer = publicEmployerName(vacancy.company_name);
+  const agency = {
+    '@type': 'Organization',
+    name: 'Confair Group',
+    sameAs: SITE_URL,
+  };
+
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
@@ -97,11 +111,10 @@ export function jobPostingSchema(vacancy: Vacancy) {
     datePosted: vacancy.publication_start ?? vacancy.posted_date,
     employmentType,
     industry: vacancy.industry,
-    hiringOrganization: {
-      '@type': 'Organization',
-      name: 'Confair Group',
-      sameAs: SITE_URL,
-    },
+    hiringOrganization: employer
+      ? { '@type': 'Organization', name: employer }
+      : agency,
+    employmentAgency: agency,
     jobLocation: {
       '@type': 'Place',
       address: {

@@ -24,6 +24,7 @@ import type { Vacancy } from '@/lib/types';
 import ApplyButton from './ApplyButton';
 import JsonLd from '@/components/JsonLd';
 import { jobPostingSchema } from '@/lib/structured-data';
+import { publicEmployerName } from '@/lib/employer';
 
 export const revalidate = 60;
 
@@ -66,9 +67,16 @@ async function fetchVacancy(slug: string): Promise<Vacancy | null> {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const vacancy = await fetchVacancy(params.slug);
   if (!vacancy) return { title: 'Vacancy not found' };
+  const employer = publicEmployerName(vacancy.company_name);
   return {
-    title: vacancy.title,
-    description: vacancy.summary ?? `${vacancy.industry} role with Confair Group.`,
+    // Candidates search by operator as much as by rank ("Rwandair A330
+    // Captain"), so the airline belongs in the title tag too.
+    title: employer ? `${vacancy.title} — ${employer}` : vacancy.title,
+    description:
+      vacancy.summary ??
+      (employer
+        ? `${vacancy.title} with ${employer}. ${vacancy.industry} role via Confair Group.`
+        : `${vacancy.industry} role with Confair Group.`),
   };
 }
 
@@ -78,6 +86,9 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
 
   const config = industryConfig[vacancy.industry] || industryConfig.Aviation;
   const IndustryIcon = config.icon;
+  // The operator, shown in the header next to the job title. Null for the
+  // vacancies Carerix books against a Confair entity — see lib/employer.ts.
+  const employer = publicEmployerName(vacancy.company_name);
 
   // Display dates: posted is shown as a fixed standard (1 Jan 2026); "updated"
   // is always recent — the visit date minus 14 days.
@@ -125,6 +136,13 @@ export default async function VacancyDetailPage({ params }: { params: { slug: st
             <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3 leading-tight">
               {vacancy.title}
             </h1>
+
+            {employer && (
+              <p className="flex items-center gap-2 text-lg md:text-xl font-semibold text-cblue-700 mb-3">
+                <Building2 className="w-5 h-5 flex-shrink-0 text-cblue-600" />
+                {employer}
+              </p>
+            )}
 
             {vacancy.reference_number && (
               <p className="text-sm text-gray-400 mb-6">Ref#: {vacancy.reference_number}</p>
