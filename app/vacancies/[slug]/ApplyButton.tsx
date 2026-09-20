@@ -13,6 +13,7 @@ import {
   Phone,
   Briefcase,
 } from 'lucide-react';
+import SpamShieldFields from '@/components/SpamShieldFields';
 import { submitVacancyApplication, type ApplyFormState } from './apply-action';
 
 interface ApplyButtonProps {
@@ -245,6 +246,7 @@ function ApplyDialog({
             </div>
           ) : (
             <form action={formAction} className="space-y-4">
+              <SpamShieldFields />
               <input type="hidden" name="vacancy_id"        value={vacancyId} />
               <input type="hidden" name="vacancy_slug"      value={vacancySlug} />
               <input type="hidden" name="vacancy_title"     value={vacancyTitle} />

@@ -1,7 +1,10 @@
 'use server';
 
 import { randomUUID } from 'crypto';
+import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
+import { ATTRIBUTION_COOKIE, parseAttribution } from '@/lib/attribution';
+import { screenApplication } from '@/lib/spam';
 
 // Fire-and-forget the Carerix push webhook. We don't block the form's
 // success state on it — the application is already safely captured in
@@ -137,6 +140,27 @@ export async function submitVacancyApplication(
     return { status: 'error', message: 'Could not identify the vacancy. Please reload the page and try again.' };
   }
 
+  // Spam screen. Unlike the lead forms this only rejects submissions a real
+  // candidate cannot produce (see screenApplication) — a false positive here
+  // costs us a pilot who thinks they applied. Rejected submissions get the
+  // ordinary success screen so a bot learns nothing, and are logged with the
+  // email so a mistake is recoverable rather than invisible.
+  const spam = screenApplication({
+    honeypot: String(formData.get('website') || ''),
+    startedAtMs: Number(formData.get('form_started_at')),
+  });
+  if (spam.spam) {
+    console.warn('[apply] dropped suspected spam', { reason: spam.reason, email, vacancySlug });
+    return {
+      status: 'success',
+      redirectTo: `/vacancies/${vacancySlug}`,
+      applicationId: 0,
+      sessionToken: null,
+      accountExists: false,
+      email,
+    };
+  }
+
   const vacancyId = vacancyIdRaw && /^\d+$/.test(vacancyIdRaw) ? Number(vacancyIdRaw) : null;
   const supabase = createClient();
 
@@ -187,6 +211,10 @@ export async function submitVacancyApplication(
   //
   // The RPC returns jsonb { id, session_token } — the candidate uses
   // the token to continue into the post-apply enrichment flow.
+  // First-touch attribution, same cookie the contact and salary-guide forms
+  // read. Null when the visitor came direct or declined marketing cookies.
+  const attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value);
+
   const { data: rpcResult, error } = await supabase.rpc('submit_vacancy_application', {
     p_vacancy_id:         vacancyId,
     p_vacancy_slug:       vacancySlug,
@@ -201,6 +229,7 @@ export async function submitVacancyApplication(
     p_cv_filename:        cvFilename,
     p_cv_mime_type:       cvMimeType,
     p_cv_size_bytes:      cvSizeBytes,
+    p_attribution:        attribution,
   });
 
   // RPC returns jsonb directly. Defensively also handle a one-element
