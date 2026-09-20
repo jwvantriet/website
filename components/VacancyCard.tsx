@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { MapPin, Clock, Briefcase, ArrowRight, Plane, Ship, Fuel } from 'lucide-react';
+import { MapPin, Clock, Briefcase, ArrowRight, Plane, Ship, Fuel, Building2 } from 'lucide-react';
 import type { Vacancy } from '@/lib/types';
+import { publicEmployerName } from '@/lib/employer';
 
 const INDUSTRY_CONFIG = {
   Aviation: { bg: 'bg-blue-50', text: 'text-blue-700', icon: Plane, border: 'hover:border-blue-200' },
@@ -25,6 +26,9 @@ function isNew(dateStr: string): boolean {
 export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
   const config = INDUSTRY_CONFIG[vacancy.industry] || INDUSTRY_CONFIG.Aviation;
   const IndustryIcon = config.icon;
+  // The operator is the headline fact in aviation — show it directly under the
+  // job title, not buried in the detail page's "About the company" section.
+  const employer = publicEmployerName(vacancy.company_name);
   // Listings show the "updated" date (visit − 14 days), matching the detail page.
   const updatedIso = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
   const vacancyIsNew = isNew(updatedIso);
@@ -55,9 +59,20 @@ export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
           </span>
         </div>
 
-        <h3 className="text-lg font-bold text-navy mb-3 group-hover:text-cblue-700 transition-colors leading-tight line-clamp-2">
+        <h3
+          className={`text-lg font-bold text-navy group-hover:text-cblue-700 transition-colors leading-tight line-clamp-2 ${
+            employer ? 'mb-1.5' : 'mb-3'
+          }`}
+        >
           {vacancy.title}
         </h3>
+
+        {employer && (
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-cblue-700 mb-3">
+            <Building2 className="w-3.5 h-3.5 flex-shrink-0 text-cblue-600" />
+            <span className="line-clamp-1">{employer}</span>
+          </p>
+        )}
 
         <div className="flex flex-wrap gap-3 mb-3 text-sm text-gray-500">
           {vacancy.location && (

@@ -20,7 +20,7 @@ export default async function VacanciesPage({
   const supabase = createClient();
   let query = supabase
     .from('vacancies')
-    .select('id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, modification_date')
+    .select('id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, modification_date, company_name')
     .eq('is_active', true)
     .order('posted_date', { ascending: false });
 
@@ -28,9 +28,17 @@ export default async function VacanciesPage({
     query = query.eq('industry', searchParams.industry);
   }
   if (searchParams.q) {
-    query = query.or(
-      `title.ilike.%${searchParams.q}%,location.ilike.%${searchParams.q}%,summary.ilike.%${searchParams.q}%`,
-    );
+    // Strip the characters PostgREST reads as filter syntax before they reach
+    // .or() — a stray comma or parenthesis in the query string would otherwise
+    // be parsed as extra filter terms rather than searched for.
+    const q = searchParams.q.replace(/[,()*\\]/g, ' ').trim();
+    if (q) {
+      // Candidates search by operator ("Rwandair", "Air Atlanta") at least as
+      // often as by job title, so company_name is part of the match set.
+      query = query.or(
+        `title.ilike.%${q}%,location.ilike.%${q}%,summary.ilike.%${q}%,company_name.ilike.%${q}%`,
+      );
+    }
   }
 
   const { data, error } = await query;
