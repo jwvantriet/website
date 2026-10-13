@@ -1,8 +1,8 @@
 /**
  * Heuristic spam screening for the public lead forms (contact + salary guide).
  *
- * Every submission now flows into the HubSpot pipeline, so bot spam directly
- * pollutes sales reporting. These checks target the exact patterns observed
+ * Every submission now flows into the sales funnel (Apollo), so bot spam
+ * directly pollutes the lead list. These checks target the exact patterns observed
  * in contact_submissions (link-stuffed pitches, gibberish bot entries,
  * instant submissions) while staying invisible to genuine visitors:
  *

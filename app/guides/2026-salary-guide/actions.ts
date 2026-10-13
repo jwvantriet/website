@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
-import { ATTRIBUTION_COOKIE, parseAttribution } from '@/lib/attribution';
+import { ATTRIBUTION_COOKIE, parseAttribution, type Attribution } from '@/lib/attribution';
 import { screenSubmission } from '@/lib/spam';
 
 export type GuideFormState =
@@ -11,9 +11,9 @@ export type GuideFormState =
   | { status: 'error'; message: string };
 
 /**
- * Lead-magnet form: capture the lead in Supabase, feed it into the HubSpot
- * funnel (tagged salary-guide-2026 so pipeline can be attributed to this
- * asset), then the client reveals the guide content.
+ * Lead-magnet form: capture the lead in Supabase (tagged salary-guide-2026 so
+ * pipeline can be attributed to this asset), feed it into the sales funnel
+ * (Apollo, via confair-api), then the client reveals the guide content.
  *
  * Same best-effort forwarding contract as the contact form: the visitor gets
  * the guide as long as the Supabase capture succeeds — a CRM hiccup never
@@ -36,7 +36,7 @@ export async function requestGuide(
   }
 
   // Spam screen — drop silently (unlock the guide anyway) so bots get no
-  // feedback; the lead simply never reaches Supabase or HubSpot.
+  // feedback; the lead simply never reaches Supabase or Apollo.
   const verdict = screenSubmission({
     name,
     message: company,
@@ -50,6 +50,14 @@ export async function requestGuide(
 
   const message = 'Requested the 2026 Workforce & Salary Guide.';
 
+  // First-touch attribution if the visitor arrived via a tagged campaign;
+  // otherwise stamp the asset itself so the lead still shows what converted.
+  const attribution: Attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value) ?? {
+    utm_medium: 'lead-magnet',
+    utm_campaign: 'salary-guide-2026',
+    landing_page: '/guides/2026-salary-guide',
+  };
+
   const supabase = createClient();
   const { error } = await supabase.from('contact_submissions').insert({
     name,
@@ -58,12 +66,13 @@ export async function requestGuide(
     industry: industry || null,
     inquiry_type: 'client',
     message,
+    attribution,
   });
   if (error) {
     return { status: 'error', message: 'Something went wrong. Please try again or email us directly.' };
   }
 
-  await forwardToFunnel({ name, email, company, industry, message });
+  await forwardToFunnel({ name, email, company, industry, message }, attribution);
 
   return { status: 'success' };
 }
@@ -74,18 +83,10 @@ async function forwardToFunnel(lead: {
   company: string;
   industry: string;
   message: string;
-}): Promise<void> {
+}, attribution: Attribution): Promise<void> {
   const apiUrl = process.env.CONFAIR_API_URL;
   const secret = process.env.WEBSITE_WEBHOOK_SECRET;
   if (!apiUrl || !secret) return;
-
-  // First-touch attribution if the visitor arrived via a tagged campaign;
-  // otherwise stamp the asset itself so the deal still shows what converted.
-  const attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value) ?? {
-    utm_medium: 'lead-magnet',
-    utm_campaign: 'salary-guide-2026',
-    landing_page: '/guides/2026-salary-guide',
-  };
 
   try {
     const res = await fetch(`${apiUrl}/webhooks/website/lead`, {

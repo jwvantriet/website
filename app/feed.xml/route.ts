@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server';
  * Primary consumer: social schedulers (Buffer/Zapier "new RSS item → create
  * LinkedIn Page post"), so publishing an article in the platform's Blog
  * Manager auto-posts it to the Confair Group page. Links carry UTM tags so
- * that traffic stays attributed in HubSpot. Also serves feed readers and
+ * the leads that traffic produces stay attributed to it. Also serves feed readers and
  * helps crawl discovery.
  */
 
