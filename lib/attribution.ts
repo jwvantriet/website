@@ -3,8 +3,8 @@
  *
  * Captures where a visitor came from (UTM tags, referrer, landing page) the
  * first time they arrive, persists it in a cookie, and hands it to the contact
- * form's server action so every lead reaches HubSpot tagged with the marketing
- * activity that produced it — cold-email, LinkedIn, organic/SEO or a trade-show
+ * form's server action so every lead is stored (contact_submissions.attribution)
+ * tagged with the marketing activity that produced it — cold-email, LinkedIn, organic/SEO or a trade-show
  * QR code, depending on the campaign's UTM parameters.
  *
  * "First touch" wins: once the cookie is set we don't overwrite it, so the

@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
-import { ATTRIBUTION_COOKIE, parseAttribution } from '@/lib/attribution';
+import { ATTRIBUTION_COOKIE, parseAttribution, type Attribution } from '@/lib/attribution';
 import { screenSubmission } from '@/lib/spam';
 
 export type ContactFormState =
@@ -20,18 +20,16 @@ type LeadDetails = {
 };
 
 /**
- * Forward a captured lead to the HubSpot funnel via confair-api, tagged with
- * the visitor's first-touch marketing attribution. Best-effort: the lead is
+ * Forward a captured lead to the sales funnel (Apollo) via confair-api, tagged
+ * with the visitor's first-touch marketing attribution. Best-effort: the lead is
  * already saved in Supabase, so a CRM hiccup must not break the visitor's
  * success state — we log and move on. No-op until CONFAIR_API_URL +
  * WEBSITE_WEBHOOK_SECRET are configured.
  */
-async function forwardLeadToHubSpot(lead: LeadDetails): Promise<void> {
+async function forwardLeadToFunnel(lead: LeadDetails, attribution: Attribution | undefined): Promise<void> {
   const apiUrl = process.env.CONFAIR_API_URL;
   const secret = process.env.WEBSITE_WEBHOOK_SECRET;
   if (!apiUrl || !secret) return;
-
-  const attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value) ?? undefined;
 
   try {
     const res = await fetch(`${apiUrl}/webhooks/website/lead`, {
@@ -45,10 +43,10 @@ async function forwardLeadToHubSpot(lead: LeadDetails): Promise<void> {
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) {
-      console.error(`[contact] HubSpot forward failed: ${res.status}`);
+      console.error(`[contact] funnel forward failed: ${res.status}`);
     }
   } catch (err) {
-    console.error('[contact] HubSpot forward error:', err);
+    console.error('[contact] funnel forward error:', err);
   }
 }
 
@@ -86,6 +84,8 @@ export async function submitContactForm(
     return { status: 'success' };
   }
 
+  const attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value) ?? undefined;
+
   const supabase = createClient();
   const { error } = await supabase.from('contact_submissions').insert({
     name,
@@ -95,6 +95,7 @@ export async function submitContactForm(
     inquiry_type,
     field_of_expertise: field_of_expertise || null,
     message,
+    attribution: attribution ?? null,
   });
 
   if (error) {
@@ -103,14 +104,14 @@ export async function submitContactForm(
 
   // Feed the marketing → sales funnel. Awaited so it runs before the server
   // action returns, but never affects the result the visitor sees.
-  await forwardLeadToHubSpot({
+  await forwardLeadToFunnel({
     name,
     email,
     inquiry_type: inquiry_type as 'client' | 'candidate',
     message,
     company: company || undefined,
     industry: industry || undefined,
-  });
+  }, attribution);
 
   return { status: 'success' };
 }
