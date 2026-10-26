@@ -90,7 +90,7 @@ export default async function VacanciesPage({
             </p>
           )}
 
-          {vacancies.length === 0 ? (
+          {error ? null : vacancies.length === 0 ? (
             <div className="text-center py-20">
               <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
                 <Briefcase className="w-10 h-10 text-gray-300" />

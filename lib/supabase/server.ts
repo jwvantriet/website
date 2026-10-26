@@ -27,6 +27,23 @@ export function createClient() {
     auth: { autoRefreshToken: false, persistSession: false },
     global: {
       headers: { 'x-confair-source': 'website-server-action' },
+      fetch: fetchWithReadRetry,
     },
   });
+}
+
+// A warm function reuses keep-alive sockets that went idle while the instance
+// was frozen; by the time it thaws, the far end has dropped them, and the first
+// request written to one dies with `fetch failed` (write ETIMEDOUT / "other side
+// closed", 0 bytes read). That is ~90 failures on /vacancies since June. A
+// second attempt opens a fresh socket. Only reads are retried: an insert that
+// reached PostgREST before the socket died would be written twice.
+async function fetchWithReadRetry(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  const method = (init?.method ?? 'GET').toUpperCase();
+  try {
+    return await fetch(input, init);
+  } catch (err) {
+    if (method !== 'GET' && method !== 'HEAD') throw err;
+    return fetch(input, init);
+  }
 }
