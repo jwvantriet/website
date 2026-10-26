@@ -49,7 +49,7 @@ function formatDate(dateStr: string | null): string {
 
 async function fetchVacancy(slug: string): Promise<Vacancy | null> {
   const supabase = createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('vacancies')
     .select(
       'id, slug, carerix_id, title, industry, location, employment_type, summary, description, ' +
@@ -61,6 +61,10 @@ async function fetchVacancy(slug: string): Promise<Vacancy | null> {
     .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle();
+  // A failed query must not read as "no such vacancy": that answers 404 for a
+  // live posting, and a crawler that gets it can drop the job from Google for
+  // Jobs. Throwing answers 500, which crawlers treat as transient.
+  if (error) throw new Error(`[vacancy] load failed for ${slug}: ${error.message}`);
   return (data as Vacancy | null) ?? null;
 }
 
