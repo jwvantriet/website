@@ -12,11 +12,10 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-export default async function VacanciesPage({
-  searchParams,
-}: {
-  searchParams: { industry?: string; q?: string };
+export default async function VacanciesPage(props: {
+  searchParams: Promise<{ industry?: string; q?: string }>;
 }) {
+  const searchParams = await props.searchParams;
   const supabase = createClient();
   let query = supabase
     .from('vacancies')

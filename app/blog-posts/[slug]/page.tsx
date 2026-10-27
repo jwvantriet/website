@@ -34,7 +34,8 @@ async function fetchPost(slug: string): Promise<BlogPost | null> {
   return (data as BlogPost | null) ?? null;
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const post = await fetchPost(params.slug);
   if (!post) return { title: 'Post not found' };
   // Full Open Graph + Twitter card metadata so shares (LinkedIn in
@@ -121,7 +122,8 @@ function renderContent(content: string) {
   });
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const post = await fetchPost(params.slug);
   if (!post) notFound();
 

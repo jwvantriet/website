@@ -21,8 +21,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * can forward them to confair-api for the signature's audit trail (the API is
  * called server-to-server, so it would otherwise only see the website's IP).
  */
-function clientMeta() {
-  const h = headers();
+async function clientMeta() {
+  const h = await headers();
   const ip = (h.get('x-forwarded-for') || '').split(',')[0]?.trim() || '';
   const userAgent = h.get('user-agent') || '';
   return { ip, userAgent };
@@ -68,7 +68,7 @@ export async function startSignature(
   }
 
   try {
-    const { ip, userAgent } = clientMeta();
+    const { ip, userAgent } = await clientMeta();
     const res = await fetch(`${apiUrl}/proposal/${encodeURIComponent(token)}/sign/start`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -119,7 +119,7 @@ export async function verifySignature(
   }
 
   try {
-    const { ip, userAgent } = clientMeta();
+    const { ip, userAgent } = await clientMeta();
     const res = await fetch(`${apiUrl}/proposal/${encodeURIComponent(token)}/sign/verify`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

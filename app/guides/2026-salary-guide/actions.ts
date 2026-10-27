@@ -52,7 +52,7 @@ export async function requestGuide(
 
   // First-touch attribution if the visitor arrived via a tagged campaign;
   // otherwise stamp the asset itself so the lead still shows what converted.
-  const attribution: Attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value) ?? {
+  const attribution: Attribution = parseAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value) ?? {
     utm_medium: 'lead-magnet',
     utm_campaign: 'salary-guide-2026',
     landing_page: '/guides/2026-salary-guide',

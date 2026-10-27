@@ -84,7 +84,7 @@ export async function submitContactForm(
     return { status: 'success' };
   }
 
-  const attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value) ?? undefined;
+  const attribution = parseAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value) ?? undefined;
 
   const supabase = createClient();
   const { error } = await supabase.from('contact_submissions').insert({

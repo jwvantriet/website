@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 interface PageProps {
-  params: { id: string };
-  searchParams: { token?: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ token?: string }>;
 }
 
 interface UploadView {
@@ -79,7 +79,9 @@ async function loadView(id: number, token: string): Promise<UploadView | null> {
   return data as UploadView;
 }
 
-export default async function UploadPage({ params, searchParams }: PageProps) {
+export default async function UploadPage(props: PageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const id = Number(params.id);
   const token = (searchParams.token || '').trim();
   if (!Number.isFinite(id) || !token) notFound();

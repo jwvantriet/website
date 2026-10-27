@@ -5,7 +5,8 @@ import { NextRequest } from 'next/server';
 // confair.com/p/<token>/certificate.pdf link (keeps CONFAIR_API_URL server-side).
 export const dynamic = 'force-dynamic';
 
-export async function GET(_req: NextRequest, { params }: { params: { token: string } }) {
+export async function GET(_req: NextRequest, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const apiUrl = process.env.CONFAIR_API_URL;
   if (!apiUrl) return new Response('Certificate unavailable', { status: 503 });
 
