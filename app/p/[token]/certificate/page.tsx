@@ -36,7 +36,8 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   );
 }
 
-export default async function CertificatePage({ params }: { params: { token: string } }) {
+export default async function CertificatePage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const sig = await fetchSignature(params.token);
   if (!sig) notFound();
 

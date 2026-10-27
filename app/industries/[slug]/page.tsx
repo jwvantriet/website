@@ -31,7 +31,8 @@ export function generateStaticParams() {
   return VERTICAL_SLUGS.map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const v = VERTICALS[params.slug as VerticalSlug];
   if (!v) return {};
   const path = `/industries/${v.slug}`;
@@ -48,7 +49,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function VerticalPage({ params }: { params: { slug: string } }) {
+export default async function VerticalPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const v = VERTICALS[params.slug as VerticalSlug];
   if (!v) notFound();
 

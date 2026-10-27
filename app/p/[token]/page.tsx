@@ -7,7 +7,8 @@ import { fetchProposal } from './fetch';
 // view — never serve this from the static cache.
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }: { params: { token: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ token: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const proposal = await fetchProposal(params.token);
   return {
     title: proposal ? `${proposal.title} — proposal for ${proposal.client_name}` : 'Proposal',
@@ -28,7 +29,8 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default async function ProposalPage({ params }: { params: { token: string } }) {
+export default async function ProposalPage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const proposal = await fetchProposal(params.token);
   if (!proposal) notFound();
 

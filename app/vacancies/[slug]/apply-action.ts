@@ -213,7 +213,7 @@ export async function submitVacancyApplication(
   // the token to continue into the post-apply enrichment flow.
   // First-touch attribution, same cookie the contact and salary-guide forms
   // read. Null when the visitor came direct or declined marketing cookies.
-  const attribution = parseAttribution(cookies().get(ATTRIBUTION_COOKIE)?.value);
+  const attribution = parseAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value);
 
   const { data: rpcResult, error } = await supabase.rpc('submit_vacancy_application', {
     p_vacancy_id:         vacancyId,

@@ -68,7 +68,8 @@ async function fetchVacancy(slug: string): Promise<Vacancy | null> {
   return (data as Vacancy | null) ?? null;
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const vacancy = await fetchVacancy(params.slug);
   if (!vacancy) return { title: 'Vacancy not found' };
   const employer = publicEmployerName(vacancy.company_name);
@@ -84,7 +85,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function VacancyDetailPage({ params }: { params: { slug: string } }) {
+export default async function VacancyDetailPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const vacancy = await fetchVacancy(params.slug);
   if (!vacancy) notFound();
 
