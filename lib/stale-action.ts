@@ -46,8 +46,13 @@ export type RestoredForm = {
 export function withStaleActionRecovery<S>(
   key: string,
   action: (prev: S, formData: FormData) => Promise<S>,
-  /** Save only these text fields (default: every text field not in SKIP). */
-  options: { only?: string[] } = {},
+  options: {
+    /** Save only these text fields (default: every text field not in SKIP). */
+    only?: string[];
+    /** Values that are not form fields (e.g. an action's bound arguments)
+     *  but are needed to put the page back where it was. */
+    extra?: Record<string, string>;
+  } = {},
 ): (prev: S, formData: FormData) => Promise<S> {
   const only = options.only ? new Set(options.only) : null;
   return async (prev, formData) => {
@@ -65,6 +70,7 @@ export function withStaleActionRecovery<S>(
           fields[name] = value;
         }
       });
+      Object.assign(fields, options.extra);
       const startedAt = Number(formData.get('form_started_at'));
       const saved: RestoredForm = {
         fields,
