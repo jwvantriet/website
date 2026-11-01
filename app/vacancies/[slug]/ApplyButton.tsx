@@ -21,6 +21,7 @@ import {
   withStaleActionRecovery,
   type RestoredForm,
 } from '@/lib/stale-action';
+import { withDirectUpload } from '@/lib/direct-upload';
 
 interface ApplyButtonProps {
   vacancyId: number;
@@ -100,7 +101,16 @@ function ApplyDialog({
   onClose,
 }: Omit<ApplyButtonProps, 'variant'> & { restored: RestoredForm | null; onClose: () => void }) {
   const submitAction = useMemo(
-    () => withStaleActionRecovery(`apply:${vacancySlug}`, submitVacancyApplication),
+    () =>
+      withStaleActionRecovery(
+        `apply:${vacancySlug}`,
+        // The CV goes to Storage first: a Server Action body over 1 MB is refused.
+        withDirectUpload(submitVacancyApplication, {
+          field: 'cv',
+          prefix: () => vacancySlug,
+          onError: (message): ApplyFormState => ({ status: 'error', message }),
+        }),
+      ),
     [vacancySlug],
   );
   const [state, formAction] = useFormState(submitAction, initialState);

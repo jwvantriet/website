@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { submitApplicationDocument, type UploadFormState } from './upload-action';
 import { useStaleActionRestore, withStaleActionRecovery } from '@/lib/stale-action';
+import { withDirectUpload } from '@/lib/direct-upload';
 
 export interface ApplicationContext {
   applicationId: number;
@@ -189,10 +190,21 @@ function SlotRow({ slot, context }: { slot: DocSlot; context: ApplicationContext
   // session token must not be (lib/stale-action.ts never saves it).
   const submitAction = useMemo(
     () =>
-      withStaleActionRecovery(staleKey(context.applicationId), submitApplicationDocument, {
-        only: ['document_type_id'],
-      }),
-    [context.applicationId],
+      withStaleActionRecovery(
+        staleKey(context.applicationId),
+        // The file goes to Storage first: a Server Action body over 1 MB is refused.
+        withDirectUpload(submitApplicationDocument, {
+          field: 'file',
+          prefix: () => `applications/${context.applicationId}/${slot.documentTypeId}`,
+          onError: (message): UploadFormState => ({
+            status: 'error',
+            documentTypeId: slot.documentTypeId,
+            message,
+          }),
+        }),
+        { only: ['document_type_id'] },
+      ),
+    [context.applicationId, slot.documentTypeId],
   );
   const [state, formAction] = useFormState(submitAction, initialState);
   const fileInputRef = useRef<HTMLInputElement>(null);
