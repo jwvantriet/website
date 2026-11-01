@@ -1,6 +1,13 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
+import {
+  STALE_ACTION_NOTICE,
+  useStaleActionRestore,
+  withStaleActionRecovery,
+  type RestoredForm,
+} from '@/lib/stale-action';
 import {
   startSignature,
   verifySignature,
@@ -27,19 +34,58 @@ function SubmitButton({ idle, busy }: { idle: string; busy: string }) {
   );
 }
 
-export default function AcceptPanel({ token }: { token: string }) {
-  const [startState, startAction] = useFormState(startSignature.bind(null, token), initialStart);
-  const sent = startState.status === 'sent';
+// Stale-action recovery (lib/stale-action.ts). A proposal page is often left
+// open for days, so a deploy between opening it and signing is the normal
+// case, not the edge one. Without this the signer gets "Application error"
+// and nothing is recorded.
+const STALE_KEY = 'accept-proposal';
 
-  const [verifyState, verifyAction] = useFormState(
-    verifySignature.bind(
-      null,
-      token,
-      sent ? startState.challengeId : '',
-      sent ? startState.email : '',
-    ),
-    initialVerify,
+export default function AcceptPanel({ token }: { token: string }) {
+  const restored = useStaleActionRestore(STALE_KEY);
+  // Remount once the saved state arrives: useFormState only reads its
+  // initial state on mount, and the inputs only read defaultValue on mount.
+  return <Panel key={restored ? 'restored' : 'fresh'} token={token} restored={restored} />;
+}
+
+function restoredStart(restored: RestoredForm | null): StartState {
+  const f = restored?.fields;
+  // Step 2 was interrupted: go straight back to the code entry. The code in
+  // their inbox belongs to this challenge, so it still works until it expires.
+  if (f?.step === 'verify' && f.challengeId && f.email) {
+    return { status: 'sent', challengeId: f.challengeId, email: f.email };
+  }
+  return initialStart;
+}
+
+function Panel({ token, restored }: { token: string; restored: RestoredForm | null }) {
+  const startAction0 = useMemo(
+    () =>
+      withStaleActionRecovery(STALE_KEY, startSignature.bind(null, token), {
+        // Never `consent`: it is the signer's confirmation that they are
+        // authorised to accept, so they tick it again themselves.
+        only: ['name', 'title', 'email', 'note'],
+        extra: { step: 'start' },
+      }),
+    [token],
   );
+  const [startState, startAction] = useFormState(startAction0, restoredStart(restored));
+  const sent = startState.status === 'sent';
+  const challengeId = sent ? startState.challengeId : '';
+  const sentTo = sent ? startState.email : '';
+
+  const verifyAction0 = useMemo(
+    () =>
+      withStaleActionRecovery(
+        STALE_KEY,
+        verifySignature.bind(null, token, challengeId, sentTo),
+        // The challenge is all it takes to resume; the code is not kept.
+        { only: [], extra: { step: 'verify', challengeId, email: sentTo } },
+      ),
+    [token, challengeId, sentTo],
+  );
+  const [verifyState, verifyAction] = useFormState(verifyAction0, initialVerify);
+  const step = restored?.fields.step;
+  const saved = step === 'start' ? restored!.fields : {};
 
   // --- Signed -------------------------------------------------------------
   if (verifyState.status === 'success') {
@@ -69,6 +115,12 @@ export default function AcceptPanel({ token }: { token: string }) {
           We&apos;ve emailed a 6-digit code to <span className="font-semibold text-white">{startState.email}</span>.
           Enter it below to sign and confirm your acceptance of the commercial terms.
         </p>
+        {step === 'verify' && verifyState.status === 'idle' && (
+          <p className="mt-4 rounded-md bg-white/10 px-3 py-2 text-sm text-white">
+            The site was updated while this page was open, so your signature was not recorded
+            yet. Enter the code from your email again.
+          </p>
+        )}
         <form action={verifyAction} className="mt-6 max-w-xs">
           <label htmlFor="sign-code" className="mb-1 block text-xs font-semibold text-white/80">
             6-digit code *
@@ -108,30 +160,35 @@ export default function AcceptPanel({ token }: { token: string }) {
         signature of the framework agreement, which we will send right away. To verify your
         identity we&apos;ll email you a one-time code; your signature is recorded with a timestamp.
       </p>
+      {step === 'start' && startState.status === 'idle' && (
+        <p className="mt-4 rounded-md bg-white/10 px-3 py-2 text-sm text-white">
+          {STALE_ACTION_NOTICE} Please tick the confirmation box again.
+        </p>
+      )}
       <form action={startAction} className="mt-6 grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="accept-name" className="mb-1 block text-xs font-semibold text-white/80">
             Full name *
           </label>
-          <input id="accept-name" name="name" required autoComplete="name" className={inputClass} />
+          <input id="accept-name" name="name" required autoComplete="name" defaultValue={saved.name} className={inputClass} />
         </div>
         <div>
           <label htmlFor="accept-title" className="mb-1 block text-xs font-semibold text-white/80">
             Job title
           </label>
-          <input id="accept-title" name="title" autoComplete="organization-title" className={inputClass} />
+          <input id="accept-title" name="title" autoComplete="organization-title" defaultValue={saved.title} className={inputClass} />
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="accept-email" className="mb-1 block text-xs font-semibold text-white/80">
             Business email *
           </label>
-          <input id="accept-email" name="email" type="email" required autoComplete="email" className={inputClass} />
+          <input id="accept-email" name="email" type="email" required autoComplete="email" defaultValue={saved.email} className={inputClass} />
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="accept-note" className="mb-1 block text-xs font-semibold text-white/80">
             Message (optional)
           </label>
-          <textarea id="accept-note" name="note" rows={3} className={inputClass} />
+          <textarea id="accept-note" name="note" rows={3} defaultValue={saved.note} className={inputClass} />
         </div>
         <label className="sm:col-span-2 flex items-start gap-3 text-sm text-white/80">
           <input
