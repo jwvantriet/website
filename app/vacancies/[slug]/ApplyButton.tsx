@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import {
   X,
@@ -15,6 +15,12 @@ import {
 } from 'lucide-react';
 import SpamShieldFields from '@/components/SpamShieldFields';
 import { submitVacancyApplication, type ApplyFormState } from './apply-action';
+import {
+  STALE_ACTION_NOTICE,
+  useStaleActionRestore,
+  withStaleActionRecovery,
+  type RestoredForm,
+} from '@/lib/stale-action';
 
 interface ApplyButtonProps {
   vacancyId: number;
@@ -40,6 +46,14 @@ export default function ApplyButton({
   variant = 'top',
 }: ApplyButtonProps) {
   const [open, setOpen] = useState(false);
+  // After a reload that recovered from a stale Server Action, reopen the
+  // dialog with what the candidate typed. The page renders this button
+  // twice (top and bottom); the hook clears storage on first read, so only
+  // one of them reopens.
+  const restored = useStaleActionRestore(`apply:${vacancySlug}`);
+  useEffect(() => {
+    if (restored) setOpen(true);
+  }, [restored]);
   const subline =
     variant === 'top'
       ? 'Ready to advance your career? Apply now for this opportunity.'
@@ -69,6 +83,7 @@ export default function ApplyButton({
           vacancySlug={vacancySlug}
           vacancyTitle={vacancyTitle}
           vacancyCarerixId={vacancyCarerixId}
+          restored={restored}
           onClose={() => setOpen(false)}
         />
       )}
@@ -81,9 +96,16 @@ function ApplyDialog({
   vacancySlug,
   vacancyTitle,
   vacancyCarerixId,
+  restored,
   onClose,
-}: Omit<ApplyButtonProps, 'variant'> & { onClose: () => void }) {
-  const [state, formAction] = useFormState(submitVacancyApplication, initialState);
+}: Omit<ApplyButtonProps, 'variant'> & { restored: RestoredForm | null; onClose: () => void }) {
+  const submitAction = useMemo(
+    () => withStaleActionRecovery(`apply:${vacancySlug}`, submitVacancyApplication),
+    [vacancySlug],
+  );
+  const [state, formAction] = useFormState(submitAction, initialState);
+  const saved = restored?.fields ?? {};
+  const cvLost = Boolean(restored?.files.includes('cv'));
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dialogRef    = useRef<HTMLDivElement>(null);
   const [cvFile, setCvFile] = useState<File | null>(null);
@@ -246,7 +268,13 @@ function ApplyDialog({
             </div>
           ) : (
             <form action={formAction} className="space-y-4">
-              <SpamShieldFields />
+              {restored && state.status === 'idle' && (
+                <p className="text-sm text-navy bg-beige rounded-xl px-4 py-3">
+                  {STALE_ACTION_NOTICE}
+                  {cvLost && <strong> Please choose your CV again.</strong>}
+                </p>
+              )}
+              <SpamShieldFields startedAt={restored?.startedAt} />
               <input type="hidden" name="vacancy_id"        value={vacancyId} />
               <input type="hidden" name="vacancy_slug"      value={vacancySlug} />
               <input type="hidden" name="vacancy_title"     value={vacancyTitle} />
@@ -254,10 +282,10 @@ function ApplyDialog({
 
               <div className="grid grid-cols-2 gap-3">
                 <Field icon={<User className="w-3 h-3" />} label="First Name *">
-                  <input name="first_name" required placeholder="John" className={inputClass} />
+                  <input name="first_name" required defaultValue={saved.first_name} placeholder="John" className={inputClass} />
                 </Field>
                 <Field icon={<User className="w-3 h-3" />} label="Last Name *">
-                  <input name="last_name" required placeholder="Doe" className={inputClass} />
+                  <input name="last_name" required defaultValue={saved.last_name} placeholder="Doe" className={inputClass} />
                 </Field>
               </div>
 
@@ -266,6 +294,7 @@ function ApplyDialog({
                   name="email"
                   type="email"
                   required
+                  defaultValue={saved.email}
                   placeholder="john.doe@example.com"
                   className={inputClass}
                 />
@@ -275,6 +304,7 @@ function ApplyDialog({
                 <input
                   name="phone"
                   type="tel"
+                  defaultValue={saved.phone}
                   placeholder="+31 6 12345678"
                   className={inputClass}
                 />
