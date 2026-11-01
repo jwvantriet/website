@@ -5,8 +5,14 @@ import { Download, CheckCircle2 } from 'lucide-react';
 import { requestGuide, type GuideFormState } from './actions';
 import GuideContent from './GuideContent';
 import SpamShieldFields from '@/components/SpamShieldFields';
+import {
+  STALE_ACTION_NOTICE,
+  useStaleActionRestore,
+  withStaleActionRecovery,
+} from '@/lib/stale-action';
 
 const initialState: GuideFormState = { status: 'idle' };
+const submitAction = withStaleActionRecovery('salary-guide', requestGuide);
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -28,7 +34,10 @@ function SubmitButton() {
 }
 
 export default function GuideForm() {
-  const [state, formAction] = useFormState(requestGuide, initialState);
+  const [state, formAction] = useFormState(submitAction, initialState);
+  // Filled only after a reload that recovered from a stale Server Action.
+  const restored = useStaleActionRestore('salary-guide');
+  const saved = restored?.fields ?? {};
 
   if (state.status === 'success') {
     return (
@@ -51,8 +60,13 @@ export default function GuideForm() {
         Tell us where to attribute your copy and the full guide unlocks instantly.
       </p>
 
-      <form action={formAction} className="space-y-5">
-        <SpamShieldFields />
+      {restored && state.status === 'idle' && (
+        <p className="text-navy text-sm bg-white rounded-lg px-4 py-3 mb-5">{STALE_ACTION_NOTICE}</p>
+      )}
+
+      {/* Remounted when restored so the defaultValues below take effect. */}
+      <form key={restored ? 'restored' : 'fresh'} action={formAction} className="space-y-5">
+        <SpamShieldFields startedAt={restored?.startedAt} />
         <div>
           <label htmlFor="name" className="text-navy font-semibold text-sm mb-1.5 block">
             Full Name *
@@ -60,6 +74,7 @@ export default function GuideForm() {
           <input
             id="name"
             name="name"
+            defaultValue={saved.name}
             required
             placeholder="Your full name"
             className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
@@ -72,6 +87,7 @@ export default function GuideForm() {
           <input
             id="email"
             name="email"
+            defaultValue={saved.email}
             type="email"
             required
             placeholder="you@company.com"
@@ -85,6 +101,7 @@ export default function GuideForm() {
           <input
             id="company"
             name="company"
+            defaultValue={saved.company}
             required
             placeholder="Your company"
             className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
@@ -97,7 +114,7 @@ export default function GuideForm() {
           <select
             id="industry"
             name="industry"
-            defaultValue=""
+            defaultValue={saved.industry ?? ''}
             className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
           >
             <option value="">Select industry</option>

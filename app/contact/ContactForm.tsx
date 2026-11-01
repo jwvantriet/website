@@ -1,12 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Send, CheckCircle2, Building2, User } from 'lucide-react';
 import { submitContactForm, type ContactFormState } from './actions';
 import SpamShieldFields from '@/components/SpamShieldFields';
+import {
+  STALE_ACTION_NOTICE,
+  useStaleActionRestore,
+  withStaleActionRecovery,
+} from '@/lib/stale-action';
 
 const initialState: ContactFormState = { status: 'idle' };
+const submitAction = withStaleActionRecovery('contact', submitContactForm);
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -34,9 +40,16 @@ export default function ContactForm({
    *  value and the selector is hidden so the lead is tagged to that vertical. */
   lockedIndustry?: 'aviation' | 'maritime' | 'offshore';
 } = {}) {
-  const [state, formAction] = useFormState(submitContactForm, initialState);
+  const [state, formAction] = useFormState(submitAction, initialState);
   const [inquiryType, setInquiryType] = useState<'client' | 'candidate'>('client');
   const isCandidate = inquiryType === 'candidate';
+  // Filled only after a reload that recovered from a stale Server Action.
+  const restored = useStaleActionRestore('contact');
+  const saved = restored?.fields ?? {};
+  useEffect(() => {
+    const type = restored?.fields.inquiry_type;
+    if (type === 'client' || type === 'candidate') setInquiryType(type);
+  }, [restored]);
 
   if (state.status === 'success') {
     return (
@@ -84,8 +97,13 @@ export default function ContactForm({
         </button>
       </div>
 
-      <form action={formAction} className="space-y-5">
-        <SpamShieldFields />
+      {restored && state.status === 'idle' && (
+        <p className="text-navy text-sm bg-white rounded-lg px-4 py-3 mb-5">{STALE_ACTION_NOTICE}</p>
+      )}
+
+      {/* Remounted when restored so the defaultValues below take effect. */}
+      <form key={restored ? 'restored' : 'fresh'} action={formAction} className="space-y-5">
+        <SpamShieldFields startedAt={restored?.startedAt} />
         <input type="hidden" name="inquiry_type" value={inquiryType} />
 
         <div className="grid md:grid-cols-2 gap-5">
@@ -96,6 +114,7 @@ export default function ContactForm({
             <input
               id="name"
               name="name"
+              defaultValue={saved.name}
               required
               placeholder="Your full name"
               className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
@@ -108,6 +127,7 @@ export default function ContactForm({
             <input
               id="email"
               name="email"
+              defaultValue={saved.email}
               type="email"
               required
               placeholder="your@email.com"
@@ -127,6 +147,7 @@ export default function ContactForm({
                 <input
                   id="company"
                   name="company"
+              defaultValue={saved.company}
                   placeholder="Your company"
                   className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
                 />
@@ -139,7 +160,7 @@ export default function ContactForm({
                   <select
                     id="industry"
                     name="industry"
-                    defaultValue=""
+                    defaultValue={saved.industry ?? ''}
                     className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
                   >
                     <option value="">Select industry</option>
@@ -160,7 +181,7 @@ export default function ContactForm({
             <select
               id="field_of_expertise"
               name="field_of_expertise"
-              defaultValue=""
+              defaultValue={saved.field_of_expertise ?? ''}
               className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
             >
               <option value="">Select your field</option>
@@ -185,6 +206,7 @@ export default function ContactForm({
           <textarea
             id="message"
             name="message"
+            defaultValue={saved.message}
             required
             rows={5}
             placeholder={
