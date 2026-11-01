@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFormState, useFormStatus } from 'react-dom';
 import {
@@ -12,6 +12,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { submitApplicationDocument, type UploadFormState } from './upload-action';
+import { useStaleActionRestore, withStaleActionRecovery } from '@/lib/stale-action';
 
 export interface ApplicationContext {
   applicationId: number;
@@ -56,6 +57,8 @@ function formatBytes(n: number) {
 
 const initialState: UploadFormState = { status: 'idle' };
 
+const staleKey = (applicationId: number) => `upload:${applicationId}`;
+
 export default function UploadList({
   context,
   required,
@@ -70,8 +73,31 @@ export default function UploadList({
   const progressPct  = requiredAll === 0 ? 100 : Math.round((requiredDone / requiredAll) * 100);
   const canContinue  = requiredAll === 0 || requiredDone === requiredAll;
 
+  // After a reload that recovered from a stale Server Action: name the
+  // document that did not go through. A file cannot survive the reload, so
+  // the candidate has to pick it again; uploads that did finish are already
+  // in the list above, read fresh from the server.
+  const restored = useStaleActionRestore(staleKey(context.applicationId));
+  const lostSlot = restored
+    ? [...required, ...optional].find(
+        (s) => String(s.documentTypeId) === restored.fields.document_type_id,
+      )
+    : undefined;
+  // A slot that shows as uploaded now was replaced, not lost: no banner.
+  const lostName = !restored ? null : lostSlot ? (lostSlot.uploaded ? null : lostSlot.name) : 'document';
+
   return (
     <>
+      {lostName && (
+        <div className="bg-amber-50 text-amber-800 rounded-2xl px-5 py-4 mb-6 flex items-start gap-2 text-sm">
+          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>
+            The site was updated while this page was open, so your {lostName} was not uploaded.
+            Please upload it again.
+          </span>
+        </div>
+      )}
+
       {/* Progress strip */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
         <div className="flex items-center justify-between mb-2">
@@ -159,7 +185,16 @@ export default function UploadList({
 
 function SlotRow({ slot, context }: { slot: DocSlot; context: ApplicationContext }) {
   const router = useRouter();
-  const [state, formAction] = useFormState(submitApplicationDocument, initialState);
+  // Only the slot id is kept across the reload: the file cannot be, and the
+  // session token must not be (lib/stale-action.ts never saves it).
+  const submitAction = useMemo(
+    () =>
+      withStaleActionRecovery(staleKey(context.applicationId), submitApplicationDocument, {
+        only: ['document_type_id'],
+      }),
+    [context.applicationId],
+  );
+  const [state, formAction] = useFormState(submitAction, initialState);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef      = useRef<HTMLFormElement>(null);
   const [dragOver, setDragOver] = useState(false);

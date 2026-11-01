@@ -14,7 +14,9 @@ import { unstable_isUnrecognizedActionError } from 'next/navigation';
  * That happened on /contact and the salary guide from 2026-10-27 onwards.
  *
  * `withStaleActionRecovery` catches exactly that error, keeps what the visitor
- * typed in sessionStorage and reloads onto the current build.
+ * typed in sessionStorage and reloads onto the current build. A chosen file
+ * cannot survive a reload, so only its field name is kept (`files`) and the
+ * form asks for it again.
  * `useStaleActionRestore` reads it back after the reload, so the form shows
  * their answers again with a note to press send once more. It never
  * resubmits by itself: a person confirms, and nothing is sent twice.
@@ -22,9 +24,10 @@ import { unstable_isUnrecognizedActionError } from 'next/navigation';
 
 const PREFIX = 'stale-action:';
 
-/** Never restored: the honeypot must stay empty, and the time-gate stamp is
- *  carried separately (see `startedAt`). */
-const SKIP = new Set(['website', 'form_started_at']);
+/** Never saved: the honeypot must stay empty, the time-gate stamp is carried
+ *  separately (see `startedAt`), and a session token is a credential that
+ *  has no business in browser storage — the page renders it again anyway. */
+const SKIP = new Set(['website', 'form_started_at', 'session_token']);
 
 export type RestoredForm = {
   /** Visible field values by input name. */
@@ -35,12 +38,18 @@ export type RestoredForm = {
    *  sent. They filled the form in before the reload, so the first stamp is
    *  the true one. */
   startedAt: number | null;
+  /** Names of file inputs that held a file. The file itself is lost with
+   *  the reload, so the form has to ask for it again. */
+  files: string[];
 };
 
 export function withStaleActionRecovery<S>(
   key: string,
   action: (prev: S, formData: FormData) => Promise<S>,
+  /** Save only these text fields (default: every text field not in SKIP). */
+  options: { only?: string[] } = {},
 ): (prev: S, formData: FormData) => Promise<S> {
+  const only = options.only ? new Set(options.only) : null;
   return async (prev, formData) => {
     try {
       return await action(prev, formData);
@@ -48,13 +57,19 @@ export function withStaleActionRecovery<S>(
       if (!unstable_isUnrecognizedActionError(err)) throw err;
 
       const fields: Record<string, string> = {};
+      const files: string[] = [];
       formData.forEach((value, name) => {
-        if (typeof value === 'string' && !SKIP.has(name)) fields[name] = value;
+        if (typeof value !== 'string') {
+          if (value.size > 0) files.push(name);
+        } else if (!SKIP.has(name) && (!only || only.has(name))) {
+          fields[name] = value;
+        }
       });
       const startedAt = Number(formData.get('form_started_at'));
       const saved: RestoredForm = {
         fields,
         startedAt: Number.isFinite(startedAt) && startedAt > 0 ? startedAt : null,
+        files,
       };
       try {
         sessionStorage.setItem(PREFIX + key, JSON.stringify(saved));
@@ -80,7 +95,9 @@ export function useStaleActionRestore(key: string): RestoredForm | null {
       if (!raw) return;
       sessionStorage.removeItem(PREFIX + key);
       const parsed = JSON.parse(raw) as RestoredForm;
-      if (parsed && typeof parsed.fields === 'object') setRestored(parsed);
+      if (parsed && typeof parsed.fields === 'object') {
+        setRestored({ ...parsed, files: Array.isArray(parsed.files) ? parsed.files : [] });
+      }
     } catch {
       // Unreadable or blocked storage: show the empty form.
     }
