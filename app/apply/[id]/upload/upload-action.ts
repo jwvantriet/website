@@ -3,6 +3,7 @@
 import { randomUUID } from 'crypto';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { isOwnedKey } from '@/lib/storage-keys';
 
 export type UploadFormState =
   | { status: 'idle' }
@@ -45,6 +46,34 @@ export async function submitApplicationDocument(
     };
   }
 
+  const supabase = createClient();
+
+  // The document normally arrives already in Storage (lib/direct-upload.ts):
+  // a Server Action body is capped at 1 MB, so anything bigger sent through
+  // here failed before this code ran. Only its key and metadata come in.
+  const uploadedKey = String(formData.get('file_object_key') || '');
+  if (uploadedKey) {
+    const size = Number(formData.get('file_size_bytes'));
+    const mime = String(formData.get('file_mime_type') || '');
+    const filename = String(formData.get('file_filename') || '');
+    if (!isOwnedKey(uploadedKey, `applications/${applicationId}/${documentTypeId}`)) {
+      console.error('[upload-doc] key outside this slot', { key: uploadedKey, applicationId, documentTypeId });
+      return { status: 'error', documentTypeId, message: 'Upload failed. Please try again.' };
+    }
+    if (!Number.isFinite(size) || size <= 0 || size > MAX_BYTES) {
+      return { status: 'error', documentTypeId, message: 'That file is over 10 MB. Please upload a smaller version.' };
+    }
+    if (mime && !ALLOWED_MIME.has(mime)) {
+      return { status: 'error', documentTypeId, message: 'Allowed file types: PDF, Word (.doc/.docx), JPG, PNG.' };
+    }
+    return recordDocument(supabase, {
+      applicationId, documentTypeId, sessionToken,
+      objectKey: uploadedKey, filename: filename || uploadedKey.split('/').pop() || 'document',
+      mimeType: mime || null, sizeBytes: size,
+    });
+  }
+
+  // A page loaded before direct upload still sends the file itself.
   const file = formData.get('file');
   if (!(file instanceof File) || file.size === 0) {
     return { status: 'error', documentTypeId, message: 'Pick a file first.' };
@@ -56,7 +85,6 @@ export async function submitApplicationDocument(
     return { status: 'error', documentTypeId, message: 'Allowed file types: PDF, Word (.doc/.docx), JPG, PNG.' };
   }
 
-  const supabase = createClient();
   const objectKey = `applications/${applicationId}/${documentTypeId}/${randomUUID()}-${safeFilename(file.name)}`;
 
   // 1. Upload to Supabase Storage.
@@ -76,16 +104,32 @@ export async function submitApplicationDocument(
     };
   }
 
-  // 2. RPC inserts the row, with session-token validation and replace
-  //    semantics. If the RPC fails we clean up the orphan upload.
+  return recordDocument(supabase, {
+    applicationId, documentTypeId, sessionToken,
+    objectKey, filename: file.name || objectKey.split('/').pop() || 'document',
+    mimeType: file.type || null, sizeBytes: file.size,
+  });
+}
+
+/** The row for a document already in Storage: the RPC validates the
+ *  session token and replaces the slot's previous upload. */
+async function recordDocument(
+  supabase: ReturnType<typeof createClient>,
+  d: {
+    applicationId: number; documentTypeId: number; sessionToken: string;
+    objectKey: string; filename: string; mimeType: string | null; sizeBytes: number;
+  },
+): Promise<UploadFormState> {
+  const { applicationId, documentTypeId, sessionToken, objectKey } = d;
+  // If the RPC fails we try to clean up the orphan upload.
   const { data: docId, error: rpcErr } = await supabase.rpc('submit_application_document', {
     p_application_id:   applicationId,
     p_session_token:    sessionToken,
     p_document_type_id: documentTypeId,
     p_storage_key:      objectKey,
-    p_filename:         file.name || objectKey.split('/').pop() || 'document',
-    p_mime_type:        file.type || null,
-    p_size_bytes:       file.size,
+    p_filename:         d.filename,
+    p_mime_type:        d.mimeType,
+    p_size_bytes:       d.sizeBytes,
   });
 
   if (rpcErr || docId == null) {
@@ -111,6 +155,6 @@ export async function submitApplicationDocument(
   return {
     status: 'success',
     documentTypeId,
-    filename: file.name || 'document',
+    filename: d.filename,
   };
 }

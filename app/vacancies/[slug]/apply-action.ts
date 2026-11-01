@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { ATTRIBUTION_COOKIE, parseAttribution } from '@/lib/attribution';
 import { screenApplication } from '@/lib/spam';
+import { isOwnedKey, safeFilename } from '@/lib/storage-keys';
 
 // Fire-and-forget the Carerix push webhook. We don't block the form's
 // success state on it — the application is already safely captured in
@@ -171,8 +172,30 @@ export async function submitVacancyApplication(
   let cvMimeType:  string | null = null;
   let cvSizeBytes: number | null = null;
 
+  // The CV normally arrives already in Storage (lib/direct-upload.ts): a
+  // Server Action body is capped at 1 MB, so a CV sent through here failed
+  // above that. A page loaded before that change still sends the file
+  // itself, which keeps working up to the cap.
   const cv = formData.get('cv');
-  if (cv && cv instanceof File && cv.size > 0) {
+  const cvKey = String(formData.get('cv_object_key') || '');
+  if (cvKey) {
+    const size = Number(formData.get('cv_size_bytes'));
+    const mime = String(formData.get('cv_mime_type') || '');
+    if (!isOwnedKey(cvKey, vacancySlug)) {
+      console.error('[apply] cv key outside this vacancy', { key: cvKey, vacancySlug });
+      return { status: 'error', message: 'Could not attach your CV. Please choose it again.' };
+    }
+    if (!Number.isFinite(size) || size <= 0 || size > MAX_CV_BYTES) {
+      return { status: 'error', message: 'Your CV is too large. Please upload a file under 5 MB.' };
+    }
+    if (mime && !ALLOWED_CV_MIME.has(mime)) {
+      return { status: 'error', message: 'CV must be a PDF or Word document (.pdf, .doc, .docx).' };
+    }
+    cvObjectKey = cvKey;
+    cvFilename  = String(formData.get('cv_filename') || '') || null;
+    cvMimeType  = mime || null;
+    cvSizeBytes = size;
+  } else if (cv && cv instanceof File && cv.size > 0) {
     if (cv.size > MAX_CV_BYTES) {
       return { status: 'error', message: 'Your CV is too large. Please upload a file under 5 MB.' };
     }
@@ -180,9 +203,7 @@ export async function submitVacancyApplication(
       return { status: 'error', message: 'CV must be a PDF or Word document (.pdf, .doc, .docx).' };
     }
 
-    const safeName = (cv.name || 'cv')
-      .replace(/[^a-zA-Z0-9._-]+/g, '_')
-      .slice(0, 80) || 'cv';
+    const safeName = safeFilename(cv.name, 'cv');
     const key = `${vacancySlug}/${randomUUID()}-${safeName}`;
     const { error: upErr } = await supabase.storage
       .from('vacancy-cvs')
