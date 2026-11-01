@@ -9,10 +9,11 @@ import { useState } from 'react';
  * - "website" is a honeypot: visually hidden, skipped by keyboard focus and
  *   screen readers, but bots auto-fill it.
  * - "form_started_at" stamps when the form rendered so the server can reject
- *   inhumanly fast submissions.
+ *   inhumanly fast submissions. `startedAt` keeps an earlier stamp when a form
+ *   is restored after a reload (lib/stale-action.ts).
  */
-export default function SpamShieldFields() {
-  const [startedAt] = useState(() => Date.now());
+export default function SpamShieldFields({ startedAt: initial }: { startedAt?: number | null } = {}) {
+  const [startedAt] = useState(() => initial ?? Date.now());
   return (
     <>
       <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
