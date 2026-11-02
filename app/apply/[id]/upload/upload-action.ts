@@ -3,14 +3,15 @@
 import { randomUUID } from 'crypto';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
-import { isOwnedKey } from '@/lib/storage-keys';
+import { isOwnedKey, CARERIX_MAX_FILE_BYTES, FILE_TOO_LARGE_MESSAGE } from '@/lib/storage-keys';
 
 export type UploadFormState =
   | { status: 'idle' }
   | { status: 'success'; documentTypeId: number; filename: string }
   | { status: 'error'; documentTypeId: number | null; message: string };
 
-const MAX_BYTES = 10 * 1024 * 1024;
+// Filed in Carerix later, so Carerix's limit, not the bucket's 10 MB.
+const MAX_BYTES = CARERIX_MAX_FILE_BYTES;
 const ALLOWED_MIME = new Set([
   'application/pdf',
   'application/msword',
@@ -61,7 +62,7 @@ export async function submitApplicationDocument(
       return { status: 'error', documentTypeId, message: 'Upload failed. Please try again.' };
     }
     if (!Number.isFinite(size) || size <= 0 || size > MAX_BYTES) {
-      return { status: 'error', documentTypeId, message: 'That file is over 10 MB. Please upload a smaller version.' };
+      return { status: 'error', documentTypeId, message: FILE_TOO_LARGE_MESSAGE };
     }
     if (mime && !ALLOWED_MIME.has(mime)) {
       return { status: 'error', documentTypeId, message: 'Allowed file types: PDF, Word (.doc/.docx), JPG, PNG.' };
@@ -79,7 +80,7 @@ export async function submitApplicationDocument(
     return { status: 'error', documentTypeId, message: 'Pick a file first.' };
   }
   if (file.size > MAX_BYTES) {
-    return { status: 'error', documentTypeId, message: 'That file is over 10 MB. Please upload a smaller version.' };
+    return { status: 'error', documentTypeId, message: FILE_TOO_LARGE_MESSAGE };
   }
   if (file.type && !ALLOWED_MIME.has(file.type)) {
     return { status: 'error', documentTypeId, message: 'Allowed file types: PDF, Word (.doc/.docx), JPG, PNG.' };

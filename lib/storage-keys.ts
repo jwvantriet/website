@@ -17,3 +17,11 @@ export function isOwnedKey(key: string, prefix: string): boolean {
   const tail = key.slice(prefix.length + 1);
   return KEY_TAIL.test(tail) && !tail.includes('..');
 }
+
+/** The largest document Carerix will take as an attachment: 7 MiB
+ *  (confair-api CARERIX_MAX_FILE_BYTES). Uploads here are filed in Carerix
+ *  later; the Storage bucket allows 10 MB, but a file over this would be
+ *  stored and then refused by Carerix, with nobody told. */
+export const CARERIX_MAX_FILE_BYTES = 7 * 1024 * 1024;
+export const FILE_TOO_LARGE_MESSAGE =
+  'That file is over 7 MB, which our records system cannot take. Please upload a smaller scan, or compress or split the PDF.';
