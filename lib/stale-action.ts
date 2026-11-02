@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { unstable_isUnrecognizedActionError } from 'next/navigation';
+import { track } from '@vercel/analytics';
 
 /**
  * Recovery for a lead form whose Server Action no longer exists on the server.
@@ -23,6 +24,47 @@ import { unstable_isUnrecognizedActionError } from 'next/navigation';
  */
 
 const PREFIX = 'stale-action:';
+
+/*
+ * Counting recoveries (Vercel Web Analytics custom events, production only):
+ *   stale_action_restored    a visitor submitted from a page older than the
+ *                            deploy, got the reload, and saw their form again
+ *   stale_action_resubmitted that visitor then submitted successfully
+ * Both fire in a browser running this page's JavaScript, so a bot posting the
+ * form never counts: these are people. The server never sees a stale submit
+ * from a real browser as an error (Next 15.5 answers it with an unlogged 404),
+ * so before this nothing counted them at all. Only the form's kind is sent
+ * ('contact', 'apply', 'upload', …), never a slug, a field or an id. The
+ * first event is sent after the reload, not before it: a page about to reload
+ * drops what it is still sending. Visitors who block analytics, or have not
+ * given Cookiebot's statistics consent, are not counted, so these are a lower
+ * bound and a ratio, not a total.
+ */
+const formKind = (key: string) => key.split(':')[0];
+const restoredThisLoad = new Set<string>();
+
+function count(event: 'stale_action_restored' | 'stale_action_resubmitted', key: string, tries = 20) {
+  try {
+    // track() is `window.va?.(…)`: called before <Analytics /> has set
+    // window.va up, it is silently dropped, with no queue and no error. The
+    // restore runs in the page's first effects, before the layout's
+    // <Analytics /> mounts, so without this wait every restored event was
+    // lost (caught in the browser test). Wait up to 5 s, then give up.
+    if (!(window as { va?: unknown }).va) {
+      if (tries > 0) setTimeout(() => count(event, key, tries - 1), 250);
+      return;
+    }
+    track(event, { form: formKind(key) });
+  } catch {
+    // Analytics must never break the form.
+  }
+}
+
+/** The form states that mean "it went through" across the wrapped forms. */
+function succeeded(state: unknown): boolean {
+  const status = (state as { status?: unknown } | null)?.status;
+  return status === 'success' || status === 'sent';
+}
 
 /** Never saved: the honeypot must stay empty, the time-gate stamp is carried
  *  separately (see `startedAt`), and a session token is a credential that
@@ -57,7 +99,12 @@ export function withStaleActionRecovery<S>(
   const only = options.only ? new Set(options.only) : null;
   return async (prev, formData) => {
     try {
-      return await action(prev, formData);
+      const result = await action(prev, formData);
+      if (restoredThisLoad.has(key) && succeeded(result)) {
+        restoredThisLoad.delete(key);
+        count('stale_action_resubmitted', key);
+      }
+      return result;
     } catch (err) {
       if (!unstable_isUnrecognizedActionError(err)) throw err;
 
@@ -103,6 +150,8 @@ export function useStaleActionRestore(key: string): RestoredForm | null {
       const parsed = JSON.parse(raw) as RestoredForm;
       if (parsed && typeof parsed.fields === 'object') {
         setRestored({ ...parsed, files: Array.isArray(parsed.files) ? parsed.files : [] });
+        restoredThisLoad.add(key);
+        count('stale_action_restored', key);
       }
     } catch {
       // Unreadable or blocked storage: show the empty form.
