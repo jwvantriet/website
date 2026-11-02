@@ -14,6 +14,7 @@ import {
 import { submitApplicationDocument, type UploadFormState } from './upload-action';
 import { useStaleActionRestore, withStaleActionRecovery } from '@/lib/stale-action';
 import { withDirectUpload } from '@/lib/direct-upload';
+import { CARERIX_MAX_FILE_BYTES, FILE_TOO_LARGE_MESSAGE } from '@/lib/storage-keys';
 
 export interface ApplicationContext {
   applicationId: number;
@@ -48,7 +49,8 @@ const ACCEPT =
   'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,' +
   'image/jpeg,image/png,image/webp,image/heic,image/heif';
 
-const MAX_BYTES = 10 * 1024 * 1024;
+// Filed in Carerix later, so Carerix's limit (lib/storage-keys.ts).
+const MAX_BYTES = CARERIX_MAX_FILE_BYTES;
 
 function formatBytes(n: number) {
   if (n < 1024) return `${n} B`;
@@ -237,7 +239,7 @@ function SlotRow({ slot, context }: { slot: DocSlot; context: ApplicationContext
   const submitFile = (file: File) => {
     setLocalError(null);
     if (file.size > MAX_BYTES) {
-      setLocalError('That file is over 10 MB.');
+      setLocalError(FILE_TOO_LARGE_MESSAGE);
       return;
     }
     if (!formRef.current || !fileInputRef.current) return;
@@ -355,7 +357,7 @@ function SlotBody({
           </p>
         ) : (
           <p className="mt-1 text-xs text-gray-400">
-            Drop a PDF, Word doc, or image — up to 10 MB.
+            Drop a PDF, Word doc, or image — up to 7 MB.
           </p>
         )}
 

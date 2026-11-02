@@ -213,7 +213,7 @@ export default async function UploadPage(props: PageProps) {
           </p>
           <p className="text-sm text-gray-500 mb-6">
             Files are stored securely. We&apos;ll only share them with the recruitment team. Accepted:
-            PDF, Word, JPG, PNG. Max 10 MB per file.
+            PDF, Word, JPG, PNG. Max 7 MB per file.
           </p>
 
           <a
