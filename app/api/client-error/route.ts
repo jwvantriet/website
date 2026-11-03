@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const raw = await request.text();
   if (raw.length > MAX_BODY) return new NextResponse(null, { status: 413 });
 
-  let body: { message?: unknown; route?: unknown; digest?: unknown; stack?: unknown };
+  let body: { message?: unknown; route?: unknown; digest?: unknown; stack?: unknown; hints?: unknown };
   try {
     body = JSON.parse(raw);
   } catch {
@@ -28,6 +28,7 @@ export async function POST(request: Request) {
     route: typeof body.route === 'string' ? body.route : undefined,
     digest: typeof body.digest === 'string' ? body.digest : undefined,
     stack: typeof body.stack === 'string' ? body.stack : undefined,
+    hints: typeof body.hints === 'string' ? body.hints.slice(0, 300) : undefined,
     userAgent: request.headers.get('user-agent') || undefined,
   });
   return new NextResponse(null, { status: 204 });

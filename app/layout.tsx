@@ -50,6 +50,13 @@ export const metadata: Metadata = {
   verification: process.env.GOOGLE_SITE_VERIFICATION
     ? { google: process.env.GOOGLE_SITE_VERIFICATION }
     : undefined,
+  // iOS Safari turns phone numbers, e-mail addresses and street addresses in
+  // the page into its own links, changing the DOM before React hydrates it.
+  // React then finds a page it did not render and re-renders it, and that can
+  // fail outright ("The object can not be found here.", iPhone Safari, on
+  // /vacancies and /industries on 2026-11-02). The numbers and addresses that
+  // should be tappable are real tel:/mailto: links in our own markup instead.
+  formatDetection: { telephone: false, email: false, address: false },
 };
 
 // Cookiebot Consent Management Platform identifier (data-cbid). This is

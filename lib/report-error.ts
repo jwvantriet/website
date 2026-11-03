@@ -15,6 +15,8 @@ export type ErrorReport = {
   digest?: string;
   stack?: string;
   userAgent?: string;
+  /** Browser-side page state (lib/report-client-error.ts `pageHints`). */
+  hints?: string;
 };
 
 export async function reportError(report: ErrorReport): Promise<void> {
