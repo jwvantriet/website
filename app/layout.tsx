@@ -24,6 +24,8 @@ const poppins = Poppins({
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import AttributionTracker from '@/components/AttributionTracker';
+import DomGuardReporter from '@/components/DomGuardReporter';
+import { DOM_GUARD_SCRIPT } from '@/lib/dom-guard';
 import JsonLd from '@/components/JsonLd';
 import { organizationSchema } from '@/lib/structured-data';
 
@@ -67,6 +69,11 @@ const COOKIEBOT_CBID = '47f0ce2e-c2fa-4634-bf72-978741be7db6';
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <head>
+        {/* Before React loads: a page changed by translation or an extension
+            must not crash it (lib/dom-guard.ts). */}
+        <script dangerouslySetInnerHTML={{ __html: DOM_GUARD_SCRIPT }} />
+      </head>
       {/*
         Cookiebot Consent Management Platform.
         Loaded as the first script in <head> with strategy
@@ -89,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen flex flex-col bg-white text-navy">
         <JsonLd data={organizationSchema()} />
         <AttributionTracker />
+        <DomGuardReporter />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
