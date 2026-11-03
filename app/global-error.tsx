@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { reportClientError } from '@/lib/report-client-error';
+import { reloadOnceForChunkError } from '@/lib/chunk-reload';
 
 // Last resort when the root layout itself crashes: it replaces the whole
 // document, so it renders its own <html> and cannot rely on the site's CSS.
@@ -13,6 +14,9 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
+    // Old JavaScript after a deploy: a reload fixes it, so do that once and
+    // report only if it did not help (lib/chunk-reload.ts).
+    if (reloadOnceForChunkError(error)) return;
     reportClientError(error);
   }, [error]);
 

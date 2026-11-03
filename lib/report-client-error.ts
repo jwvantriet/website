@@ -3,7 +3,9 @@
 import { domGuardHint } from './dom-guard';
 
 // Tell the server a visitor just saw an error page (app/api/client-error →
-// confair-api → mail). Once per error object, best-effort, never throws.
+// confair-api → the Error Log at /dashboard/errors). Once per error object,
+// best-effort, never throws. A stale-deploy chunk error is reloaded once
+// first (lib/chunk-reload.ts) and only reported if that did not help.
 const reported = new WeakSet<object>();
 
 /**
