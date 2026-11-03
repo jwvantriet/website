@@ -1,5 +1,7 @@
 'use client';
 
+import { domGuardHint } from './dom-guard';
+
 // Tell the server a visitor just saw an error page (app/api/client-error →
 // confair-api → mail). Once per error object, best-effort, never throws.
 const reported = new WeakSet<object>();
@@ -13,6 +15,7 @@ const reported = new WeakSet<object>();
  *    them off (format-detection in app/layout.tsx), so any such link is news.
  *  - Page translation: the page language no longer English, or the
  *    translator's markers (Google's `translated-*` class, `<font>` wrappers).
+ *  - Whether lib/dom-guard.ts had to absorb a call on this page, and which.
  * Counts and language codes only — never page text, never anything typed.
  */
 function pageHints(): string {
@@ -27,6 +30,8 @@ function pageHints(): string {
     if (translated.length) parts.push(`translator class: ${translated.join(' ')}`);
     const fonts = document.body?.getElementsByTagName('font').length ?? 0;
     if (fonts) parts.push(`<font> wrappers: ${fonts}`);
+    const guard = domGuardHint();
+    if (guard) parts.push(guard);
     return parts.join('; ').slice(0, 300);
   } catch {
     return '';
