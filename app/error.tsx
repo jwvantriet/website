@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { reportClientError } from '@/lib/report-client-error';
+import { reloadOnceForChunkError } from '@/lib/chunk-reload';
 
 // Shown instead of Next.js's bare "Application error" when a page crashes in
 // the browser, and reported to Confair (lib/report-client-error.ts): before
@@ -14,6 +15,9 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   useEffect(() => {
+    // Old JavaScript after a deploy: a reload fixes it, so do that once and
+    // report only if it did not help (lib/chunk-reload.ts).
+    if (reloadOnceForChunkError(error)) return;
     reportClientError(error);
   }, [error]);
 
