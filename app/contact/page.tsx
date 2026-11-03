@@ -41,10 +41,10 @@ export default function ContactPage() {
                     Tennesseedreef 7e, 3565 CK Utrecht
                   </ContactInfoRow>
                   <ContactInfoRow icon={<Phone className="w-4 h-4 text-cblue-700" />} bg="bg-cblue/10">
-                    +31 850 711 950
+                    <a href="tel:+31850711950" className="hover:text-cblue-700 transition-colors">+31 850 711 950</a>
                   </ContactInfoRow>
                   <ContactInfoRow icon={<Mail className="w-4 h-4 text-cblue-700" />} bg="bg-cblue/10">
-                    netherlands@confair.com
+                    <a href="mailto:netherlands@confair.com" className="hover:text-cblue-700 transition-colors">netherlands@confair.com</a>
                   </ContactInfoRow>
                 </div>
               </div>
@@ -59,10 +59,10 @@ export default function ContactPage() {
                     The Prime Tower, Office 2001-25, Business Bay, Dubai
                   </ContactInfoRow>
                   <ContactInfoRow icon={<Phone className="w-4 h-4 text-yellow" />} bg="bg-yellow/10">
-                    +971 55 692 4772
+                    <a href="tel:+971556924772" className="hover:text-cblue-700 transition-colors">+971 55 692 4772</a>
                   </ContactInfoRow>
                   <ContactInfoRow icon={<Mail className="w-4 h-4 text-yellow" />} bg="bg-yellow/10">
-                    uae@confair.com
+                    <a href="mailto:uae@confair.com" className="hover:text-cblue-700 transition-colors">uae@confair.com</a>
                   </ContactInfoRow>
                 </div>
               </div>

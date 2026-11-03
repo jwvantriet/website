@@ -75,11 +75,11 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
                 <Phone className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
-                +31 850 711 950
+                <a href="tel:+31850711950" className="hover:text-white transition-colors">+31 850 711 950</a>
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
                 <Mail className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
-                netherlands@confair.com
+                <a href="mailto:netherlands@confair.com" className="hover:text-white transition-colors">netherlands@confair.com</a>
               </li>
             </ul>
 
@@ -93,11 +93,11 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
                 <Phone className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
-                +971 55 692 4772
+                <a href="tel:+971556924772" className="hover:text-white transition-colors">+971 55 692 4772</a>
               </li>
               <li className="flex items-start gap-2.5 text-white/60 text-sm">
                 <Mail className="w-4 h-4 mt-0.5 shrink-0 text-lblue" />
-                uae@confair.com
+                <a href="mailto:uae@confair.com" className="hover:text-white transition-colors">uae@confair.com</a>
               </li>
             </ul>
           </div>

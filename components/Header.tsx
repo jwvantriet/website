@@ -43,10 +43,11 @@ export default function Header() {
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5" />
-              info@confair.com
+              <a href="mailto:info@confair.com" className="hover:text-white transition-colors">info@confair.com</a>
             </span>
             <span className="flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5" /> +31 850 711 950
+              <Phone className="w-3.5 h-3.5" />{' '}
+              <a href="tel:+31850711950" className="hover:text-white transition-colors">+31 850 711 950</a>
             </span>
           </div>
           <span className="flex items-center gap-1.5">
