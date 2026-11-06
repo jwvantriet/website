@@ -9,6 +9,11 @@
 // broken in the CURRENT deployment shows the error page after one reload
 // instead of looping. No sessionStorage (blocked, private mode) means no
 // reload: then we cannot tell a loop from a first try.
+//
+// Same for "Connection closed.": React's error when the RSC stream of a
+// client-side navigation is cut off (network drop, a deploy swapping the
+// function mid-response). The page itself is fine; a reload refetches it.
+// On 2026-11-05 a visitor filtering /vacancies got the error page twice.
 
 const KEY = 'confair:chunk-reload';
 const WINDOW_MS = 60_000;
@@ -17,7 +22,8 @@ export function isChunkLoadError(error: unknown): boolean {
   const e = error as { name?: unknown; message?: unknown } | null;
   if (!e) return false;
   if (e.name === 'ChunkLoadError') return true;
-  return /Loading (CSS )?chunk [\w-]+ failed/i.test(String(e.message ?? ''));
+  const message = String(e.message ?? '');
+  return /Loading (CSS )?chunk [\w-]+ failed/i.test(message) || /^Connection closed\.?$/.test(message.trim());
 }
 
 /**
