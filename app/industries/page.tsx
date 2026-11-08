@@ -20,8 +20,7 @@ export const metadata: Metadata = pageMetadata({
   path: '/industries',
 });
 
-const AVIATION_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/8b6c02db-e1c5-4b18-b430-178ec319f74c.png';
+const AVIATION_IMG = '/images/site/confair-pilot-simulator-overhead-panel.jpg';
 const MARITIME_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png';
 const OFFSHORE_IMG =

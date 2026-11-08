@@ -8,9 +8,10 @@ export const metadata: Metadata = pageMetadata({
   path: '/about',
 });
 
-const ABOUT_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/2ce4ed8e-6cf8-4d79-81af-331eb1603f85.png';
-const TEAM_IMG = '/assets/about-team-custom.png';
+// Confair's own photo shoot (public/images/site). The team image used to be a
+// collage implying offshore crews Confair did not have.
+const ABOUT_IMG = '/images/site/confair-office-team.jpg';
+const TEAM_IMG = '/images/site/confair-colleagues-at-work.jpg';
 
 const values = [
   { icon: Shield, title: 'Safety First', description: 'Safety is at the core of every deployment. We ensure every professional meets the highest safety standards and certifications required within their operating environment.' },
@@ -43,7 +44,7 @@ export default function AboutPage() {
       <section className="relative py-20 md:py-28 bg-navy overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={ABOUT_IMG} alt="About Confair" className="w-full h-full object-cover" />
+          <img src={ABOUT_IMG} alt="The Confair office, with the team at work" className="w-full h-full object-cover" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
           <span className="text-yellow text-sm font-semibold uppercase tracking-wider">About Us</span>
@@ -91,7 +92,7 @@ export default function AboutPage() {
             </div>
             <div className="rounded-2xl overflow-hidden shadow-lg">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={TEAM_IMG} alt="Confair Team" className="w-full h-full object-cover" />
+              <img src={TEAM_IMG} alt="Two Confair colleagues working through an onboarding together" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>

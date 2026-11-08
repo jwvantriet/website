@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import HeroSlider from '@/components/HeroSlider';
+import HomeHero from '@/components/HomeHero';
 import { pageMetadata } from '@/lib/seo';
 import {
   Plane,
@@ -22,8 +22,9 @@ export const metadata: Metadata = pageMetadata({
   absoluteTitle: true,
 });
 
-const AVIATION_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/8b6c02db-e1c5-4b18-b430-178ec319f74c.png';
+// Confair's own photo shoot (public/images/site); maritime and offshore keep
+// their placeholder images until there is real material for those sectors.
+const AVIATION_IMG = '/images/site/confair-pilot-simulator-overhead-panel.jpg';
 const MARITIME_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png';
 const OFFSHORE_IMG =
@@ -99,7 +100,7 @@ const whyChoose = [
 export default function Home() {
   return (
     <>
-      <HeroSlider />
+      <HomeHero />
 
       <section className="bg-navy py-0 -mt-1">
         <div className="max-w-7xl mx-auto px-6">
@@ -269,7 +270,17 @@ export default function Home() {
             </span>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-navy rounded-2xl p-10 text-white">
+            <div className="bg-navy rounded-2xl overflow-hidden text-white">
+              <div className="relative h-56">
+                <Image
+                  src="/images/site/confair-client-meeting.jpg"
+                  alt="Confair consultants in a meeting with a client"
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-10">
               <span className="text-yellow text-sm font-semibold uppercase tracking-wider">
                 For Clients
               </span>
@@ -286,9 +297,20 @@ export default function Home() {
               >
                 Request Workforce <ArrowRight className="w-4 h-4" />
               </Link>
+              </div>
             </div>
 
-            <div className="bg-beige rounded-2xl p-10">
+            <div className="bg-beige rounded-2xl overflow-hidden">
+              <div className="relative h-56">
+                <Image
+                  src="/images/site/confair-video-interview.jpg"
+                  alt="A Confair recruiter in a video interview with a candidate"
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover object-[50%_40%]"
+                />
+              </div>
+              <div className="p-10">
               <span className="text-cblue-700 text-sm font-semibold uppercase tracking-wider">
                 For Candidates
               </span>
@@ -307,6 +329,7 @@ export default function Home() {
               >
                 View open vacancies <ArrowRight className="w-4 h-4" />
               </Link>
+              </div>
             </div>
           </div>
         </div>
