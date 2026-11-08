@@ -12,18 +12,20 @@ import {
   Repeat,
   ArrowRight,
 } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Services',
   description:
     'One connected partner for safety-critical workforces — recruitment, contracting & EOR, compliance, onboarding, payroll and managed workforce solutions, in a single process.',
-};
+  path: '/services',
+});
 
 const services = [
   {
     icon: Users,
     title: 'Recruitment & Search',
-    desc: 'Permanent and contract placement of certified professionals across aviation, maritime and offshore energy — the entry point to the relationship, not the whole of it.',
+    desc: 'Permanent and contract placement of certified professionals — in aviation since 1995, and in maritime and offshore energy from 2026. The entry point to the relationship, not the whole of it.',
   },
   {
     icon: FileSignature,

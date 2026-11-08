@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Briefcase, MapPin } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { Vacancy } from '@/lib/types';
 import VacancyCard from '@/components/VacancyCard';
 import VacancyFilters from './VacancyFilters';
+import { withoutHidden, talentPoolPath } from '@/lib/hidden-vacancies';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Open Vacancies',
   description: 'Career opportunities across aviation, maritime, and offshore energy.',
-};
+  path: '/vacancies',
+});
 
 export const revalidate = 60;
 
@@ -19,7 +23,7 @@ export default async function VacanciesPage(props: {
   const supabase = createClient();
   let query = supabase
     .from('vacancies')
-    .select('id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, modification_date, company_name')
+    .select('id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, publication_start, modification_date, company_name')
     .eq('is_active', true)
     .order('posted_date', { ascending: false });
 
@@ -41,7 +45,7 @@ export default async function VacanciesPage(props: {
   }
 
   const { data, error } = await query;
-  const vacancies: Vacancy[] = (data as Vacancy[] | null) ?? [];
+  const vacancies: Vacancy[] = withoutHidden((data as Vacancy[] | null) ?? []);
   const locations = Array.from(new Set(vacancies.map((v) => v.location).filter(Boolean))) as string[];
 
   return (
@@ -100,6 +104,16 @@ export default async function VacanciesPage(props: {
                   ? 'No vacancies match your current filters. Try adjusting your search or industry filter.'
                   : 'There are currently no open vacancies. Please check back later.'}
               </p>
+              {/* Maritime and offshore are new sectors (lib/verticals.ts): no
+                  open roles yet, but a talent pool to join. */}
+              {(searchParams.industry === 'Maritime' || searchParams.industry === 'Offshore') && (
+                <Link
+                  href={talentPoolPath(searchParams.industry === 'Maritime' ? 'maritime' : 'offshore')}
+                  className="inline-flex items-center justify-center gap-2 bg-navy text-white px-6 py-3 rounded-lg font-bold hover:bg-navy-800 transition-colors"
+                >
+                  Join the {searchParams.industry === 'Maritime' ? 'maritime' : 'offshore'} talent pool
+                </Link>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

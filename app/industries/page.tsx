@@ -11,11 +11,14 @@ import {
   Clock,
   FileCheck,
 } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
+import { VERTICALS, NEW_SECTOR_CONTACT } from '@/lib/verticals';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Industries',
   description: 'Sector-specific workforce solutions for aviation, maritime and offshore energy — certified, compliant professionals for short- and long-term assignments worldwide.',
-};
+  path: '/industries',
+});
 
 const AVIATION_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/8b6c02db-e1c5-4b18-b430-178ec319f74c.png';
@@ -37,6 +40,7 @@ const services = [
     image: AVIATION_IMG,
     description:
       'We provide certified aviation professionals to airlines, MRO facilities, airports, and aviation service providers worldwide. Our aviation specialists are fully licensed and experienced in operating within strict regulatory frameworks including EASA, FAA, and ICAO standards. The result: crews in place fast, compliance that holds up to audit, and flights that depart on schedule.',
+    rolesHeading: 'Key Roles We Supply',
     roles: [
       'Licensed Pilots (EASA & FAA certified)',
       'Licensed Aircraft Engineers (B1/B2)',
@@ -57,51 +61,27 @@ const services = [
     id: 'maritime',
     icon: Ship,
     title: 'Confair Maritime',
-    subtitle: 'Maritime Workforce Solutions',
+    subtitle: VERTICALS.maritime.eyebrow,
     color: '#61bef6',
     textColor: '#146685',
     image: MARITIME_IMG,
-    description:
-      'We supply qualified maritime personnel for vessel operations, port services, and shipyard projects across the globe. Our maritime professionals hold valid STCW certifications and are experienced in operating across diverse vessel types and maritime environments. The result: compliant crews, smooth crew changes and vessels that sail on time.',
-    roles: [
-      'Masters & Deck Officers (STCW certified)',
-      'Marine Engineers',
-      'Shipyard Project Managers',
-      'Port & Terminal Operators',
-      'Marine Surveyors',
-      'Able Seamen & Ratings',
-    ],
-    features: [
-      'STCW Certified Maritime Professionals',
-      'Flag state compliance',
-      'Global Crew Management & Deployment',
-      '24/7 operational support',
-    ],
+    description: VERTICALS.maritime.heroSub,
+    roles: VERTICALS.maritime.roles,
+    rolesHeading: VERTICALS.maritime.rolesHeading,
+    features: ['New in 2026', 'Talent pool open', `Contact: ${NEW_SECTOR_CONTACT.name}`],
   },
   {
     id: 'offshore',
     icon: Fuel,
     title: 'Confair Offshore',
-    subtitle: 'Offshore Energy Workforce Solutions',
+    subtitle: VERTICALS.offshore.eyebrow,
     color: '#fbc134',
     textColor: '#806300',
     image: OFFSHORE_IMG,
-    description:
-      'We deliver experienced offshore energy professionals for drilling, production, construction, and maintenance operations. Our offshore specialists are trained in the highest HSE standards and hold all required certifications for offshore work including BOSIET, HUET, and GWO. The result: mobilised teams, valid certifications and projects that stay on schedule.',
-    roles: [
-      'Project Engineers & Managers',
-      'Drilling Engineers & Supervisors',
-      'Offshore Wind Technicians (GWO certified)',
-      'Maintenance & Inspection Engineers',
-      'Production Technicians',
-      'HSE Officers & Advisors',
-    ],
-    features: [
-      'BOSIET, HUET & GWO Certified Offshore Professionals',
-      'Oil & gas + renewables',
-      'Strict HSE compliance',
-      'Global Mobilization & Rapid Deployment',
-    ],
+    description: VERTICALS.offshore.heroSub,
+    roles: VERTICALS.offshore.roles,
+    rolesHeading: VERTICALS.offshore.rolesHeading,
+    features: ['New in 2026', 'Talent pool open', `Contact: ${NEW_SECTOR_CONTACT.name}`],
   },
 ];
 
@@ -122,8 +102,8 @@ export default function ServicesPage() {
             Industries We Serve
           </h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
-            Three dedicated divisions, one connected process — recruitment, compliance, onboarding,
-            deployment and payroll for aviation, maritime and offshore energy.
+            Aviation since 1995; maritime and offshore energy new in 2026. One connected process —
+            recruitment, compliance, onboarding, deployment and payroll.
           </p>
         </div>
       </section>
@@ -153,7 +133,7 @@ export default function ServicesPage() {
                   {service.description}
                 </p>
 
-                <h4 className="font-bold text-navy mb-4">Key Roles We Supply</h4>
+                <h4 className="font-bold text-navy mb-4">{service.rolesHeading}</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                   {service.roles.map((role) => (
                     <div key={role} className="flex items-center gap-2">
@@ -178,6 +158,13 @@ export default function ServicesPage() {
                     </span>
                   ))}
                 </div>
+
+                <Link
+                  href={`/industries/${service.id}`}
+                  className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-navy hover:gap-3 transition-all"
+                >
+                  Explore {service.title} <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
 
               <div className={`rounded-2xl overflow-hidden shadow-lg ${index % 2 !== 0 ? 'lg:order-1' : ''}`}>

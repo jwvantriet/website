@@ -25,7 +25,28 @@ export type Vertical = {
   faq: { q: string; a: string }[];
   metaTitle: string;
   metaDescription: string;
+  /**
+   * A sector Confair is entering rather than one it has a track record in.
+   * The page then says so: no "we deploy" claims, a named person instead of a
+   * team, and a talent pool instead of vacancies. Flip to false only once
+   * there are real placements to point at.
+   */
+  isNew: boolean;
+  /** Section headings — a new sector cannot say "roles we supply". */
+  whyHeading: string;
+  rolesHeading: string;
+  clientsHeading: string;
 };
+
+/** The person a buyer or candidate in a new sector talks to. */
+export const NEW_SECTOR_CONTACT = {
+  name: 'JW van Triet',
+  initials: 'JW',
+  role: 'Your contact for Confair Maritime & Offshore',
+  email: 'jw.vantriet@confair.com',
+  phone: '+31 850 711 950',
+  phoneHref: 'tel:+31850711950',
+} as const;
 
 const ONE_PARTNER =
   'And because Confair connects recruitment, compliance, onboarding, workforce ' +
@@ -83,104 +104,112 @@ export const VERTICALS: Record<VerticalSlug, Vertical> = {
     metaTitle: 'Aviation Staffing & Workforce Solutions | EASA & FAA Certified',
     metaDescription:
       'Confair Aviation supplies EASA- and FAA-certified pilots, engineers and crew to airlines, MROs and airports — recruitment, compliance and payroll in one partner. Deploy in as little as 48 hours.',
+    isNew: false,
+    whyHeading: 'One connected partner, from vacancy to payroll',
+    rolesHeading: 'Key roles we supply',
+    clientsHeading: 'Who we work with',
   },
+  // Maritime and offshore are sectors Confair is ENTERING (2026). Everything
+  // below must stay true for a company with no placements there yet: what we
+  // bring is the aviation track record and the systems behind it. Until
+  // 2026-11-08 these pages said "every officer we deploy…", "24/7 operational
+  // support" and "we mobilise globally at short notice" — claims a buyer in a
+  // small industry checks in the first call.
   maritime: {
     slug: 'maritime',
     name: 'Confair Maritime',
     shortName: 'Maritime',
-    eyebrow: 'Maritime Workforce Solutions',
-    heroHeadline: 'Maritime crewing — from vacancy to payroll',
+    eyebrow: 'Confair Maritime — new in 2026',
+    heroHeadline: 'Maritime crewing, built on 30 years of aviation crew management',
     heroSub:
-      'STCW-certified officers, engineers and crew for shipowners, ports and shipyards — one partner for compliant crewing, smooth crew changes and vessels that sail on time.',
+      'We are building Confair Maritime: STCW-certified officers, engineers and ratings, managed with the same certificate tracking, onboarding and payroll we run for airline crews in 40+ countries.',
     intro:
-      'We supply qualified maritime personnel for vessel operations, port services and shipyard projects across the globe. Our professionals hold valid STCW certification and are experienced across diverse vessel types and maritime environments. ' +
-      ONE_PARTNER,
-    certifications: ['STCW 2010 (Manila)', 'MLC 2006 compliant', 'Flag-state compliance'],
+      'Confair has placed certified crew with airlines since 1995 — more than 3,000 aviation professionals in over 40 countries. Shipping runs on the same things aviation does: people who may only work with valid certificates, rotations planned around them, and contracts and payroll across borders. ' +
+      'We are now bringing that way of working to maritime. We are new to the sector and say so plainly: we have no maritime placements to show you yet. What we can show you is how we run certified crews today, and a named person who will answer your call.',
+    certifications: ['STCW 2010 (Manila)', 'MLC 2006', 'Flag-state requirements'],
     roles: [
-      'Masters & Deck Officers (STCW certified)',
-      'Marine Engineers',
-      'Shipyard Project Managers',
-      'Port & Terminal Operators',
-      'Marine Surveyors',
+      'Masters & Deck Officers',
+      'Chief Officers',
+      'Chief & Marine Engineers',
       'Able Seamen & Ratings',
+      'Crew for offshore wind vessels (CTV / SOV)',
     ],
-    clientTypes: ['Shipowners & managers', 'Ports & terminals', 'Shipyards & repair yards', 'Offshore vessel operators'],
+    clientTypes: ['Ship owners & managers', 'Offshore wind vessel operators', 'Shipyards & repair yards', 'Ports & terminals'],
     differentiators: [
-      'STCW-certified maritime professionals',
-      'Flag-state compliance handled end to end',
-      'Global crew management & deployment',
-      '24/7 operational support',
+      'Certificate and expiry tracking per person, from day one',
+      'Onboarding, contracts and payroll from one system',
+      'Entities in the Netherlands, Germany and the UAE',
+      'One named contact — not a call centre',
     ],
     faq: [
       {
-        q: 'Are your seafarers STCW certified?',
-        a: 'Yes. Every officer, engineer and rating we deploy holds valid STCW 2010 (Manila-amended) certification, and we operate to MLC 2006 standards. Credentials are screened and tracked continuously.',
+        q: 'Have you placed maritime crew before?',
+        a: 'Not as Confair Maritime — we are entering the sector in 2026. Our track record is in aviation: certified crew placed with airlines since 1995, in more than 40 countries. The work that makes that reliable — checking certificates, tracking their expiry, onboarding and payroll across borders — is what we are bringing to maritime.',
       },
       {
-        q: 'Can you manage flag-state compliance and crew changes?',
-        a: 'We handle flag-state compliance, documentation and crew-change logistics as part of the service, so vessels stay compliant and crew rotations run on schedule.',
+        q: 'Which roles are you building a pool for?',
+        a: 'Masters and deck officers, chief officers, chief and marine engineers, able seamen and ratings, and crew for offshore wind vessels. If you are a seafarer in one of these roles, you can join the talent pool now.',
       },
       {
-        q: 'What maritime roles do you cover?',
-        a: 'Masters and deck officers, marine engineers, shipyard project managers, port and terminal operators, marine surveyors, and able seamen and ratings — across vessel types and port environments.',
-      },
-      {
-        q: 'Do you cover payroll and onboarding too?',
-        a: 'Yes — Confair is one connected partner from vacancy to payroll. Recruitment, compliance, onboarding, crew management and payroll run through a single partnership.',
+        q: 'Who do I talk to?',
+        a: `JW van Triet leads Confair Maritime & Offshore. Use the form on this page, or e-mail jw.vantriet@confair.com.`,
       },
     ],
-    metaTitle: 'Maritime Crewing & Workforce Solutions | STCW Certified',
+    metaTitle: 'Maritime Crewing — STCW Officers, Engineers & Ratings',
     metaDescription:
-      'Confair Maritime supplies STCW-certified officers, engineers and crew to shipowners, ports and shipyards — crewing, flag-state compliance and payroll in one partner, with 24/7 support.',
+      'Confair Maritime is new in 2026: STCW-certified officers, engineers and ratings, managed with the certificate tracking, onboarding and payroll we run for airline crews since 1995. Join the talent pool.',
+    isNew: true,
+    whyHeading: 'What we bring from aviation',
+    rolesHeading: 'Roles we are building a pool for',
+    clientsHeading: 'Who we want to talk to',
   },
   offshore: {
     slug: 'offshore',
     name: 'Confair Offshore',
     shortName: 'Offshore Energy',
-    eyebrow: 'Offshore Energy Workforce Solutions',
-    heroHeadline: 'Offshore energy workforce — from vacancy to payroll',
+    eyebrow: 'Confair Offshore — new in 2026',
+    heroHeadline: 'Offshore energy crew, built on 30 years of aviation crew management',
     heroSub:
-      'BOSIET-, HUET- and GWO-certified professionals for oil, gas and offshore wind — mobilised fast, fully compliant, one partner from sourcing to payroll.',
+      'We are building Confair Offshore: BOSIET-, HUET- and GWO-certified professionals for oil, gas and offshore wind, managed with the certificate tracking, onboarding and payroll we run for airline crews in 40+ countries.',
     intro:
-      'We deliver experienced offshore energy professionals for drilling, production, construction and maintenance across oil, gas and renewables. Our specialists are trained to the highest HSE standards and hold all required offshore certifications including BOSIET, HUET and GWO. ' +
-      ONE_PARTNER,
-    certifications: ['BOSIET', 'HUET', 'GWO certified', 'Strict HSE compliance'],
+      'Confair has placed certified crew with airlines since 1995 — more than 3,000 aviation professionals in over 40 countries. Offshore energy runs on the same things aviation does: people who may only work with valid certificates, rotations, and contracts and payroll across borders. It also runs on aviation itself: every offshore helicopter needs licensed pilots and engineers, which is work we already do. ' +
+      'We are new to offshore energy and say so plainly: we have no offshore placements to show you yet. What we can show you is how we run certified crews today, and a named person who will answer your call.',
+    certifications: ['BOSIET / FOET', 'HUET', 'GWO', 'Offshore medical'],
     roles: [
-      'Project Engineers & Managers',
-      'Drilling Engineers & Supervisors',
-      'Offshore Wind Technicians (GWO certified)',
-      'Maintenance & Inspection Engineers',
-      'Production Technicians',
+      'Offshore helicopter pilots & licensed engineers',
+      'Dynamic Positioning Operators (DPO)',
+      'ROV Pilots & Technicians',
+      'Offshore Wind Technicians (GWO)',
       'HSE Officers & Advisors',
     ],
-    clientTypes: ['Oil & gas operators', 'Offshore wind developers', 'EPC & drilling contractors', 'Energy service providers'],
+    clientTypes: ['Offshore helicopter operators', 'Offshore wind developers & O&M contractors', 'Oil & gas operators', 'Energy service contractors'],
     differentiators: [
-      'BOSIET, HUET & GWO certified offshore professionals',
-      'Oil & gas plus offshore wind / renewables',
-      'Strict HSE compliance',
-      'Global mobilisation & rapid deployment',
+      'Certificate and expiry tracking per person, from day one',
+      'Aviation licensing know-how for offshore helicopter crews',
+      'Onboarding, contracts and payroll from one system',
+      'One named contact — not a call centre',
     ],
     faq: [
       {
-        q: 'What offshore safety certifications do your people hold?',
-        a: 'Our offshore professionals hold BOSIET, HUET and GWO certifications as required for the role, and work to strict HSE standards. We verify and track every certificate through its validity period.',
+        q: 'Have you placed offshore energy crew before?',
+        a: 'Not as Confair Offshore — we are entering the sector in 2026. Our track record is in aviation: certified crew placed with airlines since 1995, in more than 40 countries. That includes the licensing that offshore helicopter pilots and engineers work under, which is where aviation and offshore energy meet.',
       },
       {
-        q: 'Do you cover both oil & gas and offshore wind?',
-        a: 'Yes — we deploy across traditional energy (oil & gas) and renewables (offshore wind), from drilling and production to construction, maintenance and inspection.',
+        q: 'Which roles are you building a pool for?',
+        a: 'Offshore helicopter pilots and licensed engineers, Dynamic Positioning Operators, ROV pilots and technicians, offshore wind technicians and HSE officers. If you work in one of these roles, you can join the talent pool now.',
       },
       {
-        q: 'How fast can you mobilise an offshore team?',
-        a: 'We mobilise globally at short notice because sourcing, certification checks and HSE compliance run continuously — so valid, project-ready teams are available when the schedule demands.',
-      },
-      {
-        q: 'Is compliance and payroll included?',
-        a: 'Yes. Confair is one connected partner from vacancy to payroll — recruitment, HSE compliance, onboarding, workforce management and payroll are delivered through a single partnership.',
+        q: 'Who do I talk to?',
+        a: 'JW van Triet leads Confair Maritime & Offshore. Use the form on this page, or e-mail jw.vantriet@confair.com.',
       },
     ],
-    metaTitle: 'Offshore Energy Workforce Solutions | BOSIET, HUET & GWO',
+    metaTitle: 'Offshore Energy Crew — DPO, ROV, GWO & Helicopter Crew',
     metaDescription:
-      'Confair Offshore supplies BOSIET-, HUET- and GWO-certified professionals for oil, gas and offshore wind — recruitment, HSE compliance and payroll in one partner, mobilised globally at short notice.',
+      'Confair Offshore is new in 2026: BOSIET-, HUET- and GWO-certified crew for oil, gas and offshore wind, plus offshore helicopter pilots and engineers. Built on 30 years of aviation crew management. Join the talent pool.',
+    isNew: true,
+    whyHeading: 'What we bring from aviation',
+    rolesHeading: 'Roles we are building a pool for',
+    clientsHeading: 'Who we want to talk to',
   },
 };
 

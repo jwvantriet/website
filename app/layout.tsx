@@ -28,6 +28,7 @@ import DomGuardReporter from '@/components/DomGuardReporter';
 import { DOM_GUARD_SCRIPT } from '@/lib/dom-guard';
 import JsonLd from '@/components/JsonLd';
 import { organizationSchema } from '@/lib/structured-data';
+import { DEFAULT_OG_IMAGE, SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
@@ -36,15 +37,20 @@ export const metadata: Metadata = {
   },
   description:
     'Certified contracting and workforce solutions for safety-critical industries: aviation, maritime, and offshore energy. Global deployment, full regulatory compliance.',
-  metadataBase: process.env.NEXT_PUBLIC_SITE_URL
-    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-    : undefined,
+  // Falls back to the production host so canonical and og:image URLs are
+  // absolute even where NEXT_PUBLIC_SITE_URL is unset (previews, local).
+  metadataBase: new URL(SITE_URL),
+  // Pages override this with their own via pageMetadata() (lib/seo.ts); it is
+  // the fallback for the few routes that do not (404, apply flow).
   openGraph: {
     title: 'Confair Group',
     description:
       'Contracting solutions for aviation, maritime, and offshore operations.',
+    siteName: 'Confair Group',
     type: 'website',
+    images: [DEFAULT_OG_IMAGE],
   },
+  twitter: { card: 'summary_large_image', images: [DEFAULT_OG_IMAGE.url] },
   // Google Search Console ownership verification. Paste the token from
   // GSC → "HTML tag" method into the GOOGLE_SITE_VERIFICATION env (Vercel →
   // Settings → Environment Variables) and redeploy; Next renders the

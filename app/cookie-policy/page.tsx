@@ -10,11 +10,13 @@
 import type { Metadata } from 'next';
 import LegalPageLayout from '@/components/LegalPageLayout';
 import CookieDeclaration from '@/components/CookieDeclaration';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Cookie Policy',
   description: 'Cookie policy of Confair Consultancy BV — how we use cookies on confair.com.',
-};
+  path: '/cookie-policy',
+});
 
 export default function CookiePolicyPage() {
   return (

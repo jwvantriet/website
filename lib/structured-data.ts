@@ -24,7 +24,11 @@ export function organizationSchema() {
     '@type': 'EmploymentAgency',
     name: 'Confair Group',
     url: SITE_URL,
+    // public/logo.png: the white logo on a navy square. The bare logo is white
+    // on transparent, which Google shows on white — i.e. invisible. Until
+    // 2026-11-08 this URL pointed at a file that did not exist.
     logo: `${SITE_URL}/logo.png`,
+    image: `${SITE_URL}/og-default.png`,
     description:
       'Certified contracting and workforce solutions for safety-critical industries: aviation, maritime, and offshore energy.',
     address: [

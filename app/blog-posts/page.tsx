@@ -2,11 +2,13 @@ import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import type { BlogPost } from '@/lib/types';
 import BlogList from './BlogList';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Blog & Industry News',
   description: 'Insights, trends, and news from aviation, maritime, and offshore energy industries.',
-};
+  path: '/blog-posts',
+});
 
 export const revalidate = 300;
 

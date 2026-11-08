@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { Target, Eye, Heart, Shield, Users, Award } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'About',
   description: 'Confair is a connected workforce partner for safety-critical industries — aviation, maritime and offshore energy — combining recruitment, compliance, deployment and payroll in one continuous process.',
-};
+  path: '/about',
+});
 
 const ABOUT_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/2ce4ed8e-6cf8-4d79-81af-331eb1603f85.png';
@@ -19,15 +21,18 @@ const values = [
   { icon: Heart, title: 'Reliability', description: 'We deliver the right professionals, with the right qualifications, exactly when they are needed.' },
 ];
 
+// Corrected 2026-11-08: Confair was founded in 1995 (this said 2007), and the
+// 2021 "expansion into offshore wind" never produced placements — maritime and
+// offshore are new in 2026 (lib/verticals.ts).
 const milestones = [
-  { year: '2007', event: 'Confair founded in IJmuiden, The Netherlands, focusing on aviation workforce solutions' },
-  { year: '2015', event: "New ownership established, marking the start of Confair's expansion into multiple industries" },
+  { year: '1995', event: 'Confair founded in The Netherlands, focusing on aviation crew' },
+  { year: '2015', event: 'New ownership established' },
   { year: '2016', event: 'Headquarters established in Utrecht, The Netherlands' },
-  { year: '2018', event: 'Reached 2,000+ professionals deployed globally' },
-  { year: '2021', event: 'Expansion into renewable offshore energy (offshore wind)' },
+  { year: '2018', event: 'Reached 2,000+ aviation professionals deployed globally' },
   { year: '2022', event: 'Incorporation of Confair Middle East (UAE) to support regional operations' },
-  { year: '2024', event: 'Operating in 40+ countries with 3,000+ professionals deployed' },
-  { year: 'Today', event: 'Supporting global operations across aviation, maritime, and offshore energy with a strong focus on compliance, safety, and operational continuity' },
+  { year: '2024', event: '3,000+ aviation professionals deployed in 40+ countries' },
+  { year: '2026', event: 'Confair Maritime and Confair Offshore launched — building our first crew pools' },
+  { year: 'Today', event: 'Placing certified aviation crew worldwide, and bringing the same way of working to maritime and offshore energy' },
 ];
 
 const dotColors = ['#222c4a', '#407df1', '#fbc134', '#222c4a', '#407df1', '#fbc134', '#222c4a', '#fbc134'];
@@ -44,9 +49,9 @@ export default function AboutPage() {
           <span className="text-yellow text-sm font-semibold uppercase tracking-wider">About Us</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">Who We Are</h1>
           <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
-            Confair is a connected workforce partner for safety-critical industries — aviation,
-            maritime and offshore energy. We bring recruitment, compliance, onboarding, workforce
-            management and payroll together in one continuous process.
+            Since 1995 Confair has placed certified crew with airlines around the world. We bring
+            recruitment, compliance, onboarding, workforce management and payroll together in one
+            continuous process — and in 2026 we are bringing it to maritime and offshore energy.
           </p>
         </div>
       </section>
@@ -60,8 +65,8 @@ export default function AboutPage() {
                 Built on Expertise, Driven by People
               </h2>
               <p className="text-navy-500 text-lg leading-relaxed mb-6">
-                Founded in the Netherlands, Confair has grown into a trusted partner for
-                organizations operating in some of the world&apos;s most demanding, safety-critical
+                Founded in the Netherlands in 1995, Confair has grown into a trusted partner for
+                airlines operating in one of the world&apos;s most demanding, safety-critical
                 industries.
               </p>
               <p className="text-navy-500 leading-relaxed mb-6">
@@ -70,10 +75,10 @@ export default function AboutPage() {
                 operations.
               </p>
               <p className="text-navy-500 leading-relaxed mb-6">
-                Our expertise is structured across three core verticals — Confair Aviation, Confair
-                Maritime and Confair Offshore — each delivering sector-specific, certified
-                professionals for short- and long-term assignments worldwide. What connects them is a
-                single way of working: one continuous process from recruitment and compliance through
+                Our track record is in aviation: pilots, licensed engineers and cabin crew for
+                airlines, on short- and long-term assignments worldwide. In 2026 we started Confair
+                Maritime and Confair Offshore, sectors we are new to and building from the ground
+                up. What connects them is a single way of working: one continuous process from recruitment and compliance through
                 onboarding, deployment and payroll, so nothing is entered twice and nothing falls
                 through the cracks.
               </p>

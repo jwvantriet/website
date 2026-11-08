@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -25,6 +24,11 @@ import ApplyButton from './ApplyButton';
 import JsonLd from '@/components/JsonLd';
 import { jobPostingSchema } from '@/lib/structured-data';
 import { publicEmployerName } from '@/lib/employer';
+import { pageMetadata } from '@/lib/seo';
+import { vacancyPostedAt, vacancyUpdatedAt } from '@/lib/vacancy-dates';
+import ClosedVacancy from './ClosedVacancy';
+import { redirect } from 'next/navigation';
+import { HIDDEN_VACANCIES, talentPoolPath } from '@/lib/hidden-vacancies';
 
 export const revalidate = 60;
 
@@ -71,9 +75,13 @@ async function fetchVacancy(slug: string): Promise<Vacancy | null> {
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;
   const vacancy = await fetchVacancy(params.slug);
-  if (!vacancy) return { title: 'Vacancy not found' };
+  if (!vacancy) {
+    // Closed (or unknown) vacancy: a helpful page for people, noindex for
+    // Google — see ClosedVacancy.
+    return { title: 'Position filled', robots: { index: false, follow: true } };
+  }
   const employer = publicEmployerName(vacancy.company_name);
-  return {
+  return pageMetadata({
     // Candidates search by operator as much as by rank ("Rwandair A330
     // Captain"), so the airline belongs in the title tag too.
     title: employer ? `${vacancy.title} — ${employer}` : vacancy.title,
@@ -82,13 +90,16 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
       (employer
         ? `${vacancy.title} with ${employer}. ${vacancy.industry} role via Confair Group.`
         : `${vacancy.industry} role with Confair Group.`),
-  };
+    path: `/vacancies/${vacancy.slug}`,
+  });
 }
 
 export default async function VacancyDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const vacancy = await fetchVacancy(params.slug);
-  if (!vacancy) notFound();
+  if (!vacancy) return <ClosedVacancy slug={params.slug} />;
+  const hidden = vacancy.carerix_id ? HIDDEN_VACANCIES[vacancy.carerix_id] : undefined;
+  if (hidden) redirect(talentPoolPath(hidden.sector, hidden.role));
 
   const config = industryConfig[vacancy.industry] || industryConfig.Aviation;
   const IndustryIcon = config.icon;
@@ -96,10 +107,9 @@ export default async function VacancyDetailPage(props: { params: Promise<{ slug:
   // vacancies Carerix books against a Confair entity — see lib/employer.ts.
   const employer = publicEmployerName(vacancy.company_name);
 
-  // Display dates: posted is shown as a fixed standard (1 Jan 2026); "updated"
-  // is always recent — the visit date minus 14 days.
-  const postedDisplay  = formatDate('2026-01-01');
-  const updatedDisplay = formatDate(new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString());
+  // Real Carerix dates — the same ones the JobPosting data gives Google.
+  const postedDisplay = formatDate(vacancyPostedAt(vacancy));
+  const updatedDisplay = formatDate(vacancyUpdatedAt(vacancy));
 
   return (
     <>

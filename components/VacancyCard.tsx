@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { MapPin, Clock, Briefcase, ArrowRight, Plane, Ship, Fuel, Building2 } from 'lucide-react';
 import type { Vacancy } from '@/lib/types';
 import { publicEmployerName } from '@/lib/employer';
+import { vacancyPostedAt, vacancyUpdatedAt } from '@/lib/vacancy-dates';
 
 const INDUSTRY_CONFIG = {
   Aviation: { bg: 'bg-blue-50', text: 'text-blue-700', icon: Plane, border: 'hover:border-blue-200' },
@@ -29,9 +30,10 @@ export default function VacancyCard({ vacancy }: { vacancy: Vacancy }) {
   // The operator is the headline fact in aviation — show it directly under the
   // job title, not buried in the detail page's "About the company" section.
   const employer = publicEmployerName(vacancy.company_name);
-  // Listings show the "updated" date (visit − 14 days), matching the detail page.
-  const updatedIso = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
-  const vacancyIsNew = isNew(updatedIso);
+  // "New" means newly POSTED; the clock shows when the ad last changed. Both
+  // are the real Carerix dates (lib/vacancy-dates.ts), matching the detail page.
+  const updatedIso = vacancyUpdatedAt(vacancy);
+  const vacancyIsNew = isNew(vacancyPostedAt(vacancy));
 
   return (
     <Link
