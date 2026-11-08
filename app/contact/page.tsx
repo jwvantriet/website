@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import ContactForm from './ContactForm';
 import { pageMetadata } from '@/lib/seo';
@@ -27,6 +28,15 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-5 gap-16">
             <div className="lg:col-span-2">
+              <div className="relative aspect-[3/2] rounded-2xl overflow-hidden mb-8">
+                <Image
+                  src="/images/site/confair-client-meeting.jpg"
+                  alt="Confair consultants in a meeting with a client"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
               <h2 className="text-2xl font-bold text-navy mb-6">How to Reach Us</h2>
               <p className="text-navy-500 leading-relaxed mb-8">
                 Our team is ready to assist you with workforce solutions tailored to your needs.

@@ -15,7 +15,7 @@ import { talentPoolPath, type TalentPoolSector } from '@/lib/hidden-vacancies';
 const META: Record<VerticalSlug, { icon: typeof Plane; image: string; accent: string }> = {
   aviation: {
     icon: Plane,
-    image: 'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/8b6c02db-e1c5-4b18-b430-178ec319f74c.png',
+    image: '/images/site/confair-pilot-simulator-overhead-panel.jpg',
     accent: 'text-cblue-700',
   },
   maritime: {

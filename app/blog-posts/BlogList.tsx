@@ -10,7 +10,7 @@ import BrandedImage from '@/components/BrandedImage';
 // the sector imagery already on the site so the grid stays on-brand.
 const FALLBACK_COVERS: Record<string, string> = {
   Aviation:
-    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/29d4afd4-8a38-4bee-81b8-37dd2414c980.png',
+    '/images/site/confair-simulator-assessment.jpg',
   Maritime:
     'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png',
   Offshore:
@@ -19,7 +19,7 @@ const FALLBACK_COVERS: Record<string, string> = {
     'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png',
 };
 const DEFAULT_COVER =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/29d4afd4-8a38-4bee-81b8-37dd2414c980.png';
+  '/images/site/confair-simulator-assessment.jpg';
 
 // Per-category colours — matched to the Vacancies page (VacancyCard /
 // VacancyFilters): Aviation blue, Maritime emerald, Offshore amber.
