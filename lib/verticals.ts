@@ -32,6 +32,8 @@ export type Vertical = {
    * there are real placements to point at.
    */
   isNew: boolean;
+  /** Optional photo strip above the roles section (real photos only). */
+  gallery?: { src: string; alt: string }[];
   /** Section headings — a new sector cannot say "roles we supply". */
   whyHeading: string;
   rolesHeading: string;
@@ -106,6 +108,11 @@ export const VERTICALS: Record<VerticalSlug, Vertical> = {
     metaDescription:
       'Confair Aviation supplies EASA- and FAA-certified pilots, engineers and crew to airlines, MROs and airports — recruitment, compliance and payroll in one partner. Deploy in as little as 48 hours.',
     isNew: false,
+    // Confair's own shoot. A third photo (an engineer at work) is still to come.
+    gallery: [
+      { src: '/images/site/confair-simulator-team.jpg', alt: 'Confair team members with a pilot in the flight simulator' },
+      { src: '/images/site/confair-simulator-assessment.jpg', alt: 'A pilot at the controls in the flight simulator, observed by two Confair colleagues' },
+    ],
     whyHeading: 'One connected partner, from vacancy to payroll',
     rolesHeading: 'Key roles we supply',
     clientsHeading: 'Who we work with',

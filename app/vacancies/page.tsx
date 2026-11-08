@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Briefcase, MapPin } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { Vacancy } from '@/lib/types';
@@ -51,10 +52,17 @@ export default async function VacanciesPage(props: {
   return (
     <>
       <section className="bg-navy py-20 md:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-yellow blur-[100px]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-cblue blur-[120px]" />
-        </div>
+        {/* Confair's own simulator, empty and ready: the most-visited page on the
+            site is a pilot looking for the next seat. */}
+        <Image
+          src="/images/site/confair-simulator-cockpit.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[50%_45%]"
+        />
+        <div className="absolute inset-0 bg-navy/80" />
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
           <span className="text-yellow text-sm font-semibold uppercase tracking-wider">Careers</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">Open Vacancies</h1>
