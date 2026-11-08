@@ -22,9 +22,9 @@ export const metadata: Metadata = pageMetadata({
 
 const AVIATION_IMG = '/images/site/confair-pilot-simulator-overhead-panel.jpg';
 const MARITIME_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png';
+  '/images/site/maritime-port-heavy-lift.jpg';
 const OFFSHORE_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png';
+  '/images/site/offshore-jackup-rig-wind.jpg';
 
 const services = [
   {

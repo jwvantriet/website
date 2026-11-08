@@ -20,12 +20,12 @@ const META: Record<VerticalSlug, { icon: typeof Plane; image: string; accent: st
   },
   maritime: {
     icon: Ship,
-    image: 'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png',
+    image: '/images/site/maritime-ship-bridge.jpg',
     accent: 'text-accent-maritime',
   },
   offshore: {
     icon: Fuel,
-    image: 'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png',
+    image: '/images/site/offshore-north-sea-platform.jpg',
     accent: 'text-accent-offshore',
   },
 };

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 const TEAM_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/5baeeccb-ae7e-4702-b56c-60c2b1506a53.png';
+  '/images/site/confair-office-team.jpg';
 
 // There used to be a hard-coded "fallback leadership" here, shown while the
 // team_members table was empty: six invented people (a CEO "Jan de Vries", a
