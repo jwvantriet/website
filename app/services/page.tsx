@@ -12,12 +12,14 @@ import {
   Repeat,
   ArrowRight,
 } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Services',
   description:
     'One connected partner for safety-critical workforces — recruitment, contracting & EOR, compliance, onboarding, payroll and managed workforce solutions, in a single process.',
-};
+  path: '/services',
+});
 
 const services = [
   {

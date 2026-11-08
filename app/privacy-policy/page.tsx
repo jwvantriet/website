@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import LegalPageLayout from '@/components/LegalPageLayout';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Privacy Policy',
   description:
     'Privacy policy of the Confair group (Confair Consultancy BV, Confair Aviation Consultancy Co. L.L.C and Confair GmbH & Co. KG).',
-};
+  path: '/privacy-policy',
+});
 
 export default function PrivacyPolicyPage() {
   return (

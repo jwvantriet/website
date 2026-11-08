@@ -7,6 +7,7 @@ import JsonLd from '@/components/JsonLd';
 import ContactForm from '@/app/contact/ContactForm';
 import { VERTICALS, VERTICAL_SLUGS, type VerticalSlug } from '@/lib/verticals';
 import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/structured-data';
+import { pageMetadata } from '@/lib/seo';
 
 // Per-vertical icon + hero image + accent (text-safe shade for links on white).
 const META: Record<VerticalSlug, { icon: typeof Plane; image: string; accent: string }> = {
@@ -35,18 +36,11 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   const params = await props.params;
   const v = VERTICALS[params.slug as VerticalSlug];
   if (!v) return {};
-  const path = `/industries/${v.slug}`;
-  return {
+  return pageMetadata({
     title: v.metaTitle,
     description: v.metaDescription,
-    alternates: { canonical: path },
-    openGraph: {
-      title: v.metaTitle,
-      description: v.metaDescription,
-      type: 'website',
-      url: path,
-    },
-  };
+    path: `/industries/${v.slug}`,
+  });
 }
 
 export default async function VerticalPage(props: { params: Promise<{ slug: string }> }) {

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { Target, Eye, Heart, Shield, Users, Award } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'About',
   description: 'Confair is a connected workforce partner for safety-critical industries — aviation, maritime and offshore energy — combining recruitment, compliance, deployment and payroll in one continuous process.',
-};
+  path: '/about',
+});
 
 const ABOUT_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/2ce4ed8e-6cf8-4d79-81af-331eb1603f85.png';

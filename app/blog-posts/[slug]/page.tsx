@@ -7,6 +7,7 @@ import type { BlogPost } from '@/lib/types';
 import JsonLd from '@/components/JsonLd';
 import BrandedImage from '@/components/BrandedImage';
 import { articleSchema } from '@/lib/structured-data';
+import { pageMetadata } from '@/lib/seo';
 
 export const revalidate = 300;
 
@@ -41,23 +42,14 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   // Full Open Graph + Twitter card metadata so shares (LinkedIn in
   // particular) render the article title, excerpt and cover image instead
   // of falling back to the site-wide defaults.
-  return {
+  return pageMetadata({
     title: post.title,
-    description: post.excerpt ?? undefined,
-    openGraph: {
-      type: 'article',
-      title: post.title,
-      description: post.excerpt ?? undefined,
-      publishedTime: post.published_at ?? undefined,
-      images: post.cover_image_url ? [{ url: post.cover_image_url }] : undefined,
-    },
-    twitter: {
-      card: post.cover_image_url ? 'summary_large_image' : 'summary',
-      title: post.title,
-      description: post.excerpt ?? undefined,
-      images: post.cover_image_url ? [post.cover_image_url] : undefined,
-    },
-  };
+    description: post.excerpt ?? `${post.title} — Confair Group`,
+    path: `/blog-posts/${post.slug}`,
+    image: post.cover_image_url,
+    ogType: 'article',
+    publishedTime: post.published_at ?? undefined,
+  });
 }
 
 function renderContent(content: string) {

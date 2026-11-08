@@ -11,11 +11,13 @@ import {
   Clock,
   FileCheck,
 } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Industries',
   description: 'Sector-specific workforce solutions for aviation, maritime and offshore energy — certified, compliant professionals for short- and long-term assignments worldwide.',
-};
+  path: '/industries',
+});
 
 const AVIATION_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/8b6c02db-e1c5-4b18-b430-178ec319f74c.png';

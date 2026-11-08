@@ -4,11 +4,13 @@ import { createClient } from '@/lib/supabase/server';
 import type { Vacancy } from '@/lib/types';
 import VacancyCard from '@/components/VacancyCard';
 import VacancyFilters from './VacancyFilters';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Open Vacancies',
   description: 'Career opportunities across aviation, maritime, and offshore energy.',
-};
+  path: '/vacancies',
+});
 
 export const revalidate = 60;
 
@@ -19,7 +21,7 @@ export default async function VacanciesPage(props: {
   const supabase = createClient();
   let query = supabase
     .from('vacancies')
-    .select('id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, modification_date, company_name')
+    .select('id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, publication_start, modification_date, company_name')
     .eq('is_active', true)
     .order('posted_date', { ascending: false });
 

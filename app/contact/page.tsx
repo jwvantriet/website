@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import ContactForm from './ContactForm';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Contact',
   description: "Get in touch with Confair Group — clients seeking workforce solutions or candidates looking for new opportunities.",
-};
+  path: '/contact',
+});
 
 export default function ContactPage() {
   return (
