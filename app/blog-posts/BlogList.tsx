@@ -12,11 +12,11 @@ const FALLBACK_COVERS: Record<string, string> = {
   Aviation:
     '/images/site/confair-simulator-assessment.jpg',
   Maritime:
-    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png',
+    '/images/site/maritime-port-heavy-lift.jpg',
   Offshore:
-    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png',
+    '/images/site/offshore-wind-turbine-dawn.jpg',
   'Offshore Energy':
-    'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png',
+    '/images/site/offshore-wind-turbine-dawn.jpg',
 };
 const DEFAULT_COVER =
   '/images/site/confair-simulator-assessment.jpg';

@@ -22,13 +22,14 @@ export const metadata: Metadata = pageMetadata({
   absoluteTitle: true,
 });
 
-// Confair's own photo shoot (public/images/site); maritime and offshore keep
-// their placeholder images until there is real material for those sectors.
+// Aviation: Confair's own photo shoot. Maritime/offshore: graded Unsplash
+// photos without people (Confair is new to those sectors) — see
+// public/images/site/CREDITS.md.
 const AVIATION_IMG = '/images/site/confair-pilot-simulator-overhead-panel.jpg';
 const MARITIME_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/40d5203a-e834-4315-87cc-38f761a1d536.png';
+  '/images/site/maritime-port-heavy-lift.jpg';
 const OFFSHORE_IMG =
-  'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png';
+  '/images/site/offshore-jackup-rig-wind.jpg';
 
 // Aviation figures — the sector these numbers come from. Maritime and
 // offshore are new in 2026 (lib/verticals.ts) and have none of their own yet;
