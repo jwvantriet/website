@@ -153,8 +153,22 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
         </div>
       </section>
 
+      {v.gallery && v.gallery.length > 0 && (
+        <section className="bg-beige pt-20 md:pt-28">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className={`grid gap-6 ${v.gallery.length >= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
+              {v.gallery.map((g) => (
+                <div key={g.src} className="relative aspect-[3/2] overflow-hidden rounded-2xl">
+                  <Image src={g.src} alt={g.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Roles + client types */}
-      <section className="bg-beige py-20 md:py-28">
+      <section className={`bg-beige pb-20 md:pb-28 ${v.gallery?.length ? 'pt-14 md:pt-16' : 'pt-20 md:pt-28'}`}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-16 lg:grid-cols-2">
             <div>
