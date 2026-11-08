@@ -40,7 +40,8 @@ export type Vertical = {
 
 /** The person a buyer or candidate in a new sector talks to. */
 export const NEW_SECTOR_CONTACT = {
-  name: 'JW van Triet',
+  name: "Jan Willem van 't Riet",
+  firstName: 'Jan Willem',
   initials: 'JW',
   role: 'Your contact for Confair Maritime & Offshore',
   email: 'jw.vantriet@confair.com',
@@ -152,7 +153,7 @@ export const VERTICALS: Record<VerticalSlug, Vertical> = {
       },
       {
         q: 'Who do I talk to?',
-        a: `JW van Triet leads Confair Maritime & Offshore. Use the form on this page, or e-mail jw.vantriet@confair.com.`,
+        a: `Jan Willem van 't Riet leads Confair Maritime & Offshore. Use the form on this page, or e-mail jw.vantriet@confair.com.`,
       },
     ],
     metaTitle: 'Maritime Crewing — STCW Officers, Engineers & Ratings',
@@ -200,7 +201,7 @@ export const VERTICALS: Record<VerticalSlug, Vertical> = {
       },
       {
         q: 'Who do I talk to?',
-        a: 'JW van Triet leads Confair Maritime & Offshore. Use the form on this page, or e-mail jw.vantriet@confair.com.',
+        a: "Jan Willem van 't Riet leads Confair Maritime & Offshore. Use the form on this page, or e-mail jw.vantriet@confair.com.",
       },
     ],
     metaTitle: 'Offshore Energy Crew — DPO, ROV, GWO & Helicopter Crew',

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Linkedin, Mail } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { TeamMember } from '@/lib/types';
@@ -14,15 +15,11 @@ export const revalidate = 300;
 const TEAM_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/5baeeccb-ae7e-4702-b56c-60c2b1506a53.png';
 
-// Fallback leadership shown when the team_members table is still empty.
-const fallbackLeadership = [
-  { name: 'Jan de Vries', role: 'Chief Executive Officer', bio: 'With over 20 years of experience in workforce solutions for safety-critical industries, Jan founded Confair with a vision to bridge the gap between skilled professionals and demanding operational environments.', initials: 'JV', color: '#407df1' },
-  { name: 'Sarah Mitchell', role: 'Director of Aviation', bio: 'Former airline operations manager with 15 years in aviation. Sarah leads our aviation division, ensuring we deliver EASA and FAA-compliant professionals to clients worldwide.', initials: 'SM', color: '#61bef6' },
-  { name: 'Erik Bakker', role: 'Director of Maritime', bio: "A seasoned maritime professional with a Master Mariner's license and extensive shore-side management experience. Erik oversees our maritime workforce solutions globally.", initials: 'EB', color: '#222c4a' },
-  { name: 'Lisa Andersen', role: 'Director of Offshore', bio: "With a background in offshore energy engineering and HSE management, Lisa drives our offshore division's growth in both traditional energy and renewables.", initials: 'LA', color: '#fbc134' },
-  { name: 'Thomas Kramer', role: 'Head of Compliance', bio: 'Thomas ensures all our operations meet international regulatory standards. His expertise spans aviation, maritime, and offshore compliance frameworks.', initials: 'TK', color: '#407df1' },
-  { name: 'Maria Santos', role: 'Head of Talent Acquisition', bio: 'Maria leads our global recruitment team, building and maintaining our network of over 3,000 certified professionals across all three verticals.', initials: 'MS', color: '#61bef6' },
-];
+// There used to be a hard-coded "fallback leadership" here, shown while the
+// team_members table was empty: six invented people (a CEO "Jan de Vries", a
+// "Director of Maritime" with a Master Mariner's licence, …). robots.txt kept
+// crawlers out, but the page was live for anyone with the URL. Removed
+// 2026-11-08: with no real team members the page now answers 404.
 
 const culturePoints = [
   { title: 'Diversity & Inclusion', desc: 'We celebrate diversity and believe that varied perspectives strengthen our team and the solutions we deliver.' },
@@ -46,7 +43,7 @@ export default async function TeamPage() {
     .order('display_order', { ascending: true });
 
   const members: TeamMember[] = (data as TeamMember[] | null) ?? [];
-  const useFallback = members.length === 0;
+  if (members.length === 0) notFound();
 
   return (
     <>
@@ -80,10 +77,10 @@ export default async function TeamPage() {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(useFallback ? fallbackLeadership : members).map((person, i) => {
-              const color = 'color' in person ? person.color : PALETTE[i % PALETTE.length];
-              const initials = 'initials' in person ? person.initials : initialsFromName(person.name);
-              const photo = !useFallback ? (person as TeamMember).photo_url : null;
+            {members.map((person, i) => {
+              const color = PALETTE[i % PALETTE.length];
+              const initials = initialsFromName(person.name);
+              const photo = person.photo_url;
               return (
                 <div
                   key={person.name}
@@ -113,7 +110,7 @@ export default async function TeamPage() {
                   )}
                   <div className="flex gap-3">
                     <a
-                      href={(person as TeamMember).linkedin_url || '#'}
+                      href={person.linkedin_url || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center text-navy-500 hover:bg-cblue hover:text-white transition-colors"
