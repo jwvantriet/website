@@ -14,7 +14,7 @@ import {
 const initialState: ContactFormState = { status: 'idle' };
 const submitAction = withStaleActionRecovery('contact', submitContactForm);
 
-function SubmitButton() {
+function SubmitButton({ label }: { label: string }) {
   const { pending } = useFormStatus();
   return (
     <button
@@ -26,7 +26,7 @@ function SubmitButton() {
         'Sending...'
       ) : (
         <span className="flex items-center justify-center gap-2">
-          <Send className="w-4 h-4" /> Send Message
+          <Send className="w-4 h-4" /> {label}
         </span>
       )}
     </button>
@@ -35,13 +35,27 @@ function SubmitButton() {
 
 export default function ContactForm({
   lockedIndustry,
+  candidateOnly = false,
+  defaultField,
+  heading = 'Send Us a Message',
+  intro = 'Fill out the form below and we\'ll respond promptly.',
+  successText = 'Your message has been received. Our team will get back to you within 24 hours.',
 }: {
   /** When set (on a vertical landing page), the industry is fixed to this
    *  value and the selector is hidden so the lead is tagged to that vertical. */
   lockedIndustry?: 'aviation' | 'maritime' | 'offshore';
+  /** Talent-pool sign-up: candidate mode only, no client/candidate toggle. */
+  candidateOnly?: boolean;
+  /** Pre-selects "Field of Expertise" (e.g. from a talent-pool link). */
+  defaultField?: string;
+  heading?: string;
+  intro?: string;
+  successText?: string;
 } = {}) {
   const [state, formAction] = useFormState(submitAction, initialState);
-  const [inquiryType, setInquiryType] = useState<'client' | 'candidate'>('client');
+  const [inquiryType, setInquiryType] = useState<'client' | 'candidate'>(
+    candidateOnly ? 'candidate' : 'client',
+  );
   const isCandidate = inquiryType === 'candidate';
   // Filled only after a reload that recovered from a stale Server Action.
   const restored = useStaleActionRestore('contact');
@@ -59,7 +73,7 @@ export default function ContactForm({
         </div>
         <h3 className="text-2xl font-bold text-navy mb-3">Thank You!</h3>
         <p className="text-navy-500 text-lg mb-6">
-          Your message has been received. Our team will get back to you within 24 hours.
+          {successText}
         </p>
         <a
           href="/contact"
@@ -73,9 +87,10 @@ export default function ContactForm({
 
   return (
     <div className="bg-beige rounded-2xl p-8 md:p-10">
-      <h3 className="text-2xl font-bold text-navy mb-2">Send Us a Message</h3>
-      <p className="text-navy-500 mb-8">Fill out the form below and we&apos;ll respond promptly.</p>
+      <h3 className="text-2xl font-bold text-navy mb-2">{heading}</h3>
+      <p className="text-navy-500 mb-8">{intro}</p>
 
+      {!candidateOnly && (
       <div className="flex gap-3 mb-8">
         <button
           type="button"
@@ -96,6 +111,7 @@ export default function ContactForm({
           <User className="w-4 h-4" /> I&apos;m a Candidate
         </button>
       </div>
+      )}
 
       {restored && state.status === 'idle' && (
         <p className="text-navy text-sm bg-white rounded-lg px-4 py-3 mb-5">{STALE_ACTION_NOTICE}</p>
@@ -105,6 +121,9 @@ export default function ContactForm({
       <form key={restored ? 'restored' : 'fresh'} action={formAction} className="space-y-5">
         <SpamShieldFields startedAt={restored?.startedAt} />
         <input type="hidden" name="inquiry_type" value={inquiryType} />
+        {/* Tag candidates to the vertical too — a talent-pool sign-up is only
+            useful if we know which pool it is for. */}
+        {isCandidate && lockedIndustry && <input type="hidden" name="industry" value={lockedIndustry} />}
 
         <div className="grid md:grid-cols-2 gap-5">
           <div>
@@ -181,7 +200,7 @@ export default function ContactForm({
             <select
               id="field_of_expertise"
               name="field_of_expertise"
-              defaultValue={saved.field_of_expertise ?? ''}
+              defaultValue={saved.field_of_expertise ?? defaultField ?? ''}
               className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
             >
               <option value="">Select your field</option>
@@ -189,8 +208,13 @@ export default function ContactForm({
               <option value="aviation_engineering">Aviation Engineering</option>
               <option value="cabin_crew">Cabin Crew</option>
               <option value="ground_operations">Ground Operations</option>
-              <option value="deck_officer">Deck Officer</option>
-              <option value="marine_engineer">Marine Engineer</option>
+              <option value="deck_officer">Deck Officer / Chief Officer</option>
+              <option value="marine_engineer">Marine / Chief Engineer</option>
+              <option value="rating">Able Seaman / Rating</option>
+              <option value="dp_operator">Dynamic Positioning Operator (DPO)</option>
+              <option value="rov_pilot">ROV Pilot / Technician</option>
+              <option value="wind_technician">Offshore Wind Technician (GWO)</option>
+              <option value="offshore_helicopter">Offshore Helicopter Pilot / Engineer</option>
               <option value="offshore_technician">Offshore Technician</option>
               <option value="hse_officer">HSE Officer</option>
               <option value="project_engineer">Project Engineer</option>
@@ -222,7 +246,7 @@ export default function ContactForm({
           <p className="text-red-600 text-sm">{state.message}</p>
         )}
 
-        <SubmitButton />
+        <SubmitButton label={candidateOnly ? 'Register' : 'Send Message'} />
       </form>
     </div>
   );

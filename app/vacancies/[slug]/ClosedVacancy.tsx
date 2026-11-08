@@ -3,6 +3,7 @@ import { ArrowRight, Briefcase } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { Vacancy } from '@/lib/types';
 import VacancyCard from '@/components/VacancyCard';
+import { withoutHidden } from '@/lib/hidden-vacancies';
 
 /** Words of a slug, without the trailing Carerix id ("tr-a320-captain-335"). */
 function slugWords(slug: string): string[] {
@@ -35,7 +36,7 @@ export default async function ClosedVacancy({ slug }: { slug: string }) {
       'id, slug, carerix_id, title, industry, location, employment_type, summary, description, apply_url, is_active, posted_date, publication_start, modification_date, company_name',
     )
     .eq('is_active', true);
-  const open = (data as Vacancy[] | null) ?? [];
+  const open = withoutHidden((data as Vacancy[] | null) ?? []);
 
   const wanted = new Set(slugWords(slug));
   const similar = open
