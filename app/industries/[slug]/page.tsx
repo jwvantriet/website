@@ -105,7 +105,7 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
                 href="#request"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-yellow px-7 py-3.5 font-bold text-navy transition-colors hover:bg-yellow-600"
               >
-                {v.isNew ? `Talk to ${NEW_SECTOR_CONTACT.name}` : `Request ${v.shortName} workforce`}{' '}
+                {v.isNew ? `Talk to ${NEW_SECTOR_CONTACT.firstName}` : `Request ${v.shortName} workforce`}{' '}
                 <ArrowRight className="h-4 w-4" />
               </a>
               <Link
