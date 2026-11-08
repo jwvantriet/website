@@ -29,9 +29,13 @@ const MARITIME_IMG =
 const OFFSHORE_IMG =
   'https://mgx-backend-cdn.metadl.com/generate/images/1076476/2026-03-31/e771e609-e88a-478c-8ddc-3c908613be5a.png';
 
+// Aviation figures — the sector these numbers come from. Maritime and
+// offshore are new in 2026 (lib/verticals.ts) and have none of their own yet;
+// an unlabelled strip next to three sectors read as if they covered all three.
+// Founded 1995 (the "15+ years" this said until 2026-11-08 undersold it).
 const stats = [
-  { value: '15+', label: 'Years of Experience' },
-  { value: '3,000+', label: 'Professionals Deployed' },
+  { value: '30+', label: 'Years in Aviation' },
+  { value: '3,000+', label: 'Aviation Professionals Deployed' },
   { value: '40+', label: 'Countries Served' },
   { value: '99.5%', label: 'Compliance Rate' },
 ];
@@ -55,7 +59,7 @@ const verticals = [
     icon: Ship,
     title: 'Confair Maritime',
     description:
-      'Ensuring safe and compliant vessel operations with experienced maritime professionals across global fleets and port environments.',
+      'New in 2026. We are building a pool of STCW-certified officers, engineers and ratings, managed the way we manage airline crews.',
     image: MARITIME_IMG,
     color: '#61bef6',
     linkClass: 'text-accent-maritime',
@@ -66,7 +70,7 @@ const verticals = [
     icon: Fuel,
     title: 'Confair Offshore',
     description:
-      'Delivering specialized offshore professionals to support energy operations with a strong focus on safety, compliance, and operational continuity.',
+      'New in 2026. Offshore helicopter crew, DPOs, ROV pilots and GWO technicians for oil, gas and offshore wind — built on our aviation track record.',
     image: OFFSHORE_IMG,
     color: '#fbc134',
     linkClass: 'text-accent-offshore',
@@ -119,12 +123,12 @@ export default function Home() {
               Critical Industries We Serve
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mt-3 mb-4">
-              Expertise Across Critical Operations Industries
+              Three Safety-Critical Industries, One Way of Working
             </h2>
             <p className="text-navy-500 max-w-2xl mx-auto text-lg">
-              Confair operates in safety-critical industries where compliance, precision,
-              and operational continuity are essential. Each vertical is supported by highly
-              skilled professionals with sector-specific expertise.
+              Aviation is where we have placed certified crew since 1995. In 2026 we are
+              bringing the same way of working — certificates checked and tracked, onboarding
+              and payroll from one system — to maritime and offshore energy.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -196,37 +200,23 @@ export default function Home() {
               </div>
             </div>
             <div className="relative">
+              {/* Until 2026-11-08 this card listed shipbuilding, port operations and
+                  offshore oil & gas as "areas of expertise" — sectors with no
+                  placements yet. Aviation is the track record; the rest is new. */}
               <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-xl font-bold text-navy mb-6">
-                  Our Areas of Expertise
-                </h3>
+                <h3 className="text-xl font-bold text-navy mb-6">Where We Work</h3>
 
                 <div className="mb-5">
                   <div className="flex items-center gap-2 mb-2">
                     <Plane className="w-4 h-4 text-cblue-700" />
                     <span className="text-navy text-sm font-bold tracking-wide">
-                      Aviation
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3 py-2.5 pl-6 border-b border-gray-50">
-                    <CheckCircle2 className="w-5 h-5 text-yellow shrink-0" />
-                    <span className="text-navy text-sm font-medium">
-                      Commercial &amp; Cargo Aviation
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mb-5">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Ship className="w-4 h-4 text-lblue" />
-                    <span className="text-navy text-sm font-bold tracking-wide">
-                      Maritime
+                      Aviation — since 1995
                     </span>
                   </div>
                   {[
-                    'Maritime Shipping & Logistics',
-                    'Port & Terminal Operations',
-                    'Shipbuilding & Repair',
+                    'Flight crew: captains & first officers (TR / NTR)',
+                    'Licensed aircraft engineers (Part-66 B1/B2)',
+                    'Cabin crew & loadmasters',
                   ].map((item) => (
                     <div
                       key={item}
@@ -240,20 +230,30 @@ export default function Home() {
 
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Fuel className="w-4 h-4 text-yellow" />
+                    <Ship className="w-4 h-4 text-navy-400" />
+                    <Fuel className="w-4 h-4 text-navy-400" />
                     <span className="text-navy text-sm font-bold tracking-wide">
-                      Offshore Energy
+                      Maritime &amp; Offshore — new in 2026
                     </span>
                   </div>
-                  {['Offshore Oil & Gas', 'Renewable Energy (Offshore Wind)'].map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-center gap-3 py-2.5 pl-6 border-b border-gray-50 last:border-0"
+                  <p className="text-navy-500 text-sm leading-relaxed pl-6 mb-3">
+                    We are building our first maritime and offshore crew pools. No track record
+                    there yet — talk to us, or join the pool.
+                  </p>
+                  <div className="flex flex-wrap gap-3 pl-6">
+                    <Link
+                      href="/talent-pool/maritime"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-cblue-700 hover:gap-3 transition-all"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-yellow shrink-0" />
-                      <span className="text-navy text-sm font-medium">{item}</span>
-                    </div>
-                  ))}
+                      Maritime talent pool <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link
+                      href="/talent-pool/offshore"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-cblue-700 hover:gap-3 transition-all"
+                    >
+                      Offshore talent pool <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

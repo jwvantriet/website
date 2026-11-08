@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { Plane, Ship, Fuel, ShieldCheck, CheckCircle2, ArrowRight, Building2 } from 'lucide-react';
 import JsonLd from '@/components/JsonLd';
 import ContactForm from '@/app/contact/ContactForm';
-import { VERTICALS, VERTICAL_SLUGS, type VerticalSlug } from '@/lib/verticals';
+import { VERTICALS, VERTICAL_SLUGS, NEW_SECTOR_CONTACT, type VerticalSlug } from '@/lib/verticals';
 import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/structured-data';
 import { pageMetadata } from '@/lib/seo';
+import SectorContactCard from '@/components/SectorContactCard';
+import { talentPoolPath, type TalentPoolSector } from '@/lib/hidden-vacancies';
 
 // Per-vertical icon + hero image + accent (text-safe shade for links on white).
 const META: Record<VerticalSlug, { icon: typeof Plane; image: string; accent: string }> = {
@@ -103,13 +105,14 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
                 href="#request"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-yellow px-7 py-3.5 font-bold text-navy transition-colors hover:bg-yellow-600"
               >
-                Request {v.shortName} workforce <ArrowRight className="h-4 w-4" />
+                {v.isNew ? `Talk to ${NEW_SECTOR_CONTACT.name}` : `Request ${v.shortName} workforce`}{' '}
+                <ArrowRight className="h-4 w-4" />
               </a>
               <Link
-                href="/vacancies"
+                href={v.isNew ? talentPoolPath(v.slug as TalentPoolSector) : '/vacancies'}
                 className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white/30 px-7 py-3.5 font-bold text-white transition-colors hover:border-yellow hover:text-yellow"
               >
-                View {v.shortName} vacancies
+                {v.isNew ? 'Join the talent pool' : `View ${v.shortName} vacancies`}
               </Link>
             </div>
             {/* Certifications trust strip */}
@@ -135,9 +138,7 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
               <span className={`text-sm font-semibold uppercase tracking-wider ${accent}`}>
                 Why Confair {v.shortName}
               </span>
-              <h2 className="mt-3 text-3xl font-bold text-navy md:text-4xl">
-                One connected partner, from vacancy to payroll
-              </h2>
+              <h2 className="mt-3 text-3xl font-bold text-navy md:text-4xl">{v.whyHeading}</h2>
               <p className="mt-6 text-lg leading-relaxed text-navy-500">{v.intro}</p>
             </div>
             <div className="space-y-4">
@@ -157,7 +158,7 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-16 lg:grid-cols-2">
             <div>
-              <h2 className="text-2xl font-bold text-navy md:text-3xl">Key roles we supply</h2>
+              <h2 className="text-2xl font-bold text-navy md:text-3xl">{v.rolesHeading}</h2>
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {v.roles.map((role) => (
                   <div key={role} className="flex items-center gap-2">
@@ -168,7 +169,7 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
               </div>
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-navy md:text-3xl">Who we work with</h2>
+              <h2 className="text-2xl font-bold text-navy md:text-3xl">{v.clientsHeading}</h2>
               <div className="mt-6 space-y-3">
                 {v.clientTypes.map((c) => (
                   <div key={c} className="flex items-center gap-3 rounded-xl bg-white p-4 shadow-sm">
@@ -186,7 +187,7 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
       <section className="bg-white py-20 md:py-28">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="text-center text-3xl font-bold text-navy md:text-4xl">
-            {v.shortName} staffing — frequently asked
+            {v.isNew ? `Confair ${v.shortName} — straight answers` : `${v.shortName} staffing — frequently asked`}
           </h2>
           <div className="mt-10 space-y-4">
             {v.faq.map((f) => (
@@ -207,16 +208,22 @@ export default async function VerticalPage(props: { params: Promise<{ slug: stri
         <div className="mx-auto max-w-3xl px-6">
           <div className="text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-yellow">
-              Request {v.shortName} workforce
+              {v.isNew ? `Talk to Confair ${v.shortName}` : `Request ${v.shortName} workforce`}
             </span>
             <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
               Tell us what you need
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-white/70">
-              Share your requirement and a Confair {v.shortName.toLowerCase()} specialist will
-              come back to you — certified people, compliance and payroll handled end to end.
+              {v.isNew
+                ? `Your message goes to ${NEW_SECTOR_CONTACT.name}, who leads Confair Maritime & Offshore and will answer it personally.`
+                : `Share your requirement and a Confair ${v.shortName.toLowerCase()} specialist will come back to you — certified people, compliance and payroll handled end to end.`}
             </p>
           </div>
+          {v.isNew && (
+            <div className="mx-auto mt-10 max-w-md">
+              <SectorContactCard tone="dark" />
+            </div>
+          )}
           <div className="mt-10">
             <ContactForm lockedIndustry={v.slug} />
           </div>

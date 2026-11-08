@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { createClient } from '@/lib/supabase/server';
+import { withoutHidden } from '@/lib/hidden-vacancies';
 
 export const revalidate = 3600;
 
@@ -18,6 +19,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/industries/aviation`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/industries/maritime`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/industries/offshore`, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/talent-pool/maritime`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE_URL}/talent-pool/offshore`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/vacancies`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE_URL}/guides/2026-salary-guide`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/blog-posts`, changeFrequency: 'weekly', priority: 0.7 },
@@ -31,10 +34,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const supabase = createClient();
     const [{ data: vacancies }, { data: posts }] = await Promise.all([
-      supabase.from('vacancies').select('slug, modification_date, posted_date').eq('is_active', true),
+      supabase.from('vacancies').select('slug, carerix_id, modification_date, posted_date').eq('is_active', true),
       supabase.from('blog_posts').select('slug, published_at').eq('published', true),
     ]);
-    vacancyRoutes = (vacancies ?? []).map((v) => ({
+    vacancyRoutes = withoutHidden(vacancies ?? []).map((v) => ({
       url: `${SITE_URL}/vacancies/${v.slug}`,
       lastModified: v.modification_date ?? v.posted_date ?? undefined,
       changeFrequency: 'weekly' as const,

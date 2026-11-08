@@ -25,7 +25,7 @@ const services = [
   {
     icon: Users,
     title: 'Recruitment & Search',
-    desc: 'Permanent and contract placement of certified professionals across aviation, maritime and offshore energy — the entry point to the relationship, not the whole of it.',
+    desc: 'Permanent and contract placement of certified professionals — in aviation since 1995, and in maritime and offshore energy from 2026. The entry point to the relationship, not the whole of it.',
   },
   {
     icon: FileSignature,

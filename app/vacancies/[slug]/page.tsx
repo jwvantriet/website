@@ -27,6 +27,8 @@ import { publicEmployerName } from '@/lib/employer';
 import { pageMetadata } from '@/lib/seo';
 import { vacancyPostedAt, vacancyUpdatedAt } from '@/lib/vacancy-dates';
 import ClosedVacancy from './ClosedVacancy';
+import { redirect } from 'next/navigation';
+import { HIDDEN_VACANCIES, talentPoolPath } from '@/lib/hidden-vacancies';
 
 export const revalidate = 60;
 
@@ -96,6 +98,8 @@ export default async function VacancyDetailPage(props: { params: Promise<{ slug:
   const params = await props.params;
   const vacancy = await fetchVacancy(params.slug);
   if (!vacancy) return <ClosedVacancy slug={params.slug} />;
+  const hidden = vacancy.carerix_id ? HIDDEN_VACANCIES[vacancy.carerix_id] : undefined;
+  if (hidden) redirect(talentPoolPath(hidden.sector, hidden.role));
 
   const config = industryConfig[vacancy.industry] || industryConfig.Aviation;
   const IndustryIcon = config.icon;
