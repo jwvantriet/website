@@ -108,10 +108,13 @@ export const VERTICALS: Record<VerticalSlug, Vertical> = {
     metaDescription:
       'Confair Aviation supplies EASA- and FAA-certified pilots, engineers and crew to airlines, MROs and airports — recruitment, compliance and payroll in one partner. Deploy in as little as 48 hours.',
     isNew: false,
-    // Confair's own shoot. A third photo (an engineer at work) is still to come.
+    // Flight deck (Confair's own simulator shoot) and maintenance (stock, graded
+    // to match; see public/images/site/CREDITS.md) — the two sides of the
+    // aviation roles Confair places.
     gallery: [
       { src: '/images/site/confair-simulator-team.jpg', alt: 'Confair team members with a pilot in the flight simulator' },
-      { src: '/images/site/confair-simulator-assessment.jpg', alt: 'A pilot at the controls in the flight simulator, observed by two Confair colleagues' },
+      { src: '/images/site/aviation-hangar-maintenance.jpg', alt: 'An airliner on jacks in a maintenance hangar' },
+      { src: '/images/site/aviation-landing-gear.jpg', alt: 'Main landing gear of an airliner on the apron, chocked' },
     ],
     whyHeading: 'One connected partner, from vacancy to payroll',
     rolesHeading: 'Key roles we supply',
