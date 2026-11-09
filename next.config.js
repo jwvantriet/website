@@ -41,6 +41,13 @@ const LEGACY_REDIRECTS = [
   { source: '/sitemap_index.xml', destination: '/sitemap.xml', permanent: true },
 ];
 
+const EXTRA_HOSTS = [
+  'www.confair.com',
+  'www.confairaviation.com',
+  'confairaviation.com',
+  'website-eta-khaki-k8c2o867qc.vercel.app',
+];
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -50,14 +57,20 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // One host. www.confair.com served every page a second time (200, no
-      // canonical), so Google saw two copies of the site.
-      {
+      // One host. Every other hostname attached to this Vercel project served the
+      // whole site a second time (200), so Google saw several copies and on
+      // 2026-11-09 Search Console reported "Duplicate, Google chose different
+      // canonical than user". www.confairaviation.com — the old domain, with
+      // years of backlinks — had no redirect at all, nor did the project's
+      // production *.vercel.app alias. (confairaviation.com, confair.eu and
+      // www.confair.eu are redirected by Vercel's domain settings already.)
+      // Preview deployments keep working: their hostnames are not listed here.
+      ...EXTRA_HOSTS.map((host) => ({
         source: '/:path*',
-        has: [{ type: 'host', value: 'www.confair.com' }],
+        has: [{ type: 'host', value: host }],
         destination: 'https://confair.com/:path*',
         permanent: true,
-      },
+      })),
       ...LEGACY_REDIRECTS,
     ];
   },
