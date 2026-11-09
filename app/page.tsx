@@ -14,10 +14,14 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
+// The <title> is what Google shows and ranks on. "Contracting solutions" is a
+// phrase nobody searches; the site's traffic is pilots and engineers looking
+// for contracts and airlines looking for crew — say that, aviation first, since
+// aviation is where the track record is (maritime/offshore are new in 2026).
 export const metadata: Metadata = pageMetadata({
-  title: 'Confair Group — Contracting Solutions for Aviation, Maritime & Offshore',
+  title: 'Contract Pilots & Aircraft Engineers for Airlines | Confair',
   description:
-    'Certified contracting and workforce solutions for safety-critical industries: aviation, maritime, and offshore energy. Global deployment, full regulatory compliance.',
+    'Since 1995 Confair places type-rated pilots and Part-66 B1/B2 engineers with airlines worldwide — recruitment, compliance and payroll in one partner.',
   path: '/',
   absoluteTitle: true,
 });

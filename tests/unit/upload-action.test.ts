@@ -14,6 +14,7 @@ vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { submitApplicationDocument, type UploadFormState } from '@/app/apply/[id]/upload/upload-action';
+import { CARERIX_MAX_FILE_BYTES, FILE_TOO_LARGE_MESSAGE } from '@/lib/storage-keys';
 
 const IDLE: UploadFormState = { status: 'idle' };
 
@@ -169,16 +170,18 @@ describe('submitApplicationDocument — input validation (nothing persisted)', (
     expect(stub.upload).not.toHaveBeenCalled();
   });
 
-  it('file over 10 MB → size error, nothing persisted', async () => {
+  // The cap is Carerix's, not ours (lib/storage-keys.ts): a file the records
+  // system cannot take must be refused here, not accepted and lost later.
+  it('file over the Carerix limit → size error, nothing persisted', async () => {
     const stub = makeSupabaseStub();
-    const big = makePdf('big.pdf', 10 * 1024 * 1024 + 1);
+    const big = makePdf('big.pdf', CARERIX_MAX_FILE_BYTES + 1);
 
     const result = await submitApplicationDocument(IDLE, makeFormData({}, big));
 
     expect(result).toEqual({
       status: 'error',
       documentTypeId: 7,
-      message: 'That file is over 10 MB. Please upload a smaller version.',
+      message: FILE_TOO_LARGE_MESSAGE,
     });
     expect(stub.upload).not.toHaveBeenCalled();
     expect(stub.rpc).not.toHaveBeenCalled();

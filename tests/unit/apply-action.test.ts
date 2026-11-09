@@ -10,6 +10,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/lib/supabase/server', () => ({ createClient: vi.fn() }));
+// The action reads the first-touch attribution cookie (lib/attribution.ts);
+// outside a Next request scope `cookies()` throws, so give it an empty jar.
+vi.mock('next/headers', () => ({
+  cookies: async () => ({ get: () => undefined }),
+}));
 
 import { createClient } from '@/lib/supabase/server';
 import { submitVacancyApplication, type ApplyFormState } from '@/app/vacancies/[slug]/apply-action';
@@ -81,6 +86,12 @@ function makeFormData(
     last_name: 'Doe',
     email: 'jane.doe@example.com',
     phone: '+31612345678',
+    // Spam shield (components/SpamShieldFields): a real form always sends an
+    // empty honeypot and the time it rendered. Without these the action treats
+    // the submission as a bot and fakes success without persisting anything —
+    // which is why every test below silently failed after the shield landed.
+    website: '',
+    form_started_at: String(Date.now() - 60_000),
   };
   const fd = new FormData();
   for (const [key, value] of Object.entries({ ...defaults, ...overrides })) {
@@ -112,7 +123,7 @@ afterEach(() => {
 // ---------------------------------------------------------------------------
 
 describe('submitVacancyApplication — happy paths', () => {
-  it('with CV: uploads to vacancy-cvs, calls the RPC with exactly the 13 params, fires both webhooks, returns success', async () => {
+  it('with CV: uploads to vacancy-cvs, calls the RPC with exactly the 14 params, fires both webhooks, returns success', async () => {
     const stub = makeSupabaseStub();
     const fetchMock = stubFetch({ accountExists: true });
     const cv = makePdf('My CV (final).pdf', 2048);
@@ -129,7 +140,7 @@ describe('submitVacancyApplication — happy paths', () => {
     expect(uploadedFile).toBe(cv);
     expect(uploadOpts).toEqual({ contentType: 'application/pdf', upsert: false });
 
-    // The RPC receives EXACTLY these 13 p_* params (toHaveBeenCalledWith is
+    // The RPC receives EXACTLY these 14 p_* params (toHaveBeenCalledWith is
     // an exact object match — extra or missing keys fail).
     expect(stub.rpc).toHaveBeenCalledTimes(1);
     expect(stub.rpc).toHaveBeenCalledWith('submit_vacancy_application', {
@@ -146,6 +157,7 @@ describe('submitVacancyApplication — happy paths', () => {
       p_cv_filename: 'My CV (final).pdf',
       p_cv_mime_type: 'application/pdf',
       p_cv_size_bytes: 2048,
+      p_attribution: null, // no first-touch cookie in this request
     });
 
     // Carerix push webhook: inserted id + Bearer secret.
@@ -201,6 +213,7 @@ describe('submitVacancyApplication — happy paths', () => {
       p_cv_filename: null,
       p_cv_mime_type: null,
       p_cv_size_bytes: null,
+      p_attribution: null,
     });
     expect(result).toMatchObject({ status: 'success', accountExists: false });
   });
@@ -259,7 +272,7 @@ describe('submitVacancyApplication — validation failures (nothing persisted, n
     expect(result).toEqual({ status: 'error', message });
     expect(stub.upload).not.toHaveBeenCalled();
     expect(stub.rpc).not.toHaveBeenCalled();
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(vi.mocked(fetch)).not.toHaveBeenCalled();
   });
 });
 
@@ -277,7 +290,7 @@ describe('submitVacancyApplication — CV gatekeeping', () => {
     });
     expect(stub.upload).not.toHaveBeenCalled();
     expect(stub.rpc).not.toHaveBeenCalled();
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(vi.mocked(fetch)).not.toHaveBeenCalled();
   });
 
   it('disallowed MIME type → error, nothing persisted', async () => {
@@ -293,7 +306,7 @@ describe('submitVacancyApplication — CV gatekeeping', () => {
     });
     expect(stub.upload).not.toHaveBeenCalled();
     expect(stub.rpc).not.toHaveBeenCalled();
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(vi.mocked(fetch)).not.toHaveBeenCalled();
   });
 
   it('KNOWN GAP: CV with an EMPTY mime type bypasses the MIME check and is uploaded as application/octet-stream', async () => {
@@ -444,5 +457,23 @@ describe('submitVacancyApplication — webhook resilience (fire-and-forget)', ()
     const result = await submitVacancyApplication(IDLE, makeFormData());
 
     expect(result).toMatchObject({ status: 'success', accountExists: false });
+  });
+});
+
+describe('submitVacancyApplication — spam shield (fake success, nothing persisted)', () => {
+  it('filled honeypot → success screen for the bot, no RPC, no webhooks', async () => {
+    const stub = makeSupabaseStub();
+    const fetchMock = stubFetch();
+    const result = await submitVacancyApplication(IDLE, makeFormData({ website: 'http://spam.example' }));
+    expect(result).toMatchObject({ status: 'success', applicationId: 0, redirectTo: '/vacancies/senior-pilot-ams' });
+    expect(stub.rpc).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('missing form timer → treated as a bot, no RPC', async () => {
+    const stub = makeSupabaseStub();
+    const result = await submitVacancyApplication(IDLE, makeFormData({ form_started_at: null }));
+    expect(result).toMatchObject({ status: 'success', applicationId: 0 });
+    expect(stub.rpc).not.toHaveBeenCalled();
   });
 });
