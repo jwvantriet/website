@@ -45,6 +45,23 @@ function storage() {
  * A form with no file in `field` passes through unchanged. If the upload
  * fails, `onError` builds the state the form shows; the action is not called.
  */
+/**
+ * A random v4 UUID. `crypto.randomUUID` is missing on Safari before 15.4 and
+ * outside secure contexts: on 2026-11-09 two applications to a vacancy page
+ * crashed on it ("crypto.randomUUID is not a function"), the visitor got the
+ * error page and the application was lost. `getRandomValues` exists everywhere.
+ */
+export function uuid(): string {
+  const c = globalThis.crypto;
+  if (typeof c?.randomUUID === 'function') return c.randomUUID();
+  const b = new Uint8Array(16);
+  c.getRandomValues(b);
+  b[6] = (b[6] & 0x0f) | 0x40; // version 4
+  b[8] = (b[8] & 0x3f) | 0x80; // variant 10
+  const h = Array.from(b, (x) => x.toString(16).padStart(2, '0')).join('');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
+
 export function withDirectUpload<S>(
   action: (prev: S, formData: FormData) => Promise<S>,
   opts: {
@@ -58,7 +75,7 @@ export function withDirectUpload<S>(
     const file = formData.get(opts.field);
     if (!(file instanceof File) || file.size === 0) return action(prev, formData);
 
-    const key = `${opts.prefix(formData)}/${crypto.randomUUID()}-${safeFilename(file.name)}`;
+    const key = `${opts.prefix(formData)}/${uuid()}-${safeFilename(file.name)}`;
     const { error } = await storage().upload(key, file, {
       contentType: file.type || 'application/octet-stream',
       upsert: false,
