@@ -117,7 +117,7 @@ function Panel({ token, restored }: { token: string; restored: RestoredForm | nu
         </p>
         {step === 'verify' && verifyState.status === 'idle' && (
           <p className="mt-4 rounded-md bg-white/10 px-3 py-2 text-sm text-white">
-            The site was updated while this page was open, so your signature was not recorded
+            The page lost contact with our server or the site was updated, so your signature was not recorded
             yet. Enter the code from your email again.
           </p>
         )}

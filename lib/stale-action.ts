@@ -21,7 +21,36 @@ import { track } from '@vercel/analytics';
  * `useStaleActionRestore` reads it back after the reload, so the form shows
  * their answers again with a note to press send once more. It never
  * resubmits by itself: a person confirms, and nothing is sent twice.
+ *
+ * The same recovery covers a submit that never got a usable answer: Next's
+ * "An unexpected response was received from the server." (the action came
+ * back as an error page, a timeout or something a network in between put
+ * there) and the browser's own network errors. On 2026-11-10 08:00 a visitor
+ * on /industries/aviation hit the first: crash screen, no contact_submissions
+ * row, the lead gone. A network error can arrive after the server already
+ * stored the submission, so a resend may duplicate a lead; a duplicate is
+ * found and merged, a lost lead is never found at all.
  */
+
+export type SubmitFailure = 'stale' | 'failed';
+
+// Next 15.5, packages/next/src/client/components/router-reducer/reducers/server-action-reducer.ts
+const UNEXPECTED_RESPONSE = 'An unexpected response was received from the server.';
+// fetch() rejecting in Chrome, Safari and Firefox respectively.
+const NETWORK_ERRORS = ['Failed to fetch', 'Load failed', 'NetworkError when attempting to fetch resource.'];
+
+/** Which submit failures keep the visitor's form, or null for any other
+ *  error (those still reach the error boundary). Pure, for the tests. */
+export function recoverableSubmitError(
+  err: unknown,
+  isUnrecognized: (e: unknown) => boolean = unstable_isUnrecognizedActionError,
+): SubmitFailure | null {
+  if (isUnrecognized(err)) return 'stale';
+  const message = err instanceof Error ? err.message : '';
+  if (message === UNEXPECTED_RESPONSE) return 'failed';
+  if (err instanceof TypeError && NETWORK_ERRORS.includes(message)) return 'failed';
+  return null;
+}
 
 const PREFIX = 'stale-action:';
 
@@ -43,7 +72,8 @@ const PREFIX = 'stale-action:';
 const formKind = (key: string) => key.split(':')[0];
 const restoredThisLoad = new Set<string>();
 
-function count(event: 'stale_action_restored' | 'stale_action_resubmitted', key: string, tries = 20) {
+type RecoveryEvent = 'stale_action_restored' | 'stale_action_resubmitted' | 'failed_action_restored';
+function count(event: RecoveryEvent, key: string, tries = 20) {
   try {
     // track() is `window.va?.(…)`: called before <Analytics /> has set
     // window.va up, it is silently dropped, with no queue and no error. The
@@ -83,6 +113,9 @@ export type RestoredForm = {
   /** Names of file inputs that held a file. The file itself is lost with
    *  the reload, so the form has to ask for it again. */
   files: string[];
+  /** Why it was kept: an outdated page ('stale') or a submit that got no
+   *  usable answer ('failed'). Absent on entries saved before 2026-11-11. */
+  reason?: SubmitFailure;
 };
 
 export function withStaleActionRecovery<S>(
@@ -106,7 +139,8 @@ export function withStaleActionRecovery<S>(
       }
       return result;
     } catch (err) {
-      if (!unstable_isUnrecognizedActionError(err)) throw err;
+      const reason = recoverableSubmitError(err);
+      if (!reason) throw err;
 
       const fields: Record<string, string> = {};
       const files: string[] = [];
@@ -123,6 +157,7 @@ export function withStaleActionRecovery<S>(
         fields,
         startedAt: Number.isFinite(startedAt) && startedAt > 0 ? startedAt : null,
         files,
+        reason,
       };
       try {
         sessionStorage.setItem(PREFIX + key, JSON.stringify(saved));
@@ -151,7 +186,7 @@ export function useStaleActionRestore(key: string): RestoredForm | null {
       if (parsed && typeof parsed.fields === 'object') {
         setRestored({ ...parsed, files: Array.isArray(parsed.files) ? parsed.files : [] });
         restoredThisLoad.add(key);
-        count('stale_action_restored', key);
+        count(parsed.reason === 'failed' ? 'failed_action_restored' : 'stale_action_restored', key);
       }
     } catch {
       // Unreadable or blocked storage: show the empty form.
@@ -160,6 +195,8 @@ export function useStaleActionRestore(key: string): RestoredForm | null {
   return restored;
 }
 
+// One notice for both reasons: the visitor needs to know it was not sent and
+// what to do, not which of the two it was.
 export const STALE_ACTION_NOTICE =
-  'The site was updated while this page was open, so your form was not sent yet. ' +
+  'Your form was not sent yet: the page lost contact with our server, or the site was updated while it was open. ' +
   'We kept what you typed. Check it and submit again.';

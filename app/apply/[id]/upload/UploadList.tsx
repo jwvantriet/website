@@ -95,7 +95,7 @@ export default function UploadList({
         <div className="bg-amber-50 text-amber-800 rounded-2xl px-5 py-4 mb-6 flex items-start gap-2 text-sm">
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
           <span>
-            The site was updated while this page was open, so your {lostName} was not uploaded.
+            The page lost contact with our server or the site was updated, so your {lostName} was not uploaded.
             Please upload it again.
           </span>
         </div>
