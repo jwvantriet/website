@@ -24,6 +24,7 @@ import ApplyButton from './ApplyButton';
 import JsonLd from '@/components/JsonLd';
 import { jobPostingSchema } from '@/lib/structured-data';
 import { publicEmployerName } from '@/lib/employer';
+import { airlineForCompany, airlinePath } from '@/lib/airlines';
 import { pageMetadata } from '@/lib/seo';
 import { vacancyPostedAt, vacancyUpdatedAt } from '@/lib/vacancy-dates';
 import ClosedVacancy from './ClosedVacancy';
@@ -106,6 +107,8 @@ export default async function VacancyDetailPage(props: { params: Promise<{ slug:
   // The operator, shown in the header next to the job title. Null for the
   // vacancies Carerix books against a Confair entity — see lib/employer.ts.
   const employer = publicEmployerName(vacancy.company_name);
+  // Operators with a page of their own (lib/airlines.ts) link to it.
+  const airline = employer ? airlineForCompany(vacancy.company_name) : null;
 
   // Real Carerix dates — the same ones the JobPosting data gives Google.
   const postedDisplay = formatDate(vacancyPostedAt(vacancy));
@@ -156,7 +159,13 @@ export default async function VacancyDetailPage(props: { params: Promise<{ slug:
             {employer && (
               <p className="flex items-center gap-2 text-lg md:text-xl font-semibold text-cblue-700 mb-3">
                 <Building2 className="w-5 h-5 flex-shrink-0 text-cblue-600" />
-                {employer}
+                {airline ? (
+                  <Link href={airlinePath(airline.slug)} className="hover:underline">
+                    {employer}
+                  </Link>
+                ) : (
+                  employer
+                )}
               </p>
             )}
 

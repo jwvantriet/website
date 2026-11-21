@@ -10,9 +10,11 @@
 // temporary redirect keeps that door open without Google transferring the
 // URL's standing to the vacancy list for good.
 const LEGACY_REDIRECTS = [
-  // Operator ("partner") pages → the vacancy list filtered to that operator.
-  { source: '/partners/air-atlanta-europe', destination: '/vacancies?q=Air%20Atlanta', permanent: false },
-  { source: '/partners/air-atlanta-icelandic', destination: '/vacancies?q=Air%20Atlanta', permanent: false },
+  // Air Atlanta has a real page of its own again (app/airlines/[slug]), so
+  // its two old partner URLs move there for good.
+  { source: '/partners/air-atlanta-europe', destination: '/airlines/air-atlanta', permanent: true },
+  { source: '/partners/air-atlanta-icelandic', destination: '/airlines/air-atlanta', permanent: true },
+  // Other operator ("partner") pages → the vacancy list filtered to that operator.
   { source: '/partners/air-arabia', destination: '/vacancies?q=Air%20Arabia', permanent: false },
   { source: '/partners/servitec', destination: '/vacancies?q=Servitec', permanent: false },
   { source: '/partners/:path*', destination: '/vacancies', permanent: false },
