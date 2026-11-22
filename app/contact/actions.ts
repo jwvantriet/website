@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { ATTRIBUTION_COOKIE, parseAttribution, type Attribution } from '@/lib/attribution';
 import { screenSubmission } from '@/lib/spam';
+import { leadSourceFromForm, type LeadSource } from '@/lib/lead-source';
 
 export type ContactFormState =
   | { status: 'idle' }
@@ -26,7 +27,7 @@ type LeadDetails = {
  * success state — we log and move on. No-op until CONFAIR_API_URL +
  * WEBSITE_WEBHOOK_SECRET are configured.
  */
-async function forwardLeadToFunnel(lead: LeadDetails, attribution: Attribution | undefined): Promise<void> {
+async function forwardLeadToFunnel(lead: LeadDetails, attribution: (Attribution & LeadSource) | undefined): Promise<void> {
   const apiUrl = process.env.CONFAIR_API_URL;
   const secret = process.env.WEBSITE_WEBHOOK_SECRET;
   if (!apiUrl || !secret) return;
@@ -84,7 +85,12 @@ export async function submitContactForm(
     return { status: 'success' };
   }
 
-  const attribution = parseAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value) ?? undefined;
+  // First-touch attribution exists only with marketing consent (a cookie); the
+  // lead source travels with the form itself and needs none. Both land in the
+  // same column so one query reads either (lib/lead-source.ts).
+  const firstTouch = parseAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value);
+  const merged: Attribution & LeadSource = { ...(firstTouch ?? {}), ...leadSourceFromForm(formData) };
+  const attribution = Object.keys(merged).length > 0 ? merged : undefined;
 
   const supabase = createClient();
   const { error } = await supabase.from('contact_submissions').insert({
