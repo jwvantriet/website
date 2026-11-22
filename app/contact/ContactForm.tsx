@@ -5,6 +5,7 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { Send, CheckCircle2, Building2, User } from 'lucide-react';
 import { submitContactForm, type ContactFormState } from './actions';
 import SpamShieldFields from '@/components/SpamShieldFields';
+import { HEARD_ABOUT_OPTIONS } from '@/lib/lead-source';
 import {
   STALE_ACTION_NOTICE,
   useStaleActionRestore,
@@ -57,6 +58,12 @@ export default function ContactForm({
     candidateOnly ? 'candidate' : 'client',
   );
   const isCandidate = inquiryType === 'candidate';
+  // Which page the form is sent from and the page before it (lib/lead-source.ts).
+  // Read in the browser after mount; nothing is stored on the device.
+  const [origin, setOrigin] = useState({ page: '', referrer: '' });
+  useEffect(() => {
+    setOrigin({ page: window.location.pathname, referrer: document.referrer });
+  }, []);
   // Filled only after a reload that recovered from a stale Server Action.
   const restored = useStaleActionRestore('contact');
   const saved = restored?.fields ?? {};
@@ -121,6 +128,8 @@ export default function ContactForm({
       <form key={restored ? 'restored' : 'fresh'} action={formAction} className="space-y-5">
         <SpamShieldFields startedAt={restored?.startedAt} />
         <input type="hidden" name="inquiry_type" value={inquiryType} />
+        <input type="hidden" name="form_page" value={origin.page} />
+        <input type="hidden" name="form_referrer" value={origin.referrer} />
         {/* Tag candidates to the vertical too — a talent-pool sign-up is only
             useful if we know which pool it is for. */}
         {isCandidate && lockedIndustry && <input type="hidden" name="industry" value={lockedIndustry} />}
@@ -222,6 +231,25 @@ export default function ContactForm({
             </select>
           </div>
         )}
+
+        <div>
+          <label htmlFor="heard_about" className="text-navy font-semibold text-sm mb-1.5 block">
+            How did you find us?
+          </label>
+          <select
+            id="heard_about"
+            name="heard_about"
+            defaultValue={saved.heard_about ?? ''}
+            className="w-full bg-white border border-gray-200 focus:border-cblue focus:ring-2 focus:ring-cblue/20 outline-none rounded-md px-3 py-2 text-sm"
+          >
+            <option value="">Select an option (optional)</option>
+            {HEARD_ABOUT_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div>
           <label htmlFor="message" className="text-navy font-semibold text-sm mb-1.5 block">
