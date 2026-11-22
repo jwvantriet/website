@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { withoutHidden } from '@/lib/hidden-vacancies';
+import { AIRLINE_SLUGS, airlinePath } from '@/lib/airlines';
 
 export const revalidate = 3600;
 
@@ -22,6 +23,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/talent-pool/maritime`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/talent-pool/offshore`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/vacancies`, changeFrequency: 'daily', priority: 0.9 },
+    ...AIRLINE_SLUGS.map((slug) => ({
+      url: `${SITE_URL}${airlinePath(slug)}`,
+      changeFrequency: 'daily' as const,
+      priority: 0.9,
+    })),
     { url: `${SITE_URL}/guides/2026-salary-guide`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/blog-posts`, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE_URL}/contact`, changeFrequency: 'yearly', priority: 0.6 },
