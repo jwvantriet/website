@@ -55,8 +55,8 @@ export const AIRLINES: Record<string, Airline> = {
     intro:
       'Confair recruits flight crew and licensed engineers for Air Atlanta Icelandic and Air Atlanta Europe. Every open contract is listed below, with type-rated and non-type-rated routes.',
     hero: {
-      src: '/images/site/aviation-landing-gear.jpg',
-      alt: 'Main landing gear of a wide-body airliner on the apron',
+      src: '/images/site/air-atlanta-icelandic-boeing-747-freighter.jpg',
+      alt: 'Air Atlanta Icelandic Boeing 747 freighter on the apron with its nose cargo door open',
     },
     fleets: [
       { name: 'Boeing 747-400', match: /\b(b)?747\b/i },

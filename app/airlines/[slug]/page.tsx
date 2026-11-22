@@ -132,7 +132,7 @@ export default async function AirlinePage(props: { params: Promise<{ slug: strin
                 </a>
               </div>
             </div>
-            <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
+            <div className="relative aspect-[3/2] overflow-hidden rounded-2xl">
               <Image
                 src={airline.hero.src}
                 alt={airline.hero.alt}
