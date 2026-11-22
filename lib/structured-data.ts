@@ -15,6 +15,7 @@
 
 import type { Vacancy, BlogPost } from '@/lib/types';
 import { publicEmployerName } from '@/lib/employer';
+import { jobAddress } from '@/lib/job-location';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://confair.com';
 
@@ -123,7 +124,13 @@ export function jobPostingSchema(vacancy: Vacancy) {
       '@type': 'Place',
       address: {
         '@type': 'PostalAddress',
-        addressLocality: vacancy.location || 'International',
+        // The country Google for Jobs asks for, where the Carerix text gives
+        // one (lib/job-location.ts). Text that names no single place
+        // ("Several") is sent as it always was, country-less: fixing that is
+        // a recruiter typing "City, Country" in Carerix, not a guess here.
+        ...(jobAddress(vacancy.location) ?? {
+          addressLocality: vacancy.location || 'International',
+        }),
       },
     },
     directApply: true,
